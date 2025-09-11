@@ -1,0 +1,11 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /pelaporan/
+
+    # Jika ada file atau folder, langsung akses
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    # Selain itu, arahkan ke index.php
+    RewriteRule ^(.*)$ index.php/$1 [L]
+</IfModule>
