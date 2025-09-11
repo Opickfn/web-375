@@ -40,8 +40,8 @@
 
     <!-- Hero Section -->
     <section class="hero">
-        <h1>Sistem Pelaporan <br><span class="text-primary">5R, 7S & K3</span></h1>
-        <p class="mt-3">Platform digital untuk melaporkan dan mengelola pelanggaran continuous improvement di tempat kerja dengan mudah dan efisien</p>
+        <h1>Sistem Pelaporan Perbaikan<br><span class="text-primary">375</span><br><span class="text-primary">Improvment Report System</span></h1>
+        <p class="mt-3">Platform digital untuk melaporkan dan mengelola usulan perbaikan di tempat kerja dengan mudah dan efisien</p>
         <div class="mt-4">
             <!-- Arahkan ke form_laporan.php -->
             <a href="<?php echo site_url('pelaporan/form'); ?>" class="btn btn-primary btn-lg">Buat Laporan</a>
