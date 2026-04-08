@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_WARNING);
 /*
 |--------------------------------------------------------------------------
 | Base Site URL
@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/pelaporan/';
+$config['base_url'] = 'http://polman-web-improvement-report.test/';
 
 /*
 |--------------------------------------------------------------------------

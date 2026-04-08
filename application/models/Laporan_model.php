@@ -46,8 +46,9 @@ class Laporan_model extends CI_Model {
                      ->group_end();
         }
 
-        $this->db->order_by('tanggal', 'DESC');
-        $this->db->limit($limit, $offset);
+       $this->db->order_by('"tanggal"', 'DESC');
+        $this->db->limit($limit);
+$this->db->offset($offset);
 
         return $this->db->get()->result();
     }
@@ -83,9 +84,9 @@ class Laporan_model extends CI_Model {
 
     // Ambil laporan terbaru
     public function getLatest($limit = 5) {
-        return $this->db->order_by('tanggal', 'DESC')
-                        ->limit($limit)
-                        ->get('laporan')
-                        ->result();
+return $this->db->order_by('"tanggal"', 'DESC')
+                ->limit($limit)
+                ->get('laporan')
+                ->result();
     }
 }

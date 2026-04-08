@@ -74,12 +74,12 @@ $active_group = 'default';
 $query_builder = TRUE;
 
 $db['default'] = array(
-    'dsn'      => '',
+      'dsn'      => '',
     'hostname' => '127.0.0.1',   // atau 'localhost'
-    'username' => 'root',        // ← isi di sini!
-    'password' => '',            // ← kosongkan kalau XAMPP default
+    'username' => 'postgres',        // ← isi di sini!
+    'password' => 'polman',            // ← kosongkan kalau XAMPP default
     'database' => 'pelaporan_db',   // ← ganti sesuai nama DB kamu
-    'dbdriver' => 'mysqli',
+    'dbdriver' => 'postgre',
     'dbprefix' => '',
     'pconnect' => FALSE,
     'db_debug' => (ENVIRONMENT !== 'production'),
@@ -92,5 +92,6 @@ $db['default'] = array(
     'compress' => FALSE,
     'stricton' => FALSE,
     'failover' => array(),
-    'save_queries' => TRUE
+    'save_queries' => TRUE,
+	'port'     => 5432,
 );
