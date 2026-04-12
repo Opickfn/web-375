@@ -58,9 +58,9 @@
             <i data-lucide="users" style="width:20px;height:20px;"></i>
             Kelola User
         </a>
-        <a href="{{ route('admin.jurusan-prodi') }}" class="sidebar-link {{ request()->routeIs('admin.jurusan-prodi') ? 'active' : '' }}">
-            <i data-lucide="graduation-cap" style="width:20px;height:20px;"></i>
-            Jurusan & Prodi
+        <a href="{{ route('admin.gedung-ruangan') }}" class="sidebar-link {{ request()->routeIs('admin.gedung-ruangan') ? 'active' : '' }}">
+            <i data-lucide="building" style="width:20px;height:20px;"></i>
+            Gedung & Ruangan
         </a>
         <a href="{{ route('rewards.index') }}" class="sidebar-link {{ request()->routeIs('rewards.*') ? 'active' : '' }}">
             <i data-lucide="gift" style="width:20px;height:20px;"></i>

@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Profile;
 
-use App\Models\Jurusan;
+use App\Models\Gedung;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -18,8 +18,8 @@ class EditProfile extends Component
     // Mahasiswa
     public string $nim = '';
     public string $kelas = '';
-    public string $jurusan = '';
-    public string $program_studi = '';
+    public string $gedung = '';
+    public string $ruangan = '';
     public string $tahun_angkatan = '';
 
     // Dosen
@@ -41,8 +41,8 @@ class EditProfile extends Component
         if ($user->isMahasiswa()) {
             $this->nim = $user->nim ?? '';
             $this->kelas = $user->kelas ?? '';
-            $this->jurusan = $user->jurusan ?? '';
-            $this->program_studi = $user->program_studi ?? '';
+            $this->gedung = $user->gedung ?? '';
+            $this->ruangan = $user->ruangan ?? '';
             $this->tahun_angkatan = $user->tahun_angkatan ?? '';
         }
 
@@ -65,8 +65,8 @@ class EditProfile extends Component
         if ($user->isMahasiswa()) {
             $rules['nim']            = ['required', 'string', 'max:20', Rule::unique('users', 'nim')->ignore($user->id)];
             $rules['kelas']          = ['required', 'string', 'max:20'];
-            $rules['jurusan']        = ['required', 'string', 'max:150'];
-            $rules['program_studi']  = ['required', 'string', 'max:150'];
+            $rules['gedung']         = ['required', 'string', 'max:150'];
+            $rules['ruangan']        = ['required', 'string', 'max:150'];
             $rules['tahun_angkatan'] = ['required', 'string', 'size:4'];
         }
 
@@ -87,8 +87,8 @@ class EditProfile extends Component
             $data += [
                 'nim'            => $this->nim,
                 'kelas'          => $this->kelas,
-                'jurusan'        => $this->jurusan,
-                'program_studi'  => $this->program_studi,
+                'gedung'         => $this->gedung,
+                'ruangan'        => $this->ruangan,
                 'tahun_angkatan' => $this->tahun_angkatan,
             ];
         }
@@ -130,9 +130,9 @@ class EditProfile extends Component
 
     public function render()
     {
-        $jurusans = Jurusan::active()->orderBy('nama')->get();
+        $gedungs = Gedung::active()->orderBy('nama')->get();
 
-        return view('livewire.profile.edit-profile', compact('jurusans'))
+        return view('livewire.profile.edit-profile', compact('gedungs'))
             ->layout('layouts.app')
             ->title('Profil Saya');
     }

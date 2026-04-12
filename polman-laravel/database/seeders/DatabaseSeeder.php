@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Jurusan;
-use App\Models\ProgramStudi;
+use App\Models\Gedung;
+use App\Models\Ruangan;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -12,49 +12,50 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // ─── Jurusan & Prodi ────────────────────────────
+        // ─── Gedung & Ruangan ────────────────────────────
 
-        $tomm = Jurusan::create([
-            'kode' => 'TOMM',
-            'nama' => 'Teknik Otomasi Manufaktur dan Mekatronika',
-            'nama_en' => 'Automation Engineering',
+        $gedung1 = Gedung::create([
+            'kode' => 'G1',
+            'nama' => 'Gedung Utama',
+            'nama_en' => 'Main Building',
         ]);
-        ProgramStudi::insert([
-            ['jurusan_id' => $tomm->id, 'kode' => 'TOM', 'nama' => 'Teknik Otomasi Manufaktur', 'jenjang' => 'D3', 'created_at' => now(), 'updated_at' => now()],
-            ['jurusan_id' => $tomm->id, 'kode' => 'TMK', 'nama' => 'Teknik Mekatronika', 'jenjang' => 'D3', 'created_at' => now(), 'updated_at' => now()],
-            ['jurusan_id' => $tomm->id, 'kode' => 'TOI', 'nama' => 'Teknik Otomasi Industri', 'jenjang' => 'D4', 'created_at' => now(), 'updated_at' => now()],
-        ]);
-
-        $tm = Jurusan::create([
-            'kode' => 'TM',
-            'nama' => 'Teknik Manufaktur',
-            'nama_en' => 'Manufacture Engineering',
-        ]);
-        ProgramStudi::insert([
-            ['jurusan_id' => $tm->id, 'kode' => 'TME', 'nama' => 'Teknik Mesin', 'jenjang' => 'D3', 'created_at' => now(), 'updated_at' => now()],
-            ['jurusan_id' => $tm->id, 'kode' => 'TMF', 'nama' => 'Teknik Manufaktur', 'jenjang' => 'D3', 'created_at' => now(), 'updated_at' => now()],
-            ['jurusan_id' => $tm->id, 'kode' => 'TMP', 'nama' => 'Teknik Manufaktur', 'jenjang' => 'D4', 'created_at' => now(), 'updated_at' => now()],
+        Ruangan::insert([
+            ['gedung_id' => $gedung1->id, 'kode' => 'R101', 'nama' => 'Ruang Kelas A', 'jenjang' => 'D3', 'created_at' => now(), 'updated_at' => now()],
+            ['gedung_id' => $gedung1->id, 'kode' => 'R102', 'nama' => 'Ruang Kelas B', 'jenjang' => 'D3', 'created_at' => now(), 'updated_at' => now()],
+            ['gedung_id' => $gedung1->id, 'kode' => 'R201', 'nama' => 'Lab Mesin', 'jenjang' => 'D4', 'created_at' => now(), 'updated_at' => now()],
         ]);
 
-        $tp = Jurusan::create([
-            'kode' => 'TP',
-            'nama' => 'Teknik Perancangan',
-            'nama_en' => 'Design Engineering',
+        $gedung2 = Gedung::create([
+            'kode' => 'G2',
+            'nama' => 'Gedung Bengkel',
+            'nama_en' => 'Workshop Building',
         ]);
-        ProgramStudi::insert([
-            ['jurusan_id' => $tp->id, 'kode' => 'TPM', 'nama' => 'Teknik Perancangan Mekanik', 'jenjang' => 'D3', 'created_at' => now(), 'updated_at' => now()],
-            ['jurusan_id' => $tp->id, 'kode' => 'TKB', 'nama' => 'Teknik Konstruksi Bangunan', 'jenjang' => 'D3', 'created_at' => now(), 'updated_at' => now()],
-            ['jurusan_id' => $tp->id, 'kode' => 'TPK', 'nama' => 'Teknik Perancangan dan Konstruksi Mesin', 'jenjang' => 'D4', 'created_at' => now(), 'updated_at' => now()],
+        Ruangan::insert([
+            ['gedung_id' => $gedung2->id, 'kode' => 'B001', 'nama' => 'Bengkel Mesin', 'jenjang' => 'D3', 'created_at' => now(), 'updated_at' => now()],
+            ['gedung_id' => $gedung2->id, 'kode' => 'B002', 'nama' => 'Bengkel Otomasi', 'jenjang' => 'D3', 'created_at' => now(), 'updated_at' => now()],
+            ['gedung_id' => $gedung2->id, 'kode' => 'B101', 'nama' => 'Lab CNC', 'jenjang' => 'D4', 'created_at' => now(), 'updated_at' => now()],
         ]);
 
-        $tpl = Jurusan::create([
-            'kode' => 'TPL',
-            'nama' => 'Teknik Pengecoran Logam',
-            'nama_en' => 'Foundry Engineering',
+        $gedung3 = Gedung::create([
+            'kode' => 'G3',
+            'nama' => 'Gedung Administrasi',
+            'nama_en' => 'Administration Building',
         ]);
-        ProgramStudi::insert([
-            ['jurusan_id' => $tpl->id, 'kode' => 'TPG', 'nama' => 'Teknik Pengecoran Logam', 'jenjang' => 'D3', 'created_at' => now(), 'updated_at' => now()],
-            ['jurusan_id' => $tpl->id, 'kode' => 'TRP', 'nama' => 'Teknologi Rekayasa Pengecoran Logam', 'jenjang' => 'D4', 'created_at' => now(), 'updated_at' => now()],
+        Ruangan::insert([
+            ['gedung_id' => $gedung3->id, 'kode' => 'A101', 'nama' => 'Kantor Rektorat', 'jenjang' => 'D3', 'created_at' => now(), 'updated_at' => now()],
+            ['gedung_id' => $gedung3->id, 'kode' => 'A102', 'nama' => 'Ruang Meeting', 'jenjang' => 'D3', 'created_at' => now(), 'updated_at' => now()],
+            ['gedung_id' => $gedung3->id, 'kode' => 'A201', 'nama' => 'Library', 'jenjang' => 'D4', 'created_at' => now(), 'updated_at' => now()],
+        ]);
+
+        $gedung4 = Gedung::create([
+            'kode' => 'G4',
+            'nama' => 'Gedung Perancangan',
+            'nama_en' => 'Design Building',
+        ]);
+        Ruangan::insert([
+            ['gedung_id' => $gedung4->id, 'kode' => 'D101', 'nama' => 'Studio Desain', 'jenjang' => 'D3', 'created_at' => now(), 'updated_at' => now()],
+            ['gedung_id' => $gedung4->id, 'kode' => 'D102', 'nama' => 'Lab CAD', 'jenjang' => 'D3', 'created_at' => now(), 'updated_at' => now()],
+            ['gedung_id' => $gedung4->id, 'kode' => 'D201', 'nama' => 'Lab Simulasi', 'jenjang' => 'D4', 'created_at' => now(), 'updated_at' => now()],
         ]);
 
         // ─── Users ──────────────────────────────────────
@@ -68,7 +69,7 @@ class DatabaseSeeder extends Seeder
             'user_type' => 'umum',
         ]);
 
-        // Manager (Kepala Manajemen)
+        // Manager (Kepala Manajemen) - Assign ke Gedung 2
         User::create([
             'full_name' => 'Dr. Budi Santoso, M.T.',
             'email' => 'manager@polman.ac.id',
@@ -88,8 +89,8 @@ class DatabaseSeeder extends Seeder
             'user_type' => 'mahasiswa',
             'nim' => '221511001',
             'kelas' => '2A',
-            'jurusan' => $tomm->nama,
-            'program_studi' => 'D3 Teknik Mekatronika',
+            'gedung' => 'Gedung Utama',
+            'ruangan' => 'Ruang Kelas A',
             'tahun_angkatan' => '2022',
         ]);
 
@@ -102,8 +103,8 @@ class DatabaseSeeder extends Seeder
             'user_type' => 'mahasiswa',
             'nim' => '221512015',
             'kelas' => '2B',
-            'jurusan' => $tm->nama,
-            'program_studi' => 'D3 Teknik Mesin',
+            'gedung' => 'Gedung Bengkel',
+            'ruangan' => 'Bengkel Mesin',
             'tahun_angkatan' => '2022',
         ]);
 

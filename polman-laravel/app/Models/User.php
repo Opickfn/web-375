@@ -20,12 +20,13 @@ class User extends Authenticatable
         // Mahasiswa
         'nim',
         'kelas',
-        'jurusan',
-        'program_studi',
+        'gedung',
+        'ruangan',
         'tahun_angkatan',
         // Dosen
         'nomor_dosen',
         'jabatan',
+        'gedung_id',
     ];
 
     protected $hidden = [

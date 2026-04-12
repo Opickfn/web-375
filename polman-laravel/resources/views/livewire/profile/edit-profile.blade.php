@@ -30,12 +30,12 @@
                             <span class="profile-detail-value">{{ Auth::user()->nim }}</span>
                         </div>
                         <div class="profile-detail">
-                            <span class="profile-detail-label">Jurusan</span>
-                            <span class="profile-detail-value">{{ Auth::user()->jurusan }}</span>
+                            <span class="profile-detail-label">Gedung</span>
+                            <span class="profile-detail-value">{{ Auth::user()->gedung }}</span>
                         </div>
                         <div class="profile-detail">
-                            <span class="profile-detail-label">Program Studi</span>
-                            <span class="profile-detail-value">{{ Auth::user()->program_studi }}</span>
+                            <span class="profile-detail-label">Ruangan</span>
+                            <span class="profile-detail-value">{{ Auth::user()->ruangan }}</span>
                         </div>
                         <div class="profile-detail">
                             <span class="profile-detail-label">Kelas</span>
@@ -133,26 +133,26 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">Jurusan</label>
-                                <select wire:model="jurusan" class="form-select" id="profileJurusan" onchange="loadProfileProdi()">
-                                    <option value="">Pilih jurusan</option>
-                                    @foreach($jurusans as $j)
-                                        <option value="{{ $j->nama }}" data-id="{{ $j->id }}">{{ $j->full_name }}</option>
+                                <label class="form-label">Gedung</label>
+                                <select wire:model="gedung" class="form-select" id="profileGedung" onchange="loadProfileRuangan()">
+                                    <option value="">Pilih gedung</option>
+                                    @foreach($gedungs as $g)
+                                        <option value="{{ $g->nama }}" data-id="{{ $g->id }}">{{ $g->full_name }}</option>
                                     @endforeach
                                 </select>
-                                @error('jurusan') <p class="form-error">{{ $message }}</p> @enderror
+                                @error('gedung') <p class="form-error">{{ $message }}</p> @enderror
                             </div>
 
                             <div class="grid grid-2 gap-4">
                                 <div class="form-group">
-                                    <label class="form-label">Program Studi</label>
-                                    <select wire:model="program_studi" class="form-select" id="profileProdi">
-                                        <option value="">Pilih program studi</option>
-                                        @if($program_studi)
-                                        <option value="{{ $program_studi }}" selected>{{ $program_studi }}</option>
+                                    <label class="form-label">Ruangan</label>
+                                    <select wire:model="ruangan" class="form-select" id="profileRuangan">
+                                        <option value="">Pilih ruangan</option>
+                                        @if($ruangan)
+                                        <option value="{{ $ruangan }}" selected>{{ $ruangan }}</option>
                                         @endif
                                     </select>
-                                    @error('program_studi') <p class="form-error">{{ $message }}</p> @enderror
+                                    @error('ruangan') <p class="form-error">{{ $message }}</p> @enderror
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Tahun Angkatan</label>
@@ -238,30 +238,30 @@
 
 @script
 <script>
-    async function loadProfileProdi() {
-        const sel = document.getElementById('profileJurusan');
+    async function loadProfileRuangan() {
+        const sel = document.getElementById('profileGedung');
         const opt = sel.options[sel.selectedIndex];
-        const jurusanId = opt?.dataset?.id;
-        const prodiSelect = document.getElementById('profileProdi');
+        const gedungId = opt?.dataset?.id;
+        const ruanganSelect = document.getElementById('profileRuangan');
 
-        if (!jurusanId) {
-            prodiSelect.innerHTML = '<option value="">Pilih program studi</option>';
+        if (!gedungId) {
+            ruanganSelect.innerHTML = '<option value="">Pilih ruangan</option>';
             return;
         }
 
-        prodiSelect.innerHTML = '<option value="">Memuat...</option>';
+        ruanganSelect.innerHTML = '<option value="">Memuat...</option>';
         try {
-            const res = await fetch(`/api/jurusan/${jurusanId}/prodi`);
+            const res = await fetch(`/api/gedung/${gedungId}/ruangan`);
             const data = await res.json();
-            prodiSelect.innerHTML = '<option value="">Pilih program studi</option>';
-            data.forEach(p => {
+            ruanganSelect.innerHTML = '<option value="">Pilih ruangan</option>';
+            data.forEach(r => {
                 const o = document.createElement('option');
-                o.value = p.label;
-                o.textContent = p.label;
-                prodiSelect.appendChild(o);
+                o.value = r.label;
+                o.textContent = r.label;
+                ruanganSelect.appendChild(o);
             });
         } catch {
-            prodiSelect.innerHTML = '<option value="">Gagal memuat</option>';
+            ruanganSelect.innerHTML = '<option value="">Gagal memuat</option>';
         }
     }
 </script>

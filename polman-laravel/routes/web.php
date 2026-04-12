@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
-use App\Livewire\Admin\ManageJurusanProdi;
+use App\Livewire\Admin\ManageGedungRuangan;
 use App\Livewire\FollowUps\ManageFollowUps;
 use App\Livewire\Points\Leaderboard;
 use App\Livewire\Points\MyPoints;
@@ -11,7 +11,7 @@ use App\Livewire\Reports\MyReports;
 use App\Livewire\Reports\ReviewReports;
 use App\Livewire\Rewards\RewardPeriods;
 use App\Livewire\Users\UserManagement;
-use App\Models\Jurusan;
+use App\Models\Gedung;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,11 +26,11 @@ Route::get('/', function () {
         ->select(
             'users.full_name',
             'users.user_type',
-            'users.jurusan',
+            'users.gedung',
             'users.jabatan',
             \Illuminate\Support\Facades\DB::raw('SUM(points.amount) as total_points')
         )
-        ->groupBy('users.id', 'users.full_name', 'users.user_type', 'users.jurusan', 'users.jabatan')
+        ->groupBy('users.id', 'users.full_name', 'users.user_type', 'users.gedung', 'users.jabatan')
         ->orderByDesc('total_points')
         ->limit(10)
         ->get();
@@ -41,13 +41,13 @@ Route::get('/', function () {
 // Leaderboard bisa dilihat publik
 Route::get('/leaderboard', Leaderboard::class)->name('leaderboard');
 
-// API: Get prodi by jurusan (for cascading dropdown)
-Route::get('/api/jurusan/{jurusan}/prodi', function (Jurusan $jurusan) {
-    return $jurusan->activeProdi()->orderBy('nama')->get()->map(fn ($p) => [
-        'id' => $p->id,
-        'label' => "{$p->jenjang} {$p->nama}",
+// API: Get ruangan by gedung (for cascading dropdown)
+Route::get('/api/gedung/{gedung}/ruangan', function (Gedung $gedung) {
+    return $gedung->activeRuangan()->orderBy('nama')->get()->map(fn ($r) => [
+        'id' => $r->id,
+        'label' => "{$r->jenjang} {$r->nama}",
     ]);
-})->name('api.jurusan.prodi');
+})->name('api.gedung.ruangan');
 
 /*
 |--------------------------------------------------------------------------
@@ -79,6 +79,6 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:admin')->group(function () {
         Route::get('/users', UserManagement::class)->name('users.index');
         Route::get('/rewards', RewardPeriods::class)->name('rewards.index');
-        Route::get('/jurusan-prodi', ManageJurusanProdi::class)->name('admin.jurusan-prodi');
+        Route::get('/gedung-ruangan', ManageGedungRuangan::class)->name('admin.gedung-ruangan');
     });
 });

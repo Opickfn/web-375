@@ -164,8 +164,8 @@
                                             {{ ucfirst($user->user_type) }}
                                         </span>
                                     </div>
-                                    @if($user->user_type === 'mahasiswa' && $user->jurusan)
-                                        <div class="text-sm text-muted" style="font-size: 0.75rem;">{{ $user->jurusan }}</div>
+                                    @if($user->user_type === 'mahasiswa' && $user->gedung)
+                                        <div class="text-sm text-muted" style="font-size: 0.75rem;">{{ $user->gedung }}</div>
                                     @elseif($user->user_type === 'dosen' && $user->jabatan)
                                         <div class="text-sm text-muted" style="font-size: 0.75rem;">{{ $user->jabatan }}</div>
                                     @endif

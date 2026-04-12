@@ -13,7 +13,9 @@ class CreateReport extends Component
     use WithFileUploads;
 
     public string $kategori = '';
-    public string $lokasi = '';
+    public string $gedung_id = '';
+    public string $ruangan_id = '';
+    public string $detail_lokasi = '';
     public string $deskripsi = '';
     public string $prioritas = 'sedang';
     public $bukti;
@@ -22,7 +24,9 @@ class CreateReport extends Component
     {
         return [
             'kategori' => 'required|in:5R,7S,K3',
-            'lokasi' => 'required|string|max:255',
+            'gedung_id' => 'required|exists:gedungs,id',
+            'ruangan_id' => 'required|exists:ruangans,id',
+            'detail_lokasi' => 'required|string|max:255',
             'deskripsi' => 'required|string|min:10',
             'prioritas' => 'required|in:rendah,sedang,tinggi',
             'bukti' => 'nullable|image|max:5120',
@@ -33,7 +37,9 @@ class CreateReport extends Component
     {
         return [
             'kategori.required' => 'Pilih kategori pelanggaran.',
-            'lokasi.required' => 'Lokasi kejadian wajib diisi.',
+            'gedung_id.required' => 'Gedung wajib dipilih.',
+            'ruangan_id.required' => 'Ruangan wajib dipilih.',
+            'detail_lokasi.required' => 'Detail lokasi wajib diisi.',
             'deskripsi.required' => 'Deskripsi wajib diisi.',
             'deskripsi.min' => 'Deskripsi minimal 10 karakter.',
             'bukti.image' => 'File harus berupa gambar.',
@@ -41,14 +47,24 @@ class CreateReport extends Component
         ];
     }
 
+    public function resetRuangan(): void
+    {
+        $this->ruangan_id = '';
+    }
+
     public function submit()
     {
         $this->validate();
 
+        // Construct lokasi from gedung/ruangan/detail_lokasi
+        $gedung = \App\Models\Gedung::findOrFail($this->gedung_id);
+        $ruangan = \App\Models\Ruangan::findOrFail($this->ruangan_id);
+        $lokasi = "{$gedung->nama} - {$ruangan->nama} - {$this->detail_lokasi}";
+
         $data = [
             'reporter_id' => Auth::id(),
             'kategori' => $this->kategori,
-            'lokasi' => $this->lokasi,
+            'lokasi' => $lokasi,
             'deskripsi' => $this->deskripsi,
             'prioritas' => $this->prioritas,
             'status' => 'pending',

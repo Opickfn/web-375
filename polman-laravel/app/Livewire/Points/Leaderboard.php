@@ -16,12 +16,12 @@ class Leaderboard extends Component
                 'users.id',
                 'users.full_name',
                 'users.user_type',
-                'users.jurusan',
+                'users.gedung',
                 'users.jabatan',
                 DB::raw('SUM(points.amount) as total_points'),
                 DB::raw('COUNT(DISTINCT points.report_id) as total_reports')
             )
-            ->groupBy('users.id', 'users.full_name', 'users.user_type', 'users.jurusan', 'users.jabatan')
+            ->groupBy('users.id', 'users.full_name', 'users.user_type', 'users.gedung', 'users.jabatan')
             ->orderByDesc('total_points')
             ->get();
 

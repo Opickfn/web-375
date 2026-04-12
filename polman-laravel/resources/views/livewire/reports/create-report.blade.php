@@ -19,9 +19,33 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Lokasi Kejadian</label>
-                    <input type="text" wire:model="lokasi" class="form-input" placeholder="Contoh: Bengkel Mesin Lt.2">
-                    @error('lokasi') <p class="form-error">{{ $message }}</p> @enderror
+                    <label class="form-label">Gedung</label>
+                    <select wire:model="gedung_id" class="form-select" wire:change="resetRuangan">
+                        <option value="">Pilih gedung</option>
+                        @foreach(\App\Models\Gedung::active()->orderBy('nama')->get() as $g)
+                            <option value="{{ $g->id }}">{{ $g->full_name }}</option>
+                        @endforeach
+                    </select>
+                    @error('gedung_id') <p class="form-error">{{ $message }}</p> @enderror
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Ruangan</label>
+                    <select wire:model="ruangan_id" class="form-select">
+                        <option value="">Pilih ruangan</option>
+                        @if($gedung_id)
+                            @foreach(\App\Models\Ruangan::where('gedung_id', $gedung_id)->active()->orderBy('nama')->get() as $r)
+                                <option value="{{ $r->id }}">{{ $r->jenjang }} {{ $r->nama }}</option>
+                            @endforeach
+                        @endif
+                    </select>
+                    @error('ruangan_id') <p class="form-error">{{ $message }}</p> @enderror
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Detail Lokasi</label>
+                    <input type="text" wire:model="detail_lokasi" class="form-input" placeholder="Contoh: Dekat pintu masuk area kerja">
+                    @error('detail_lokasi') <p class="form-error">{{ $message }}</p> @enderror
                 </div>
 
                 <div class="form-group">

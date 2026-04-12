@@ -60,25 +60,6 @@
                         @error('tahun_angkatan') <p class="form-error">{{ $message }}</p> @enderror
                     </div>
                 </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="jurusan">Jurusan</label>
-                    <select id="jurusan" name="jurusan" class="form-select" onchange="updateProdi()">
-                        <option value="">Pilih jurusan</option>
-                        @foreach(\App\Models\Jurusan::active()->orderBy('nama')->get() as $j)
-                            <option value="{{ $j->nama }}" data-id="{{ $j->id }}" {{ old('jurusan') === $j->nama ? 'selected' : '' }}>{{ $j->full_name }}</option>
-                        @endforeach
-                    </select>
-                    @error('jurusan') <p class="form-error">{{ $message }}</p> @enderror
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="program_studi">Program Studi</label>
-                    <select id="program_studi" name="program_studi" class="form-select">
-                        <option value="">Pilih program studi</option>
-                    </select>
-                    @error('program_studi') <p class="form-error">{{ $message }}</p> @enderror
-                </div>
             </div>
 
             {{-- === Dosen Fields === --}}
@@ -93,6 +74,17 @@
                     <label class="form-label" for="jabatan">Jabatan</label>
                     <input type="text" id="jabatan" name="jabatan" class="form-input" value="{{ old('jabatan') }}" placeholder="Contoh: Lektor / Dosen Tetap">
                     @error('jabatan') <p class="form-error">{{ $message }}</p> @enderror
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="gedung_id">Gedung <span class="text-danger">*</span></label>
+                    <select id="gedung_id" name="gedung_id" class="form-select">
+                        <option value="">Pilih gedung</option>
+                        @foreach(\App\Models\Gedung::active()->orderBy('nama')->get() as $g)
+                            <option value="{{ $g->id }}" {{ old('gedung_id') == $g->id ? 'selected' : '' }}>{{ $g->full_name }}</option>
+                        @endforeach
+                    </select>
+                    @error('gedung_id') <p class="form-error">{{ $message }}</p> @enderror
                 </div>
             </div>
 
@@ -139,42 +131,8 @@
         document.getElementById('fields-umum').style.display = type === 'umum' ? 'block' : 'none';
     }
 
-    async function updateProdi() {
-        const sel = document.getElementById('jurusan');
-        const opt = sel.options[sel.selectedIndex];
-        const jurusanId = opt ? opt.dataset.id : null;
-        const prodiSelect = document.getElementById('program_studi');
-        prodiSelect.innerHTML = '<option value="">Memuat...</option>';
-
-        if (!jurusanId) {
-            prodiSelect.innerHTML = '<option value="">Pilih program studi</option>';
-            return;
-        }
-
-        try {
-            const res = await fetch(`/api/jurusan/${jurusanId}/prodi`);
-            const data = await res.json();
-            prodiSelect.innerHTML = '<option value="">Pilih program studi</option>';
-            data.forEach(p => {
-                const o = document.createElement('option');
-                o.value = p.label;
-                o.textContent = p.label;
-                prodiSelect.appendChild(o);
-            });
-        } catch {
-            prodiSelect.innerHTML = '<option value="">Gagal memuat</option>';
-        }
-    }
-
     document.addEventListener('DOMContentLoaded', function() {
         toggleFields();
-        const oldJurusan = "{{ old('jurusan') }}";
-        if (oldJurusan) {
-            updateProdi().then(() => {
-                const oldProdi = "{{ old('program_studi') }}";
-                if (oldProdi) document.getElementById('program_studi').value = oldProdi;
-            });
-        }
     });
 </script>
 @endpush

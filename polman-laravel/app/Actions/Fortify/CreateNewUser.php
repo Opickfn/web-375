@@ -23,14 +23,13 @@ class CreateNewUser implements CreatesNewUsers
         if (($input['user_type'] ?? '') === 'mahasiswa') {
             $rules['nim'] = ['required', 'string', 'max:20', Rule::unique(User::class)];
             $rules['kelas'] = ['required', 'string', 'max:20'];
-            $rules['jurusan'] = ['required', 'string', 'max:100'];
-            $rules['program_studi'] = ['required', 'string', 'max:100'];
             $rules['tahun_angkatan'] = ['required', 'string', 'size:4'];
         }
 
         if (($input['user_type'] ?? '') === 'dosen') {
             $rules['nomor_dosen'] = ['required', 'string', 'max:30', Rule::unique(User::class)];
             $rules['jabatan'] = ['required', 'string', 'max:100'];
+            $rules['gedung_id'] = ['required', 'exists:gedungs,id'];
         }
 
         Validator::make($input, $rules)->validate();
@@ -45,12 +44,13 @@ class CreateNewUser implements CreatesNewUsers
             // Mahasiswa
             'nim' => $input['nim'] ?? null,
             'kelas' => $input['kelas'] ?? null,
-            'jurusan' => $input['jurusan'] ?? null,
-            'program_studi' => $input['program_studi'] ?? null,
+            'gedung' => $input['gedung'] ?? null,
+            'ruangan' => $input['ruangan'] ?? null,
             'tahun_angkatan' => $input['tahun_angkatan'] ?? null,
             // Dosen
             'nomor_dosen' => $input['nomor_dosen'] ?? null,
             'jabatan' => $input['jabatan'] ?? null,
+            'gedung_id' => $input['gedung_id'] ?? null,
         ]);
     }
 }

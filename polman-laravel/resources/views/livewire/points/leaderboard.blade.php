@@ -26,7 +26,7 @@
                             <th style="width:60px;">Rank</th>
                             <th>Nama</th>
                             <th>Tipe</th>
-                            <th>Jurusan / Jabatan</th>
+                            <th>Gedung / Jabatan</th>
                             <th>Laporan</th>
                             <th>Total Poin</th>
                         </tr>
@@ -49,7 +49,7 @@
                                     {{ ucfirst($user->user_type) }}
                                 </span>
                             </td>
-                            <td class="text-sm text-muted">{{ $user->jurusan ?? $user->jabatan ?? '-' }}</td>
+                            <td class="text-sm text-muted">{{ $user->gedung ?? $user->jabatan ?? '-' }}</td>
                             <td>{{ $user->total_reports }}</td>
                             <td><span class="font-semibold" style="color:var(--primary);">{{ number_format($user->total_points) }}</span></td>
                         </tr>
