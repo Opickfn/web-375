@@ -29,7 +29,6 @@ class CreateNewUser implements CreatesNewUsers
         if (($input['user_type'] ?? '') === 'dosen') {
             $rules['nomor_dosen'] = ['required', 'string', 'max:30', Rule::unique(User::class)];
             $rules['jabatan'] = ['required', 'string', 'max:100'];
-            $rules['gedung_id'] = ['required', 'exists:gedungs,id'];
         }
 
         Validator::make($input, $rules)->validate();
@@ -50,7 +49,6 @@ class CreateNewUser implements CreatesNewUsers
             // Dosen
             'nomor_dosen' => $input['nomor_dosen'] ?? null,
             'jabatan' => $input['jabatan'] ?? null,
-            'gedung_id' => $input['gedung_id'] ?? null,
         ]);
     }
 }

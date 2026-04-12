@@ -75,17 +75,6 @@
                     <input type="text" id="jabatan" name="jabatan" class="form-input" value="{{ old('jabatan') }}" placeholder="Contoh: Lektor / Dosen Tetap">
                     @error('jabatan') <p class="form-error">{{ $message }}</p> @enderror
                 </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="gedung_id">Gedung <span class="text-danger">*</span></label>
-                    <select id="gedung_id" name="gedung_id" class="form-select">
-                        <option value="">Pilih gedung</option>
-                        @foreach(\App\Models\Gedung::active()->orderBy('nama')->get() as $g)
-                            <option value="{{ $g->id }}" {{ old('gedung_id') == $g->id ? 'selected' : '' }}>{{ $g->full_name }}</option>
-                        @endforeach
-                    </select>
-                    @error('gedung_id') <p class="form-error">{{ $message }}</p> @enderror
-                </div>
             </div>
 
             {{-- === Umum Fields === --}}
