@@ -12,6 +12,9 @@
         <a href="{{ route('leaderboard') }}" class="btn btn-outline btn-sm">
             <i data-lucide="trophy" style="width:14px;height:14px;"></i> Leaderboard
         </a>
+        <a href="{{ route('reports.public') }}" class="btn btn-outline btn-sm">
+            <i data-lucide="file-text" style="width:14px;height:14px;"></i> Laporan
+        </a>
         <a href="{{ route('login') }}" class="btn btn-outline btn-sm">Masuk</a>
         <a href="{{ route('register') }}" class="btn btn-primary btn-sm">Daftar</a>
     </div>
@@ -205,6 +208,7 @@
         <p style="color: var(--text-muted); max-width: 500px; margin: 0 auto 24px;">Transformasi Kampus Polman yang lebih Baik Berawal dari Kepedulian Anda Hari Ini.</p>
         <div style="display:flex; justify-content:center; gap: 24px; margin-bottom: 24px;">
             <a href="{{ route('leaderboard') }}" style="color: var(--primary); text-decoration: none; font-weight: 500;">Leaderboard</a>
+            <a href="{{ route('reports.public') }}" style="color: var(--primary); text-decoration: none; font-weight: 500;">Laporan</a>
             <a href="{{ route('login') }}" style="color: var(--primary); text-decoration: none; font-weight: 500;">Login</a>
         </div>
         <p class="text-sm text-muted">&copy; {{ date('Y') }} Politeknik Manufaktur Bandung. All rights reserved.</p>
