@@ -28,16 +28,16 @@
                     </thead>
                     <tbody>
                         @forelse($points as $point)
-                        <tr>
+                        <tr style="{{ $point->amount < 0 ? 'opacity:0.7;' : '' }}">
                             <td class="text-sm text-muted">{{ $point->created_at->format('d M Y H:i') }}</td>
                             <td class="font-medium">{{ $point->report?->code ?? '-' }}</td>
                             <td class="text-sm">{{ $point->description }}</td>
                             <td>
-                                <span class="badge {{ match($point->type) { 'submit' => 'badge-primary', 'approved' => 'badge-success', 'bonus' => 'badge-warning', default => 'badge-neutral' } }}">
+                                <span class="badge {{ match($point->type) { 'submit' => 'badge-primary', 'approved' => 'badge-success', 'bonus' => 'badge-warning', 'rejected' => 'badge-danger', default => 'badge-neutral' } }}">
                                     {{ ucfirst($point->type) }}
                                 </span>
                             </td>
-                            <td class="text-right font-semibold" style="color:var(--success);">+{{ $point->amount }}</td>
+                            <td class="text-right font-semibold" style="color:{{ $point->amount >= 0 ? 'var(--success)' : 'var(--danger)' }};">{{ $point->amount >= 0 ? '+' : '' }}{{ $point->amount }}</td>
                         </tr>
                         @empty
                         <tr>
