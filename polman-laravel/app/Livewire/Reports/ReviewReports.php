@@ -46,7 +46,16 @@ class ReviewReports extends Component
             'review_notes' => $notes ?: 'Ditolak oleh reviewer.',
         ]);
 
-        session()->flash('success', 'Laporan ' . $report->code . ' telah ditolak.');
+        // Remove points from submission by creating negative points entry
+        Point::create([
+            'user_id' => $report->reporter_id,
+            'report_id' => $report->id,
+            'amount' => -10,
+            'type' => 'rejected',
+            'description' => 'Poin dihapus - laporan ditolak ' . $report->code,
+        ]);
+
+        session()->flash('success', 'Laporan ' . $report->code . ' telah ditolak. Poin submission dihapus.');
     }
 
     public function render()
