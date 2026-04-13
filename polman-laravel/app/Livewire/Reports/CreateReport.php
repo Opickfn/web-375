@@ -96,15 +96,27 @@ class CreateReport extends Component
         $this->successReport = $report;
         $this->showSuccess = true;
 
-        // Reset form
-        $this->reset();
+        // Reset form fields only (not success state)
+        $this->kategori = '';
+        $this->gedung_id = '';
+        $this->ruangan_id = '';
+        $this->detail_lokasi = '';
+        $this->deskripsi = '';
+        $this->prioritas = 'sedang';
+        $this->bukti = null;
     }
 
     public function resetForm()
     {
         $this->showSuccess = false;
         $this->successReport = null;
-        $this->reset();
+        $this->kategori = '';
+        $this->gedung_id = '';
+        $this->ruangan_id = '';
+        $this->detail_lokasi = '';
+        $this->deskripsi = '';
+        $this->prioritas = 'sedang';
+        $this->bukti = null;
     }
 
     public function render()

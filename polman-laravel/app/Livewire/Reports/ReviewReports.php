@@ -46,16 +46,19 @@ class ReviewReports extends Component
             'review_notes' => $notes ?: 'Ditolak oleh reviewer.',
         ]);
 
-        // Remove points from submission by creating negative points entry
-        Point::create([
-            'user_id' => $report->reporter_id,
-            'report_id' => $report->id,
-            'amount' => -10,
-            'type' => 'rejected',
-            'description' => 'Poin dihapus - laporan ditolak ' . $report->code,
-        ]);
-
-        session()->flash('success', 'Laporan ' . $report->code . ' telah ditolak. Poin submission dihapus.');
+        // Remove points from submission - only if reporter exists (not public)
+        if ($report->reporter_id) {
+            Point::create([
+                'user_id' => $report->reporter_id,
+                'report_id' => $report->id,
+                'amount' => -10,
+                'type' => 'rejected',
+                'description' => 'Poin dihapus - laporan ditolak ' . $report->code,
+            ]);
+            session()->flash('success', 'Laporan ' . $report->code . ' telah ditolak. Poin submission dihapus.');
+        } else {
+            session()->flash('success', 'Laporan ' . $report->code . ' telah ditolak.');
+        }
     }
 
     public function render()
