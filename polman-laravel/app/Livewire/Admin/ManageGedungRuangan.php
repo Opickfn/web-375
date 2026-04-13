@@ -3,7 +3,9 @@
 namespace App\Livewire\Admin;
 
 use App\Models\Gedung;
+use App\Models\Report;
 use App\Models\Ruangan;
+use App\Models\User;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 
@@ -83,6 +85,26 @@ class ManageGedungRuangan extends Component
         $g->update(['is_active' => !$g->is_active]);
     }
 
+    public function deleteGedung(int $id): void
+    {
+        $g = Gedung::findOrFail($id);
+
+        // Check if gedung has ruangans
+        if ($g->ruangans()->count() > 0) {
+            session()->flash('error', 'Tidak dapat menghapus gedung yang memiliki ruangan. Hapus ruangan terlebih dahulu.');
+            return;
+        }
+
+        // Check if gedung is used by any users
+        if (User::where('gedung_id', $id)->count() > 0) {
+            session()->flash('error', 'Tidak dapat menghapus gedung yang sudah diassign ke user. Ubah assignment terlebih dahulu.');
+            return;
+        }
+
+        $g->delete();
+        session()->flash('success', 'Gedung berhasil dihapus.');
+    }
+
     // ─── Ruangan ───────────────────────────────
 
     public function openRuanganForm(?int $id = null): void
@@ -144,6 +166,26 @@ class ManageGedungRuangan extends Component
     {
         $r = Ruangan::findOrFail($id);
         $r->update(['is_active' => !$r->is_active]);
+    }
+
+    public function deleteRuangan(int $id): void
+    {
+        $r = Ruangan::findOrFail($id);
+
+        // Check if ruangan is used by any users
+        if (User::where('ruangan', $r->kode)->count() > 0) {
+            session()->flash('error', 'Tidak dapat menghapus ruangan yang sudah digunakan user. Ubah data user terlebih dahulu.');
+            return;
+        }
+
+        // Check if ruangan is used in any reports
+        if (Report::whereRaw('lokasi LIKE ?', ['%' . $r->kode . '%'])->count() > 0) {
+            session()->flash('error', 'Tidak dapat menghapus ruangan yang sudah digunakan dalam laporan. Hapus atau edit laporan terlebih dahulu.');
+            return;
+        }
+
+        $r->delete();
+        session()->flash('success', 'Ruangan berhasil dihapus.');
     }
 
     // ─── Render ──────────────────────────────────────
