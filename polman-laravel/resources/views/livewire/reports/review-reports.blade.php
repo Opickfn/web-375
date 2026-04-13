@@ -45,10 +45,10 @@
                             <td class="text-sm text-muted">{{ $report->created_at->format('d M Y') }}</td>
                             <td class="text-right">
                                 <div class="flex gap-2" style="justify-content:flex-end;">
-                                    <button wire:click="approve({{ $report->id }})" class="btn btn-success btn-sm" wire:confirm="Setujui laporan {{ $report->code }}?">
+                                    <button wire:click="approve({{ $report->id }})" class="btn btn-success btn-sm" onclick="return confirm('Setujui laporan {{ $report->code }}?')">
                                         <i data-lucide="check" style="width:14px;height:14px;"></i> Setujui
                                     </button>
-                                    <button wire:click="reject({{ $report->id }})" class="btn btn-danger btn-sm" wire:confirm="Tolak laporan {{ $report->code }}?">
+                                    <button wire:click="reject({{ $report->id }})" class="btn btn-danger btn-sm" onclick="return confirm('Tolak laporan {{ $report->code }}?')">
                                         <i data-lucide="x" style="width:14px;height:14px;"></i> Tolak
                                     </button>
                                 </div>
