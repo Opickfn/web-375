@@ -34,7 +34,13 @@
                         @forelse($reports as $report)
                         <tr>
                             <td class="font-medium">{{ $report->code }}</td>
-                            <td>{{ $report->reporter->full_name }}</td>
+                            <td>
+                                @if($report->reporter)
+                                    {{ $report->reporter->full_name }}
+                                @else
+                                    <span class="badge badge-neutral">Publik</span>
+                                @endif
+                            </td>
                             <td><span class="badge badge-info">{{ $report->kategori }}</span></td>
                             <td>{{ \Illuminate\Support\Str::limit($report->lokasi, 25) }}</td>
                             <td>
