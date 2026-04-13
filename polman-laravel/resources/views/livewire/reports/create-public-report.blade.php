@@ -1,0 +1,96 @@
+<div>
+    <div class="page-header">
+        <h1>Buat Laporan Improvement</h1>
+        <p>Bantu tingkatkan kualitas lingkungan kampus dengan melaporkan temuan Anda</p>
+    </div>
+
+    <div class="card animate-in" style="max-width:680px;">
+        <div class="card-body">
+            {{-- Info Box --}}
+            <div style="background:rgba(12,107,175,0.05);border:1px solid rgba(12,107,175,0.2);border-radius:var(--radius);padding:16px;margin-bottom:24px;display:flex;gap:12px;">
+                <i data-lucide="info" style="width:20px;height:20px;color:var(--primary);flex-shrink:0;margin-top:2px;"></i>
+                <div style="font-size:0.9rem;color:var(--text-muted);">
+                    Laporan publik diproses oleh tim manajemen. <a href="{{ route('register') }}" style="color:var(--primary);font-weight:500;text-decoration:none;">Daftar</a> untuk mendapatkan poin dan akses dashboard!
+                </div>
+            </div>
+
+            <form wire:submit="submit">
+                <div class="form-group">
+                    <label class="form-label">Kategori Pelanggaran</label>
+                    <select wire:model="kategori" class="form-select">
+                        <option value="">Pilih kategori</option>
+                        <option value="5R">5R (Ringkas, Rapi, Resik, Rawat, Rajin)</option>
+                        <option value="7S">7S (Seiri, Seiton, Seiso, Seiketsu, Shitsuke, Safety, Semangat)</option>
+                        <option value="K3">K3 (Keselamatan dan Kesehatan Kerja)</option>
+                    </select>
+                    @error('kategori') <p class="form-error">{{ $message }}</p> @enderror
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Gedung</label>
+                    <select wire:model="gedung_id" class="form-select" wire:change="resetRuangan">
+                        <option value="">Pilih gedung</option>
+                        @foreach(\App\Models\Gedung::active()->orderBy('nama')->get() as $g)
+                            <option value="{{ $g->id }}">{{ $g->full_name }}</option>
+                        @endforeach
+                    </select>
+                    @error('gedung_id') <p class="form-error">{{ $message }}</p> @enderror
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Ruangan</label>
+                    <select wire:model="ruangan_id" class="form-select">
+                        <option value="">Pilih ruangan</option>
+                        @if($gedung_id)
+                            @foreach(\App\Models\Ruangan::where('gedung_id', $gedung_id)->active()->orderBy('nama')->get() as $r)
+                                <option value="{{ $r->id }}">{{ $r->jenjang }} {{ $r->nama }}</option>
+                            @endforeach
+                        @endif
+                    </select>
+                    @error('ruangan_id') <p class="form-error">{{ $message }}</p> @enderror
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Detail Lokasi</label>
+                    <input type="text" wire:model="detail_lokasi" class="form-input" placeholder="Contoh: Dekat pintu masuk area kerja">
+                    @error('detail_lokasi') <p class="form-error">{{ $message }}</p> @enderror
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Deskripsi Temuan</label>
+                    <textarea wire:model="deskripsi" class="form-textarea" placeholder="Jelaskan detail temuan yang ditemukan di lapangan..."></textarea>
+                    @error('deskripsi') <p class="form-error">{{ $message }}</p> @enderror
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Tingkat Prioritas</label>
+                    <select wire:model="prioritas" class="form-select">
+                        <option value="rendah">Rendah</option>
+                        <option value="sedang">Sedang</option>
+                        <option value="tinggi">Tinggi</option>
+                    </select>
+                    @error('prioritas') <p class="form-error">{{ $message }}</p> @enderror
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Bukti Foto (opsional)</label>
+                    <input type="file" wire:model="bukti" class="form-input" accept="image/*">
+                    @error('bukti') <p class="form-error">{{ $message }}</p> @enderror
+
+                    @if($bukti)
+                        <img src="{{ $bukti->temporaryUrl() }}" alt="Preview" style="margin-top:8px; max-height:200px; border-radius:var(--radius);">
+                    @endif
+                </div>
+
+                <div class="flex gap-3 mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg" wire:loading.attr="disabled">
+                        <i data-lucide="send" style="width:18px;height:18px;"></i>
+                        <span wire:loading.remove>Kirim Laporan</span>
+                        <span wire:loading>Mengirim...</span>
+                    </button>
+                    <a href="{{ route('home') }}" class="btn btn-outline btn-lg">Kembali</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

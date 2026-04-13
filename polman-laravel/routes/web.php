@@ -6,9 +6,9 @@ use App\Livewire\FollowUps\ManageFollowUps;
 use App\Livewire\Points\Leaderboard;
 use App\Livewire\Points\MyPoints;
 use App\Livewire\Profile\EditProfile;
+use App\Livewire\Reports\CreatePublicReport;
 use App\Livewire\Reports\CreateReport;
 use App\Livewire\Reports\MyReports;
-use App\Livewire\Reports\PublicReports;
 use App\Livewire\Reports\ReviewReports;
 use App\Livewire\Rewards\RewardPeriods;
 use App\Livewire\Users\UserManagement;
@@ -42,8 +42,8 @@ Route::get('/', function () {
 // Leaderboard bisa dilihat publik
 Route::get('/leaderboard', Leaderboard::class)->name('leaderboard');
 
-// Public Reports bisa dilihat tanpa login
-Route::get('/reports/public', PublicReports::class)->name('reports.public');
+// Public bisa buat laporan tanpa login (tidak ada poin)
+Route::get('/reports/public', CreatePublicReport::class)->name('reports.public');
 
 // API: Get ruangan by gedung (for cascading dropdown)
 Route::get('/api/gedung/{gedung}/ruangan', function (Gedung $gedung) {
