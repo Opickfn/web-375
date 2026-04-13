@@ -17,6 +17,7 @@ class Report extends Model
         'reviewed_by',
         'reviewed_at',
         'review_notes',
+        'gedung_id',
     ];
 
     protected function casts(): array
@@ -36,6 +37,11 @@ class Report extends Model
     public function reviewer()
     {
         return $this->belongsTo(User::class, 'reviewed_by');
+    }
+
+    public function gedung()
+    {
+        return $this->belongsTo(Gedung::class);
     }
 
     public function followUps()

@@ -62,6 +62,11 @@ class ReviewReports extends Component
     {
         $query = Report::with('reporter')->where('status', 'pending');
 
+        // Filter by manager's assigned building if user is a manager
+        if (Auth::user()?->isManager() && Auth::user()?->gedung_id) {
+            $query->where('gedung_id', Auth::user()->gedung_id);
+        }
+
         if ($this->filterKategori) {
             $query->byKategori($this->filterKategori);
         }

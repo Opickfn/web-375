@@ -68,6 +68,7 @@ class CreateReport extends Component
             'deskripsi' => $this->deskripsi,
             'prioritas' => $this->prioritas,
             'status' => 'pending',
+            'gedung_id' => $this->gedung_id,
         ];
 
         if ($this->bukti) {

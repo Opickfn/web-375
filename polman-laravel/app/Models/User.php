@@ -113,6 +113,11 @@ class User extends Authenticatable
         return $this->hasMany(Report::class, 'reviewed_by');
     }
 
+    public function gedungRelation()
+    {
+        return $this->belongsTo(Gedung::class, 'gedung_id');
+    }
+
     public function points()
     {
         return $this->hasMany(Point::class);

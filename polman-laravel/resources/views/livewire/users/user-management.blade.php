@@ -177,7 +177,7 @@
                                 @if($user->isMahasiswa()) {{ $user->gedung }}
                                 @elseif($user->isDosen())
                                     @if($user->isManager() && $user->gedung_id)
-                                        {{ $user->gedung()->first()?->full_name ?? 'N/A' }}
+                                        {{ $user->gedungRelation?->full_name ?? 'N/A' }}
                                     @else
                                         {{ $user->jabatan }}
                                     @endif
