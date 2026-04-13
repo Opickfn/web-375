@@ -93,7 +93,7 @@
                                 <button wire:click="toggleGedung({{ $g->id }})" class="btn {{ $g->is_active ? 'btn-outline' : 'btn-success' }} btn-sm" title="{{ $g->is_active ? 'Nonaktifkan' : 'Aktifkan' }}">
                                     <i data-lucide="{{ $g->is_active ? 'eye-off' : 'eye' }}" style="width:13px;height:13px;"></i>
                                 </button>
-                                <button wire:click="deleteGedung({{ $g->id }})" wire:confirm="Yakin hapus gedung ini? Tindakan tidak dapat dibatalkan." class="btn btn-danger btn-sm" title="Hapus">
+                                <button wire:click="deleteGedung({{ $g->id }})" onclick="return confirm('Yakin hapus gedung ini? Tindakan tidak dapat dibatalkan.')" class="btn btn-danger btn-sm" title="Hapus">
                                     <i data-lucide="trash-2" style="width:13px;height:13px;"></i>
                                 </button>
                             </td>
@@ -115,7 +115,7 @@
                                         <button wire:click="toggleRuangan({{ $r->id }})" class="btn btn-outline btn-sm" style="padding:2px 6px;">
                                             <i data-lucide="{{ $r->is_active ? 'eye-off' : 'eye' }}" style="width:12px;height:12px;"></i>
                                         </button>
-                                        <button wire:click="deleteRuangan({{ $r->id }})" wire:confirm="Yakin hapus ruangan ini? Tindakan tidak dapat dibatalkan." class="btn btn-danger btn-sm" style="padding:2px 6px;">
+                                        <button wire:click="deleteRuangan({{ $r->id }})" onclick="return confirm('Yakin hapus ruangan ini? Tindakan tidak dapat dibatalkan.')" class="btn btn-danger btn-sm" style="padding:2px 6px;">
                                             <i data-lucide="trash-2" style="width:12px;height:12px;"></i>
                                         </button>
                                     </div>
