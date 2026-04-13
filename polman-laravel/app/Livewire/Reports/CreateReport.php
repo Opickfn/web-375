@@ -20,6 +20,10 @@ class CreateReport extends Component
     public string $prioritas = 'sedang';
     public $bukti;
 
+    // Success state
+    public bool $showSuccess = false;
+    public ?Report $successReport = null;
+
     protected function rules(): array
     {
         return [
@@ -88,8 +92,19 @@ class CreateReport extends Component
             'description' => 'Poin submit laporan ' . $report->code,
         ]);
 
-        session()->flash('success', 'Laporan berhasil dikirim! Anda mendapatkan +10 poin.');
-        return redirect()->route('reports.my');
+        // Show success confirmation
+        $this->successReport = $report;
+        $this->showSuccess = true;
+
+        // Reset form
+        $this->reset();
+    }
+
+    public function resetForm()
+    {
+        $this->showSuccess = false;
+        $this->successReport = null;
+        $this->reset();
     }
 
     public function render()

@@ -18,6 +18,10 @@ class CreatePublicReport extends Component
     public string $prioritas = 'sedang';
     public $bukti;
 
+    // Success state
+    public bool $showSuccess = false;
+    public ?Report $successReport = null;
+
     protected function rules(): array
     {
         return [
@@ -54,40 +58,44 @@ class CreatePublicReport extends Component
     {
         $this->validate();
 
-        // Construct lokasi from gedung/ruangan/detail_lokasi
-        $gedung = \App\Models\Gedung::findOrFail($this->gedung_id);
-        $ruangan = \App\Models\Ruangan::findOrFail($this->ruangan_id);
-        $lokasi = "{$gedung->nama} - {$ruangan->nama} - {$this->detail_lokasi}";
+        try {
+            // Construct lokasi from gedung/ruangan/detail_lokasi
+            $gedung = \App\Models\Gedung::findOrFail($this->gedung_id);
+            $ruangan = \App\Models\Ruangan::findOrFail($this->ruangan_id);
+            $lokasi = "{$gedung->nama} - {$ruangan->nama} - {$this->detail_lokasi}";
 
-        $data = [
-            'reporter_id' => null, // Publik - tidak ada user ID
-            'kategori' => $this->kategori,
-            'lokasi' => $lokasi,
-            'deskripsi' => $this->deskripsi,
-            'prioritas' => $this->prioritas,
-            'status' => 'pending',
-            'gedung_id' => $this->gedung_id,
-        ];
+            $data = [
+                'reporter_id' => null, // Publik - tidak ada user ID
+                'kategori' => $this->kategori,
+                'lokasi' => $lokasi,
+                'deskripsi' => $this->deskripsi,
+                'prioritas' => $this->prioritas,
+                'status' => 'pending',
+                'gedung_id' => $this->gedung_id,
+            ];
 
-        if ($this->bukti) {
-            $filename = time() . '_' . $this->bukti->getClientOriginalName();
-            $this->bukti->storeAs('uploads', $filename, 'public');
-            $data['bukti'] = $filename;
+            if ($this->bukti) {
+                $filename = time() . '_' . $this->bukti->getClientOriginalName();
+                $this->bukti->storeAs('uploads', $filename, 'public');
+                $data['bukti'] = $filename;
+            }
+
+            $report = Report::create($data);
+            $this->successReport = $report;
+            $this->showSuccess = true;
+
+            // Reset form
+            $this->reset();
+        } catch (\Exception $e) {
+            session()->flash('error', 'Terjadi kesalahan saat mengirim laporan: ' . $e->getMessage());
         }
+    }
 
-        Report::create($data);
-
-        session()->flash('success', 'Laporan berhasil dikirim! Terima kasih atas kontribusi Anda.');
-
-        // Reset form
+    public function resetForm()
+    {
+        $this->showSuccess = false;
+        $this->successReport = null;
         $this->reset();
-        $this->kategori = '';
-        $this->gedung_id = '';
-        $this->ruangan_id = '';
-        $this->detail_lokasi = '';
-        $this->deskripsi = '';
-        $this->prioritas = 'sedang';
-        $this->bukti = null;
     }
 
     public function render()

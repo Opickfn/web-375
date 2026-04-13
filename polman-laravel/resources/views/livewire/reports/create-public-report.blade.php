@@ -1,4 +1,71 @@
 <div>
+    @if($showSuccess && $successReport)
+    {{-- Success Confirmation --}}
+    <div style="max-width:600px;margin:60px auto;padding:0 24px;">
+        <div class="card animate-in">
+            <div class="card-body" style="text-align:center;padding:40px 24px;">
+                <div style="width:80px;height:80px;background:rgba(16,185,129,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;color:#10b981;">
+                    <i data-lucide="check-circle" style="width:40px;height:40px;"></i>
+                </div>
+
+                <h2 style="margin:0 0 12px 0;color:var(--text-dark);">Laporan Berhasil Dikirim!</h2>
+                <p style="color:var(--text-muted);margin:0 0 32px 0;font-size:0.95rem;">
+                    Terima kasih atas kontribusi Anda untuk meningkatkan kualitas kampus. Laporan akan ditinjau oleh tim manajemen.
+                </p>
+
+                {{-- Report Details --}}
+                <div style="background:var(--bg-surface);border-radius:var(--radius);padding:20px;margin-bottom:32px;border-left:4px solid #10b981;">
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;text-align:left;">
+                        <div>
+                            <p style="margin:0 0 4px 0;font-size:0.85rem;color:var(--text-muted);font-weight:500;">KODE LAPORAN</p>
+                            <p style="margin:0;font-size:1.1rem;color:var(--text-dark);font-weight:600;">{{ $successReport->code }}</p>
+                        </div>
+                        <div>
+                            <p style="margin:0 0 4px 0;font-size:0.85rem;color:var(--text-muted);font-weight:500;">KATEGORI</p>
+                            <p style="margin:0;"><span class="badge badge-info">{{ $successReport->kategori }}</span></p>
+                        </div>
+                        <div>
+                            <p style="margin:0 0 4px 0;font-size:0.85rem;color:var(--text-muted);font-weight:500;">PRIORITAS</p>
+                            <p style="margin:0;">
+                                <span class="badge {{ $successReport->prioritas === 'tinggi' ? 'badge-danger' : ($successReport->prioritas === 'sedang' ? 'badge-warning' : 'badge-neutral') }}">
+                                    {{ ucfirst($successReport->prioritas) }}
+                                </span>
+                            </p>
+                        </div>
+                        <div>
+                            <p style="margin:0 0 4px 0;font-size:0.85rem;color:var(--text-muted);font-weight:500;">STATUS</p>
+                            <p style="margin:0;"><span class="badge badge-warning">Menunggu Review</span></p>
+                        </div>
+                        <div style="grid-column:1/-1;">
+                            <p style="margin:0 0 4px 0;font-size:0.85rem;color:var(--text-muted);font-weight:500;">LOKASI</p>
+                            <p style="margin:0;color:var(--text-dark);">{{ $successReport->lokasi }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Actions --}}
+                <div class="flex gap-3" style="display:flex;gap:12px;justify-content:center;">
+                    <button wire:click="resetForm" class="btn btn-primary btn-lg">
+                        <i data-lucide="plus" style="width:18px;height:18px;"></i>
+                        Buat Laporan Baru
+                    </button>
+                    <a href="{{ route('home') }}" class="btn btn-outline btn-lg">
+                        <i data-lucide="home" style="width:18px;height:18px;"></i>
+                        Kembali ke Beranda
+                    </a>
+                </div>
+
+                {{-- Info Box --}}
+                <div style="background:rgba(12,107,175,0.05);border:1px solid rgba(12,107,175,0.2);border-radius:var(--radius);padding:16px;margin-top:24px;">
+                    <p style="margin:0;color:var(--text-muted);font-size:0.9rem;">
+                        <strong>Ingin akses dashboard lengkap?</strong> <a href="{{ route('register') }}" style="color:var(--primary);font-weight:500;text-decoration:none;">Daftar sekarang</a> untuk mendapat poin dan tracking real-time.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    @else
+    {{-- Form --}}
     <div class="page-header">
         <h1>Buat Laporan Improvement</h1>
         <p>Bantu tingkatkan kualitas lingkungan kampus dengan melaporkan temuan Anda</p>
@@ -93,4 +160,5 @@
             </form>
         </div>
     </div>
+    @endif
 </div>
