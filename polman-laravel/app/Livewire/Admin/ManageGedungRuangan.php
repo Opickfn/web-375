@@ -26,6 +26,10 @@ class ManageGedungRuangan extends Component
     public string $rNama = '';
     public string $rJenjang = 'D3';
 
+    // Message handling
+    public ?string $message = null;
+    public ?string $messageType = null;
+
     // ─── Gedung ─────────────────────────────────
 
     public function openGedungForm(?int $id = null): void
@@ -76,7 +80,8 @@ class ManageGedungRuangan extends Component
         );
 
         $this->closeGedungForm();
-        session()->flash('success', $isEdit ? 'Gedung diperbarui.' : 'Gedung ditambahkan.');
+        $this->message = $isEdit ? 'Gedung diperbarui.' : 'Gedung ditambahkan.';
+        $this->messageType = 'success';
     }
 
     public function toggleGedung(int $id): void
@@ -91,18 +96,26 @@ class ManageGedungRuangan extends Component
 
         // Check if gedung has ruangans
         if ($g->ruangans()->count() > 0) {
-            session()->flash('error', 'Tidak dapat menghapus gedung yang memiliki ruangan. Hapus ruangan terlebih dahulu.');
+            $this->message = 'Tidak dapat menghapus gedung yang memiliki ruangan. Hapus ruangan terlebih dahulu.';
+            $this->messageType = 'error';
             return;
         }
 
         // Check if gedung is used by any users
         if (User::where('gedung_id', $id)->count() > 0) {
-            session()->flash('error', 'Tidak dapat menghapus gedung yang sudah diassign ke user. Ubah assignment terlebih dahulu.');
+            $this->message = 'Tidak dapat menghapus gedung yang sudah diassign ke user. Ubah assignment terlebih dahulu.';
+            $this->messageType = 'error';
             return;
         }
 
-        $g->delete();
-        session()->flash('success', 'Gedung berhasil dihapus.');
+        try {
+            $g->delete();
+            $this->message = 'Gedung berhasil dihapus.';
+            $this->messageType = 'success';
+        } catch (\Exception $e) {
+            $this->message = 'Terjadi kesalahan: ' . $e->getMessage();
+            $this->messageType = 'error';
+        }
     }
 
     // ─── Ruangan ───────────────────────────────
@@ -159,7 +172,8 @@ class ManageGedungRuangan extends Component
         );
 
         $this->closeRuanganForm();
-        session()->flash('success', $isEdit ? 'Ruangan diperbarui.' : 'Ruangan ditambahkan.');
+        $this->message = $isEdit ? 'Ruangan diperbarui.' : 'Ruangan ditambahkan.';
+        $this->messageType = 'success';
     }
 
     public function toggleRuangan(int $id): void
@@ -174,18 +188,26 @@ class ManageGedungRuangan extends Component
 
         // Check if ruangan is used by any users
         if (User::where('ruangan', $r->kode)->count() > 0) {
-            session()->flash('error', 'Tidak dapat menghapus ruangan yang sudah digunakan user. Ubah data user terlebih dahulu.');
+            $this->message = 'Tidak dapat menghapus ruangan yang sudah digunakan user. Ubah data user terlebih dahulu.';
+            $this->messageType = 'error';
             return;
         }
 
         // Check if ruangan is used in any reports
         if (Report::whereRaw('lokasi LIKE ?', ['%' . $r->kode . '%'])->count() > 0) {
-            session()->flash('error', 'Tidak dapat menghapus ruangan yang sudah digunakan dalam laporan. Hapus atau edit laporan terlebih dahulu.');
+            $this->message = 'Tidak dapat menghapus ruangan yang sudah digunakan dalam laporan. Hapus atau edit laporan terlebih dahulu.';
+            $this->messageType = 'error';
             return;
         }
 
-        $r->delete();
-        session()->flash('success', 'Ruangan berhasil dihapus.');
+        try {
+            $r->delete();
+            $this->message = 'Ruangan berhasil dihapus.';
+            $this->messageType = 'success';
+        } catch (\Exception $e) {
+            $this->message = 'Terjadi kesalahan: ' . $e->getMessage();
+            $this->messageType = 'error';
+        }
     }
 
     // ─── Render ──────────────────────────────────────

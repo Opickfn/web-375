@@ -4,6 +4,21 @@
         <p>Atur data gedung dan ruangan yang tersedia di sistem</p>
     </div>
 
+    {{-- Message Alert --}}
+    @if($message)
+    <div class="alert alert-{{ $messageType }} alert-dismissible animate-in mb-6" role="alert">
+        <div class="flex items-center gap-3">
+            @if($messageType === 'success')
+                <i data-lucide="check-circle" style="width:20px;height:20px;"></i>
+            @else
+                <i data-lucide="alert-circle" style="width:20px;height:20px;"></i>
+            @endif
+            <span>{{ $message }}</span>
+        </div>
+        <button type="button" wire:click="$set('message', null)" class="btn-close" aria-label="Close"></button>
+    </div>
+    @endif
+
     {{-- ═══════════════════════════════════════════════════════════════
          GEDUNG SECTION
          ═══════════════════════════════════════════════════════════════ --}}
