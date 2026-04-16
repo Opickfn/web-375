@@ -33,6 +33,11 @@
                     </thead>
                     <tbody>
                         @forelse($leaderboard as $idx => $user)
+                        @php
+                            $displayName = ($user->role === 'reporter' && !$user->show_name_on_landing)
+                                ? 'Anonim'
+                                : $user->full_name;
+                        @endphp
                         <tr>
                             <td>
                                 @if($idx < 3)
@@ -43,7 +48,7 @@
                                     <span class="text-muted">{{ $idx + 1 }}</span>
                                 @endif
                             </td>
-                            <td class="font-medium">{{ $user->full_name }}</td>
+                            <td class="font-medium">{{ $displayName }}</td>
                             <td>
                                 <span class="badge {{ match($user->user_type) { 'mahasiswa' => 'badge-info', 'dosen' => 'badge-warning', default => 'badge-neutral' } }}">
                                     {{ ucfirst($user->user_type) }}

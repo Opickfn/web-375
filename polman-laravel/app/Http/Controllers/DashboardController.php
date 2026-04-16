@@ -14,7 +14,7 @@ class DashboardController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $isAdmin = $user->isManagerOrAbove();
+        $isAdmin = $user->isPjAreaOrAbove();
 
         // --- Stat Cards ---
         $baseQuery = fn () => $isAdmin ? Report::query() : Report::where('reporter_id', $user->id);

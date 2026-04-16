@@ -355,7 +355,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     @else
-    // === Distribusi Prioritas (Horizontal Bar for Admin/Manager) ===
+    // === Distribusi Prioritas (Horizontal Bar for Admin/PJ Area) ===
     const priorityData = @json($chartStatus);
     new Chart(document.getElementById('chartPriority'), {
         type: 'bar',

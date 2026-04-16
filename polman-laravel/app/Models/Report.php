@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Report extends Model
 {
@@ -18,6 +20,7 @@ class Report extends Model
         'reviewed_at',
         'review_notes',
         'gedung_id',
+        'location_id',
     ];
 
     protected function casts(): array
@@ -29,27 +32,32 @@ class Report extends Model
 
     // --- Relationships ---
 
-    public function reporter()
+    public function reporter(): BelongsTo
     {
         return $this->belongsTo(User::class, 'reporter_id');
     }
 
-    public function reviewer()
+    public function reviewer(): BelongsTo
     {
         return $this->belongsTo(User::class, 'reviewed_by');
     }
 
-    public function gedung()
+    public function gedung(): BelongsTo
     {
         return $this->belongsTo(Gedung::class);
     }
 
-    public function followUps()
+    public function location(): BelongsTo
+    {
+        return $this->belongsTo(Location::class);
+    }
+
+    public function followUps(): HasMany
     {
         return $this->hasMany(FollowUp::class);
     }
 
-    public function points()
+    public function points(): HasMany
     {
         return $this->hasMany(Point::class);
     }
@@ -101,5 +109,14 @@ class Report extends Model
             'tinggi' => 'Tinggi',
             default => $this->prioritas,
         };
+    }
+
+    public function getLocationBreadcrumbAttribute(): string
+    {
+        if ($this->location) {
+            return $this->location->full_path;
+        }
+
+        return $this->lokasi;
     }
 }

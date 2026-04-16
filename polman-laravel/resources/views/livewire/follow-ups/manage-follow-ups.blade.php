@@ -4,9 +4,11 @@
             <h1>Tindak Lanjut</h1>
             <p>Rencana dan status penyelesaian masalah</p>
         </div>
+        @if(Auth::check() && Auth::user()->role !== 'pimpinan')
         <button wire:click="openForm" class="btn btn-primary">
             <i data-lucide="plus" style="width:16px;height:16px;"></i> Buat Tindak Lanjut
         </button>
+        @endif
     </div>
 
     @if($showForm)
@@ -20,7 +22,7 @@
                         <select wire:model="reportId" class="form-select">
                             <option value="">Pilih laporan</option>
                             @foreach($approvedReports as $r)
-                                <option value="{{ $r->id }}">{{ $r->code }} - {{ \Illuminate\Support\Str::limit($r->lokasi, 30) }}</option>
+                                <option value="{{ $r->id }}">{{ $r->code }} - {{ substr($r->lokasi, 0, 30) }}</option>
                             @endforeach
                         </select>
                         @error('reportId') <p class="form-error">{{ $message }}</p> @enderror
@@ -69,7 +71,7 @@
                         <tr>
                             <td class="font-medium">{{ $fu->report->code }}</td>
                             <td>{{ $fu->assigned_to_name }}</td>
-                            <td>{{ \Illuminate\Support\Str::limit($fu->action_plan, 40) }}</td>
+                            <td>{{ substr($fu->action_plan, 0, 40) }}</td>
                             <td class="text-sm">{{ $fu->target_date->format('d M Y') }}</td>
                             <td>
                                 <span class="badge {{ $fu->status === 'completed' ? 'badge-success' : ($fu->status === 'in_progress' ? 'badge-info' : 'badge-warning') }}">
@@ -77,10 +79,12 @@
                                 </span>
                             </td>
                             <td class="text-right">
-                                @if($fu->status !== 'completed')
+                                @if(Auth::check() && Auth::user()->role !== 'pimpinan' && $fu->status !== 'completed')
                                 <button wire:click="complete({{ $fu->id }})" class="btn btn-success btn-sm" wire:confirm="Tandai selesai?">
                                     <i data-lucide="check" style="width:14px;height:14px;"></i> Selesai
                                 </button>
+                                @else
+                                -
                                 @endif
                             </td>
                         </tr>

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Reports;
 
+use App\Models\Location;
 use App\Models\Point;
 use App\Models\Report;
 use Illuminate\Support\Facades\Auth;
@@ -13,8 +14,10 @@ class CreateReport extends Component
     use WithFileUploads;
 
     public string $kategori = '';
-    public string $gedung_id = '';
-    public string $ruangan_id = '';
+    public string $campus_id = '';
+    public string $branch_id = '';
+    public string $floor_id = '';
+    public string $space_id = '';
     public string $detail_lokasi = '';
     public string $deskripsi = '';
     public string $prioritas = 'sedang';
@@ -24,25 +27,14 @@ class CreateReport extends Component
     public bool $showSuccess = false;
     public ?Report $successReport = null;
 
-    protected function rules(): array
-    {
-        return [
-            'kategori' => 'required|in:5R,7S,K3',
-            'gedung_id' => 'required|exists:gedungs,id',
-            'ruangan_id' => 'required|exists:ruangans,id',
-            'detail_lokasi' => 'required|string|max:255',
-            'deskripsi' => 'required|string|min:10',
-            'prioritas' => 'required|in:rendah,sedang,tinggi',
-            'bukti' => 'nullable|image|max:5120',
-        ];
-    }
-
     protected function messages(): array
     {
         return [
             'kategori.required' => 'Pilih kategori pelanggaran.',
-            'gedung_id.required' => 'Gedung wajib dipilih.',
-            'ruangan_id.required' => 'Ruangan wajib dipilih.',
+            'campus_id.required' => 'Pilih kampus.',
+            'branch_id.required' => 'Pilih gedung atau infrastruktur.',
+            'floor_id.required' => 'Pilih lantai.',
+            'space_id.required' => 'Pilih ruangan atau area.',
             'detail_lokasi.required' => 'Detail lokasi wajib diisi.',
             'deskripsi.required' => 'Deskripsi wajib diisi.',
             'deskripsi.min' => 'Deskripsi minimal 10 karakter.',
@@ -51,19 +43,108 @@ class CreateReport extends Component
         ];
     }
 
-    public function resetRuangan(): void
+    public function updatedCampusId(): void
     {
-        $this->ruangan_id = '';
+        $this->branch_id = '';
+        $this->floor_id = '';
+        $this->space_id = '';
+    }
+
+    public function updatedBranchId(): void
+    {
+        $this->floor_id = '';
+        $this->space_id = '';
+    }
+
+    public function updatedFloorId(): void
+    {
+        $this->space_id = '';
+    }
+
+    public function getCampusesProperty()
+    {
+        return Location::type('campus')->active()->orderBy('name')->get();
+    }
+
+    public function getBranchesProperty()
+    {
+        if (! $this->campus_id) {
+            return collect();
+        }
+
+        return Location::where('parent_id', $this->campus_id)
+            ->whereIn('type', ['gedung', 'infrastruktur'])
+            ->active()
+            ->orderBy('name')
+            ->get();
+    }
+
+    public function getFloorsProperty()
+    {
+        if (! $this->branch_id || $this->branchType !== 'gedung') {
+            return collect();
+        }
+
+        return Location::where('parent_id', $this->branch_id)
+            ->where('type', 'lantai')
+            ->active()
+            ->orderBy('name')
+            ->get();
+    }
+
+    public function getSpacesProperty()
+    {
+        if (! $this->floor_id) {
+            return collect();
+        }
+
+        return Location::where('parent_id', $this->floor_id)
+            ->whereIn('type', ['ruangan', 'area'])
+            ->active()
+            ->orderBy('name')
+            ->get();
+    }
+
+    public function getBranchTypeProperty(): ?string
+    {
+        if (! $this->branch_id) {
+            return null;
+        }
+
+        return Location::find($this->branch_id)?->type;
     }
 
     public function submit()
     {
-        $this->validate();
+        $rules = [
+            'kategori' => 'required|in:5R,7S,K3',
+            'campus_id' => 'required|exists:locations,id',
+            'branch_id' => 'required|exists:locations,id',
+            'detail_lokasi' => 'required|string|max:255',
+            'deskripsi' => 'required|string|min:10',
+            'prioritas' => 'required|in:rendah,sedang,tinggi',
+            'bukti' => 'nullable|image|max:5120',
+        ];
 
-        // Construct lokasi from gedung/ruangan/detail_lokasi
-        $gedung = \App\Models\Gedung::findOrFail($this->gedung_id);
-        $ruangan = \App\Models\Ruangan::findOrFail($this->ruangan_id);
-        $lokasi = "{$gedung->nama} - {$ruangan->nama} - {$this->detail_lokasi}";
+        if ($this->branchType === 'gedung') {
+            $rules['floor_id'] = 'required|exists:locations,id';
+            $rules['space_id'] = 'required|exists:locations,id';
+        }
+
+        $this->validate($rules, $this->messages());
+
+        if ($this->branchType === 'gedung') {
+            $location = Location::findOrFail($this->space_id);
+            $gedungId = $this->branch_id;
+        } else {
+            $location = Location::findOrFail($this->branch_id);
+            $gedungId = null;
+        }
+
+        $lokasi = $location->full_path;
+        if ($this->detail_lokasi) {
+            $lokasi .= ' - ' . $this->detail_lokasi;
+        }
 
         $data = [
             'reporter_id' => Auth::id(),
@@ -72,7 +153,8 @@ class CreateReport extends Component
             'deskripsi' => $this->deskripsi,
             'prioritas' => $this->prioritas,
             'status' => 'pending',
-            'gedung_id' => $this->gedung_id,
+            'gedung_id' => $gedungId,
+            'location_id' => $location->id,
         ];
 
         if ($this->bukti) {
@@ -83,7 +165,6 @@ class CreateReport extends Component
 
         $report = Report::create($data);
 
-        // Award points for submission
         Point::create([
             'user_id' => Auth::id(),
             'report_id' => $report->id,
@@ -92,14 +173,14 @@ class CreateReport extends Component
             'description' => 'Poin submit laporan ' . $report->code,
         ]);
 
-        // Show success confirmation
         $this->successReport = $report;
         $this->showSuccess = true;
 
-        // Reset form fields only (not success state)
         $this->kategori = '';
-        $this->gedung_id = '';
-        $this->ruangan_id = '';
+        $this->campus_id = '';
+        $this->branch_id = '';
+        $this->floor_id = '';
+        $this->space_id = '';
         $this->detail_lokasi = '';
         $this->deskripsi = '';
         $this->prioritas = 'sedang';
@@ -111,8 +192,10 @@ class CreateReport extends Component
         $this->showSuccess = false;
         $this->successReport = null;
         $this->kategori = '';
-        $this->gedung_id = '';
-        $this->ruangan_id = '';
+        $this->campus_id = '';
+        $this->branch_id = '';
+        $this->floor_id = '';
+        $this->space_id = '';
         $this->detail_lokasi = '';
         $this->deskripsi = '';
         $this->prioritas = 'sedang';
@@ -121,7 +204,13 @@ class CreateReport extends Component
 
     public function render()
     {
-        return view('livewire.reports.create-report')
+        return view('livewire.reports.create-report', [
+            'campuses' => $this->campuses,
+            'branches' => $this->branches,
+            'floors' => $this->floors,
+            'spaces' => $this->spaces,
+            'branchType' => $this->branchType,
+        ])
             ->layout('layouts.app')
             ->title('Buat Laporan');
     }

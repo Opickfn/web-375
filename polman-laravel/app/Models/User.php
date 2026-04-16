@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Location;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -15,6 +16,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'show_name_on_landing',
         'user_type',
         'phone',
         // Mahasiswa
@@ -39,6 +41,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'show_name_on_landing' => 'boolean',
         ];
     }
 
@@ -54,24 +57,44 @@ class User extends Authenticatable
         return $this->role === 'admin';
     }
 
-    public function isManager(): bool
-    {
-        return $this->role === 'manager';
-    }
-
     public function isReporter(): bool
     {
         return $this->role === 'reporter';
     }
 
-    public function isManagerOrAbove(): bool
+    public function isPimpinan(): bool
     {
-        return in_array($this->role, ['manager', 'admin']);
+        return $this->role === 'pimpinan';
+    }
+
+    public function isSpmi(): bool
+    {
+        return $this->role === 'spmi';
+    }
+
+    public function isPjArea(): bool
+    {
+        return $this->role === 'pj_area';
+    }
+
+    public function isPjAreaOrAbove(): bool
+    {
+        return in_array($this->role, ['admin', 'pimpinan', 'spmi', 'pj_area']);
     }
 
     public function canCreateReport(): bool
     {
         return $this->role === 'reporter';
+    }
+
+    public function assignedLocations()
+    {
+        return $this->belongsToMany(Location::class, 'location_user')->withTimestamps();
+    }
+
+    public function getAssignedLocationLabelsAttribute(): string
+    {
+        return $this->assignedLocations->pluck('full_path')->join(', ');
     }
 
     // --- Type Helpers ---

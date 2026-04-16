@@ -42,7 +42,7 @@
                                 @endif
                             </td>
                             <td><span class="badge badge-info">{{ $report->kategori }}</span></td>
-                            <td>{{ \Illuminate\Support\Str::limit($report->lokasi, 25) }}</td>
+                            <td>{{ substr($report->location_breadcrumb, 0, 40) }}</td>
                             <td>
                                 <span class="badge {{ $report->prioritas === 'tinggi' ? 'badge-danger' : ($report->prioritas === 'sedang' ? 'badge-warning' : 'badge-neutral') }}">
                                     {{ $report->prioritas_label }}
@@ -50,6 +50,7 @@
                             </td>
                             <td class="text-sm text-muted">{{ $report->created_at->format('d M Y') }}</td>
                             <td class="text-right">
+                                @if(Auth::check() && Auth::user()->role !== 'pimpinan')
                                 <div class="flex gap-2" style="justify-content:flex-end;">
                                     <button wire:click="approve({{ $report->id }})" class="btn btn-success btn-sm" onclick="return confirm('Setujui laporan {{ $report->code }}?')">
                                         <i data-lucide="check" style="width:14px;height:14px;"></i> Setujui
@@ -58,6 +59,9 @@
                                         <i data-lucide="x" style="width:14px;height:14px;"></i> Tolak
                                     </button>
                                 </div>
+                                @else
+                                -
+                                @endif
                             </td>
                         </tr>
                         @empty

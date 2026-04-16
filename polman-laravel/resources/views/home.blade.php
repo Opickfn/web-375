@@ -1,272 +1,488 @@
-@extends('layouts.guest')
-@section('title', 'Sistem Pelaporan Improvement')
+﻿@extends('layouts.guest')
+@section('title', 'POLMAN 375')
 
 @section('content')
-{{-- Landing Navbar --}}
-<nav class="landing-nav" id="landingNav" style="position: fixed; width: 100%; top: 0; z-index: 100; background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); transition: box-shadow 0.3s; border-bottom: 1px solid rgba(0,0,0,0.05);">
-    <div class="navbar-brand">
-        <img src="{{ asset('images/polman.png') }}" alt="Polman" style="height: 40px;">
-        <span style="font-weight: 700; font-size: 1.25rem;">Polman Report</span>
-    </div>
-    <div class="landing-nav-links">
-        <a href="{{ route('leaderboard') }}" class="btn btn-outline btn-sm">
-            <i data-lucide="trophy" style="width:14px;height:14px;"></i> Leaderboard
-        </a>
-        <a href="{{ route('reports.public') }}" class="btn btn-outline btn-sm">
-            <i data-lucide="edit-3" style="width:14px;height:14px;"></i> Buat Laporan
-        </a>
-        <a href="{{ route('login') }}" class="btn btn-outline btn-sm">Masuk</a>
-        <a href="{{ route('register') }}" class="btn btn-primary btn-sm">Daftar</a>
-    </div>
-</nav>
-
-{{-- Hero Section with Typing Effect --}}
-<section class="landing-hero" style="min-height: 80vh; display: flex; align-items: center; padding-top: 80px; background: radial-gradient(circle at 10% 20%, rgba(12, 107, 175, 0.05) 0%, transparent 40%);">
-    <div class="container" style="text-align: center;">
-        <div class="typewriter-wrapper">
-            <h1 class="typewriter" style="font-size: 3.5rem; color: var(--text-dark); margin-bottom: 24px; display: inline-block;">
-                Sistem Pelaporan Improvement
-            </h1>
-        </div>
-        <p class="reveal" style="font-size: 1.25rem; color: var(--text-muted); max-width: 700px; margin: 0 auto 40px; line-height: 1.6;">
-            Platform digital modern untuk melaporkan, memantau, dan mengelola temuan perbaikan 5R, 7S, dan K3 di lingkungan kampus Politeknik Manufaktur Bandung secara real-time dan terintegrasi.
-        </p>
-        <div class="landing-hero-actions reveal" style="display: flex; justify-content: center; gap: 16px; margin-top: 20px;">
-            <a href="{{ route('register') }}" class="btn btn-primary btn-lg" style="transform: scale(1); transition: transform 0.2s; box-shadow: 0 10px 25px rgba(12,107,175,0.3);" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-                <i data-lucide="arrow-right" style="width:20px;height:20px;"></i>
-                Mulai Dari Sini
-            </a>
-            <a href="#features" class="btn btn-outline btn-lg" onclick="document.getElementById('features').scrollIntoView({behavior: 'smooth'})">
-                Pelajari Lebih Lanjut
-            </a>
-        </div>
-    </div>
-</section>
-
-{{-- Video Parallax Section --}}
-<section class="video-section" id="videoParallax">
-    <div class="video-container" id="videoContainer">
-        <video autoplay muted loop playsinline>
-            {{-- Menggunakan stock video berkualitas tinggi tentang kerja modern --}}
-            <source src="https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-code-1730-large.mp4" type="video/mp4">
-        </video>
-    </div>
-    <div class="video-overlay-text reveal" id="videoText">
-        <h1>Transformasi Menuju Kampus Unggul</h1>
-        <p>Setiap laporan Anda adalah langkah nyata menuju lingkungan belajar yang lebih aman, bersih, dan produktif.</p>
-    </div>
-</section>
-
-{{-- Target 5R, 7S, K3 Section --}}
-<section class="landing-features" style="padding: 100px 0; background: var(--bg-body);">
-    <div class="container text-center reveal">
-        <h2 style="font-size: 2.5rem; margin-bottom: 16px;">Fokus Perbaikan</h2>
-        <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto 60px;">Membangun budaya disiplin dan keselamatan kerja berstandar industri melalui tiga pilar utama.</p>
-        
-        <div class="grid grid-3 gap-6">
-            <div class="card reveal" style="padding: 40px 24px; text-align: center; border: 1px solid var(--border-light); transition: transform 0.3s;" onmouseover="this.style.transform='translateY(-10px)'" onmouseout="this.style.transform='translateY(0)'">
-                <div style="width: 80px; height: 80px; background: rgba(12,107,175,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; color: var(--primary);">
-                    <h2 style="margin:0; font-size: 2rem;">5R</h2>
-                </div>
-                <h3>Budaya 5R</h3>
-                <p style="color: var(--text-muted); font-size: 0.95rem;">Ringkas, Rapi, Resik, Rawat, Rajin. Mengurangi pemborosan dan meningkatkan efisiensi area kerja.</p>
+<div id="landing-root" class="min-h-screen bg-slate-950 text-slate-100">
+    <nav id="landingNav" class="fixed inset-x-0 top-0 z-50 border-b border-slate-800 bg-slate-950/95 backdrop-blur-lg">
+        <div class="container mx-auto flex items-center justify-between px-4 py-4">
+            <div class="flex items-center gap-3">
+                <div class="h-10 w-10 rounded-2xl bg-gradient-to-br from-cyan-400 to-sky-600 flex items-center justify-center text-lg font-bold text-slate-950">375</div>
+                <span class="text-xl font-semibold tracking-[0.18em]">POLMAN 375</span>
             </div>
-            <div class="card reveal" style="padding: 40px 24px; text-align: center; border: 1px solid var(--border-light); transition: transform 0.3s;" onmouseover="this.style.transform='translateY(-10px)'" onmouseout="this.style.transform='translateY(0)'">
-                <div style="width: 80px; height: 80px; background: rgba(16,185,129,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; color: #10b981;">
-                    <h2 style="margin:0; font-size: 2rem;">7S</h2>
-                </div>
-                <h3>Sistem 7S</h3>
-                <p style="color: var(--text-muted); font-size: 0.95rem;">Pengembangan dari 5S dengan tambahan Safety & Spirit untuk lingkungan akademis dan industri.</p>
+            <div class="hidden gap-3 md:flex">
+                <a href="#hero1" class="btn btn-outline btn-sm">Hero 1</a>
+                <a href="#hero2" class="btn btn-outline btn-sm">Hero 2</a>
+                <a href="#hero3" class="btn btn-outline btn-sm">Hero 3</a>
+                <a href="#hero4" class="btn btn-outline btn-sm">Leaderboard</a>
             </div>
-            <div class="card reveal" style="padding: 40px 24px; text-align: center; border: 1px solid var(--border-light); transition: transform 0.3s;" onmouseover="this.style.transform='translateY(-10px)'" onmouseout="this.style.transform='translateY(0)'">
-                <div style="width: 80px; height: 80px; background: rgba(239,68,68,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; color: #ef4444;">
-                    <h2 style="margin:0; font-size: 2rem;">K3</h2>
-                </div>
-                <h3>Keselamatan (K3)</h3>
-                <p style="color: var(--text-muted); font-size: 0.95rem;">Kesehatan dan Keselamatan Kerja. Mencegah kecelakaan dan memastikan operasional lab yang aman.</p>
+            <div class="flex gap-3">
+                <a href="{{ route('login') }}" class="btn btn-outline btn-sm">Masuk</a>
+                <a href="{{ route('register') }}" class="btn btn-primary btn-sm">Daftar</a>
             </div>
         </div>
-    </div>
-</section>
+    </nav>
 
-{{-- How it works (Timeline) --}}
-<section class="landing-features" id="features" style="padding: 100px 0; background: #fff;">
-    <div class="container">
-        <h2 class="reveal" style="text-align: center; font-size: 2.5rem; margin-bottom: 60px;">Alur Kerja Sistem</h2>
-        <div class="timeline">
-            <div class="timeline-item reveal">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <h3 style="color: var(--primary); margin-bottom: 8px;">1. Temukan & Laporkan</h3>
-                    <p style="color: var(--text-muted);">Melihat kabel berantakan? Alat lab rusak? Foto dan submit langsung melalui dashboard Anda dalam hitungan detik.</p>
+    <main class="pt-24">
+        <section id="hero1" class="relative overflow-hidden bg-[#0B1120] px-4 py-20">
+            <div class="pointer-events-none absolute left-0 top-0 h-[420px] w-[420px] rounded-full bg-[#22d3ee]/20 blur-3xl" style="mask-image: radial-gradient(circle, rgba(255,255,255,1) 0%, transparent 62%);"></div>
+            <div class="container mx-auto grid gap-10 lg:grid-cols-2 items-center">
+                <div class="space-y-8 text-white relative z-10">
+                    <p class="text-sm uppercase tracking-[0.35em] text-cyan-300">Platform Pelaporan Terintegrasi</p>
+                    <h1 class="text-5xl font-black leading-tight tracking-tight font-sans">
+                        Sistem Pelaporan <span class="text-white">K3,</span> <span class="text-[#22d3ee]">7S,</span> <span class="text-white">dan</span> <span class="text-[#22d3ee]">5R</span>
+                    </h1>
+                    <p class="max-w-xl text-[#94a3b8] text-lg leading-relaxed hero-copy">Sistem pelaporan modern untuk mengumpulkan, memverifikasi, dan menindaklanjuti temuan K3, 7S, dan 5R dengan visualisasi yang jelas dan responsif.</p>
+                    <div class="grid gap-4 sm:grid-cols-3">
+                        <button type="button" class="btn-animate rounded-[12px] bg-[#22d3ee] px-6 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-slate-950 shadow-lg shadow-[#22d3ee]/20">Mulai Dari Sini</button>
+                        <button type="button" class="btn-animate rounded-[12px] border border-slate-600 bg-transparent px-6 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-white shadow-sm shadow-slate-950/10">Lapor sebagai Publik</button>
+                        <button type="button" class="btn-animate rounded-[12px] border border-slate-600 bg-transparent px-6 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-white shadow-sm shadow-slate-950/10">Pelajari Lebih Lanjut</button>
+                    </div>
                 </div>
-            </div>
-            <div class="timeline-item reveal">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <h3 style="color: var(--primary); margin-bottom: 8px;">2. Validasi Manajemen</h3>
-                    <p style="color: var(--text-muted);">Laporan secara otomatis masuk ke antrean manajer K3 atau Kepala Bengkel untuk di-review dan disetujui.</p>
-                </div>
-            </div>
-            <div class="timeline-item reveal">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <h3 style="color: var(--primary); margin-bottom: 8px;">3. Tindak Lanjut Ekskusi</h3>
-                    <p style="color: var(--text-muted);">Admin/Manajer menugaskan tim perbaikan dan memantau status 'Dalam Proses' hingga masalah dinyatakan 'Selesai'.</p>
-                </div>
-            </div>
-            <div class="timeline-item reveal">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content">
-                    <h3 style="color: var(--primary); margin-bottom: 8px;">4. Dapatkan Reward</h3>
-                    <p style="color: var(--text-muted);">Setiap kontribusi dihargai. Anda mendatkan Poin dari pelaporan dan menjadi yang teratas di Leaderboard Kampus!</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
-{{-- Top 10 Leaderboard --}}
-<section class="landing-features" style="padding: 80px 0; background: var(--bg);">
-    <div class="container reveal">
-        <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 16px;">Top 10 Leaderboard🏆</h2>
-        <p style="text-align: center; color: var(--text-muted); margin-bottom: 40px;">Pahlawan perbaikan kampus dengan poin tertinggi bulan ini.</p>
-        
-        <div class="card" style="max-width: 900px; margin: 0 auto; overflow: hidden; border-radius: var(--radius-lg); box-shadow: var(--shadow);">
-            <div class="table-wrapper" style="margin: 0;">
-                <table class="table" style="margin: 0;">
-                    <thead style="background: var(--bg-surface);">
-                        <tr>
-                            <th style="width: 60px; text-align: center;">Peringkat</th>
-                            <th>Nama</th>
-                            <th>Tipe / Jabatan</th>
-                            <th style="text-align: right;">Total Poin</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($topUsers as $index => $user)
-                        <tr style="transition: background 0.2s;" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='transparent'">
-                            <td style="text-align: center;">
-                                @if($index === 0)
-                                    <div style="width: 32px; height: 32px; background: #fbbf24; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-weight: bold; box-shadow: 0 4px 10px rgba(251,191,36,0.4);">1</div>
-                                @elseif($index === 1)
-                                    <div style="width: 32px; height: 32px; background: #94a3b8; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-weight: bold; box-shadow: 0 4px 10px rgba(148,163,184,0.4);">2</div>
-                                @elseif($index === 2)
-                                    <div style="width: 32px; height: 32px; background: #b45309; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-weight: bold; box-shadow: 0 4px 10px rgba(180,83,9,0.4);">3</div>
-                                @else
-                                    <div style="font-weight: 600; color: var(--text-muted);">{{ $index + 1 }}</div>
-                                @endif
-                            </td>
-                            <td>
-                                <div style="font-weight: 600; color: var(--text);">{{ $user->full_name }}</div>
-                            </td>
-                            <td>
-                                <div style="display: flex; flex-direction: column; gap: 4px;">
-                                    <div>
-                                        <span class="badge {{ match($user->user_type) { 'mahasiswa' => 'badge-info', 'dosen' => 'badge-warning', default => 'badge-neutral' } }}" style="font-size: 0.7rem; padding: 2px 8px;">
-                                            {{ ucfirst($user->user_type) }}
-                                        </span>
-                                    </div>
-                                    @if($user->user_type === 'mahasiswa' && $user->gedung)
-                                        <div class="text-sm text-muted" style="font-size: 0.75rem;">{{ $user->gedung }}</div>
-                                    @elseif($user->user_type === 'dosen' && $user->jabatan)
-                                        <div class="text-sm text-muted" style="font-size: 0.75rem;">{{ $user->jabatan }}</div>
-                                    @endif
+                <div class="slider-container relative overflow-hidden rounded-[28px] border border-white/10 bg-white/5 p-5 shadow-[0_40px_90px_rgba(34,211,238,0.16)] backdrop-blur-xl">
+                    <div class="slider-card relative min-h-[420px] overflow-hidden rounded-[24px] bg-cover bg-center filter brightness-110 saturate-[1.2] shadow-2xl shadow-[#22d3ee]/20" style="background-image: url('https://images.unsplash.com/photo-1519337265831-281ec6cc8514?auto=format&fit=crop&w=1200&q=80');">
+                        <div class="absolute inset-0 bg-slate-950/30 backdrop-blur-xl"></div>
+                        <div class="slider-content relative z-10 flex h-full flex-col justify-between p-8 text-white">
+                            <div class="space-y-4">
+                                <p class="slider-label text-sm uppercase tracking-[0.28em] text-cyan-300">Sistem Pelaporan K3, 7S, dan 5R</p>
+                                <h2 class="slider-title text-3xl font-bold leading-tight">Sistem Pelaporan K3, 7S, dan 5R</h2>
+                                <p class="slider-description max-w-xl text-slate-200">Lapor temuan lapangan dengan mudah, pantau tindak lanjut, dan bangun budaya keselamatan kampus.</p>
+                            </div>
+                            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                                <div class="slider-meta text-sm text-slate-300">Slide <span class="slider-index">1</span> dari <span class="slider-total">3</span></div>
+                                <div class="flex gap-2">
+                                    <button type="button" data-action="prev" class="slider-nav rounded-[12px] border border-slate-700 bg-slate-900/70 px-4 py-2 text-sm text-white">Prev</button>
+                                    <button type="button" data-action="next" class="slider-nav rounded-[12px] border border-slate-700 bg-slate-900/70 px-4 py-2 text-sm text-white">Next</button>
                                 </div>
-                            </td>
-                            <td style="text-align: right;">
-                                <div style="font-size: 1.1rem; font-weight: 700; color: var(--primary);">{{ number_format($user->total_points) }}</div>
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="4" style="text-align: center; padding: 40px 20px; color: var(--text-muted);">
-                                <i data-lucide="award" style="width: 48px; height: 48px; margin-bottom: 16px; opacity: 0.5;"></i>
-                                <p>Belum ada data poin terkumpul. Jadilah yang pertama!</p>
-                            </td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            @if(count($topUsers) > 0)
-            <div style="text-align: center; padding: 16px; border-top: 1px solid var(--border-light); background: var(--bg-surface);">
-                <a href="{{ route('leaderboard') }}" style="font-weight: 600; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 8px;">
-                    Lihat Leaderboard Lengkap <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
-                </a>
-            </div>
-            @endif
-        </div>
-    </div>
-</section>
+        </section>
 
-{{-- Footer --}}
-<footer class="landing-footer" style="background: var(--bg-surface); padding: 40px 0; border-top: 1px solid var(--border-light); text-align: center;">
-    <div class="container reveal">
-        <img src="{{ asset('images/polman.png') }}" alt="Polman" style="height: 60px; margin-bottom: 24px; opacity: 0.8;">
-        <h3 style="margin-bottom: 12px;">Sistem Pelaporan Improvement</h3>
-        <p style="color: var(--text-muted); max-width: 500px; margin: 0 auto 24px;">Transformasi Kampus Polman yang lebih Baik Berawal dari Kepedulian Anda Hari Ini.</p>
-        <div style="display:flex; justify-content:center; gap: 24px; margin-bottom: 24px;">
-            <a href="{{ route('leaderboard') }}" style="color: var(--primary); text-decoration: none; font-weight: 500;">Leaderboard</a>
-            <a href="{{ route('reports.public') }}" style="color: var(--primary); text-decoration: none; font-weight: 500;">Buat Laporan</a>
-            <a href="{{ route('login') }}" style="color: var(--primary); text-decoration: none; font-weight: 500;">Login</a>
-        </div>
-        <p class="text-sm text-muted">&copy; {{ date('Y') }} Politeknik Manufaktur Bandung. All rights reserved.</p>
-    </div>
-</footer>
+        <script type="module">
+            import anime from 'https://unpkg.com/animejs@4.0.0/lib/anime.es.js';
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Nav shadow on scroll
-    window.addEventListener('scroll', () => {
-        if(window.scrollY > 20) {
-            document.getElementById('landingNav').style.boxShadow = '0 4px 20px rgba(0,0,0,0.05)';
-        } else {
-            document.getElementById('landingNav').style.boxShadow = 'none';
-        }
-    });
+            const slides = [
+                {
+                    image: 'https://images.unsplash.com/photo-1519337265831-281ec6cc8514?auto=format&fit=crop&w=1200&q=80',
+                    label: 'Bangunan Kampus Modern',
+                    title: 'Peningkatan Infrastruktur Kampus',
+                    description: 'Bangunan kampus modern dengan pemantauan dan pelaporan K3 yang terintegrasi untuk menjaga keselamatan semua pengguna.',
+                    heroCopy: 'Slide pertama menyorot kekuatan sistem pelaporan untuk mendukung lingkungan kampus yang aman dan terkontrol.',
+                },
+                {
+                    image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=80',
+                    label: 'Peringatan Kebersihan',
+                    title: 'Temuan Kebersihan & Keamanan',
+                    description: 'Laporan cepat ketika area kerja tidak memenuhi standar kebersihan dan SOP K3.',
+                    heroCopy: 'Dukung kepatuhan lapangan dengan laporan kebersihan yang mendetail dan tindak lanjut yang transparan.',
+                },
+                {
+                    image: 'https://images.unsplash.com/photo-1520027296538-7ecaef410a6a?auto=format&fit=crop&w=1200&q=80',
+                    label: 'Peralatan Rusak',
+                    title: 'Perbaikan Peralatan Prioritas',
+                    description: 'Identifikasi kerusakan peralatan lebih cepat dan kirim laporan langsung kepada tim pemeliharaan.',
+                    heroCopy: 'Fokus pada penanganan risiko dengan pelaporan alat rusak yang mempercepat respons teknis.',
+                },
+            ];
 
-    // Reveal animations using Intersection Observer
-    const revealElements = document.querySelectorAll('.reveal');
-    const exposeObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('active');
+            const btns = document.querySelectorAll('.btn-animate');
+            const sliderCard = document.querySelector('.slider-card');
+            const sliderLabel = document.querySelector('.slider-label');
+            const sliderTitle = document.querySelector('.slider-title');
+            const sliderDescription = document.querySelector('.slider-description');
+            const sliderIndex = document.querySelector('.slider-index');
+            const sliderTotal = document.querySelector('.slider-total');
+            const sliderContainer = document.querySelector('.slider-container');
+            const heroCopy = document.querySelector('.hero-copy');
+            const navButtons = document.querySelectorAll('.slider-nav');
+            let currentSlide = 0;
+            let hoveredButton = null;
+            let slideInterval = null;
+
+            if (sliderTotal) {
+                sliderTotal.textContent = slides.length;
             }
-        });
-    }, { threshold: 0.15 });
 
-    revealElements.forEach(el => exposeObserver.observe(el));
+            const animateButton = (target, scale, duration = 400) => {
+                if (!target) return;
+                anime.remove(target);
+                anime({
+                    targets: target,
+                    scale,
+                    duration,
+                    elasticity: 600,
+                    easing: 'easeOutElastic(1, .8)',
+                });
+            };
 
-    // Video Parallax logic
-    const videoSection = document.getElementById('videoParallax');
-    const videoContainer = document.getElementById('videoContainer');
-    
-    // Scale video on scroll
-    window.addEventListener('scroll', () => {
-        const rect = videoSection.getBoundingClientRect();
-        const windowHeight = window.innerHeight;
-        
-        // Cek jika bagian video terlihat di viewport
-        if (rect.top <= windowHeight && rect.bottom >= 0) {
-            // Hitung seberapa jauh user telah scroll masuk ke area video
-            // rect.top mulai dari windowHeight hingga turun ke angka negatif
-            const scrollPercent = 1 - (rect.top / windowHeight);
-            
-            // Limit percentage antara 0 - 1
-            const limitedPercent = Math.max(0, Math.min(1, scrollPercent));
-            
-            // Awal ukuran 60%, max target 100%
-            let newSize = 60 + (40 * limitedPercent);
-            let newRadius = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--radius-xl'));
-            newRadius = newRadius * (1 - limitedPercent); // radius jadi 0 saat full
-            
-            videoContainer.style.width = newSize + '%';
-            videoContainer.style.height = newSize + '%';
-            videoContainer.style.borderRadius = newRadius + 'px';
-        }
-    });
+            btns.forEach((button) => {
+                button.style.transformOrigin = 'center center';
+                button.addEventListener('mouseenter', () => {
+                    hoveredButton = button;
+                    animateButton(button, 1.2, 400);
+                });
+                button.addEventListener('mouseleave', () => {
+                    hoveredButton = null;
+                    animateButton(button, 1.0, 400);
+                });
+                button.addEventListener('mousedown', () => {
+                    animateButton(button, 0.92, 140);
+                });
+                button.addEventListener('mouseup', () => {
+                    const scale = hoveredButton === button ? 1.2 : 1.0;
+                    animateButton(button, scale, 220);
+                });
+            });
 
-});
-</script>
+            function updateSlide(index) {
+                if (!sliderCard || !sliderLabel || !sliderTitle || !sliderDescription || !sliderIndex || !heroCopy) return;
+
+                currentSlide = (index + slides.length) % slides.length;
+                const slide = slides[currentSlide];
+                sliderIndex.textContent = currentSlide + 1;
+
+                const fadeOut = anime.timeline({ easing: 'easeInQuad', duration: 250 });
+                fadeOut.add({
+                    targets: [sliderLabel, sliderTitle, sliderDescription, heroCopy],
+                    opacity: [1, 0],
+                    translateY: [0, 18],
+                    duration: 220,
+                    delay: anime.stagger(35),
+                });
+                fadeOut.add({
+                    targets: sliderCard,
+                    opacity: [1, 0.72],
+                    duration: 250,
+                }, 0);
+
+                fadeOut.finished.then(() => {
+                    sliderCard.style.backgroundImage = `url('${slide.image}')`;
+                    sliderLabel.textContent = slide.label;
+                    sliderTitle.textContent = slide.title;
+                    sliderDescription.textContent = slide.description;
+                    heroCopy.textContent = slide.heroCopy;
+
+                    anime.timeline({ easing: 'easeOutExpo', duration: 420 })
+                        .add({
+                            targets: sliderCard,
+                            opacity: [0.72, 1],
+                        })
+                        .add({
+                            targets: [sliderLabel, sliderTitle, sliderDescription, heroCopy],
+                            opacity: [0, 1],
+                            translateY: [18, 0],
+                            duration: 420,
+                            delay: anime.stagger(50),
+                        }, '-=260');
+                });
+            }
+
+            navButtons.forEach((button) => {
+                button.addEventListener('click', () => {
+                    const action = button.dataset.action;
+                    const nextIndex = action === 'next' ? currentSlide + 1 : currentSlide - 1;
+                    updateSlide(nextIndex);
+                });
+            });
+
+            const startSliderLoop = () => {
+                if (slideInterval) {
+                    clearInterval(slideInterval);
+                }
+                slideInterval = setInterval(() => updateSlide(currentSlide + 1), 6500);
+            };
+
+            if (sliderContainer) {
+                sliderContainer.addEventListener('mouseenter', () => {
+                    if (slideInterval) clearInterval(slideInterval);
+                });
+                sliderContainer.addEventListener('mouseleave', startSliderLoop);
+            }
+
+            updateSlide(0);
+            startSliderLoop();
+        </script>
+
+        <section id="hero2" class="relative min-h-screen overflow-hidden p-10 bg-[#0B1120]">
+            <div id="layout-root" class="w-full max-w-6xl mx-auto grid grid-cols-1 gap-8">
+                <div class="boxes-wrapper flex flex-wrap justify-center gap-6 rounded-[2rem] border border-white/10 bg-white/5 p-6 backdrop-blur-xl shadow-2xl shadow-slate-950/25">
+                    <div data-layout-id="5R" class="box-item cursor-pointer rounded-[2rem] border border-cyan-400/25 bg-cyan-400/15 p-7 shadow-2xl shadow-cyan-500/15 text-left text-white">
+                        <div class="flex h-full flex-col justify-between">
+                            <div>
+                                <p class="text-xs uppercase tracking-[0.3em] text-cyan-100">5R</p>
+                                <h3 class="mt-4 text-3xl font-bold">Budaya Area Rapi</h3>
+                            </div>
+                            <p class="mt-3 text-cyan-100 text-sm">Klik untuk melihat detail budaya area rapi dan pengelolaan visual.</p>
+                        </div>
+                    </div>
+                    <div data-layout-id="7S" class="box-item cursor-pointer rounded-[2rem] border border-rose-500/25 bg-rose-500/15 p-7 shadow-2xl shadow-rose-500/15 text-left text-white">
+                        <div class="flex h-full flex-col justify-between">
+                            <div>
+                                <p class="text-xs uppercase tracking-[0.3em] text-rose-100">7S</p>
+                                <h3 class="mt-4 text-3xl font-bold">Budaya Teratur</h3>
+                            </div>
+                            <p class="mt-3 text-rose-100 text-sm">Klik untuk menampilkan praktik disiplin dan tata kelola kerja.</p>
+                        </div>
+                    </div>
+                    <div data-layout-id="K3" class="box-item cursor-pointer rounded-[2rem] border border-emerald-400/25 bg-emerald-400/15 p-7 shadow-2xl shadow-emerald-400/15 text-left text-white">
+                        <div class="flex h-full flex-col justify-between">
+                            <div>
+                                <p class="text-xs uppercase tracking-[0.3em] text-emerald-100">K3</p>
+                                <h3 class="mt-4 text-3xl font-bold">Keamanan Kerja</h3>
+                            </div>
+                            <p class="mt-3 text-emerald-100 text-sm">Klik untuk melihat fokus keselamatan dan pencegahan risiko.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="content-area" class="rounded-[2rem] border border-white/10 bg-white/5 p-8 backdrop-blur-xl opacity-0" style="display:none;">
+                    <p id="content-tag" class="text-xs uppercase tracking-[0.4em] text-cyan-200">Detail</p>
+                    <h2 id="content-title" class="mt-4 text-4xl font-black text-white"></h2>
+                    <div id="content-body" class="mt-4 text-slate-300 leading-relaxed"></div>
+                    <div id="content-list" class="mt-8 space-y-3"></div>
+                </div>
+            </div>
+        </section>
+
+        <script type="module">
+            import { animate, createLayout, utils } from 'https://cdn.jsdelivr.net/npm/animejs@4.0.0-beta.90/+esm';
+
+            const root = document.querySelector('#layout-root');
+            const boxesWrapper = document.querySelector('.boxes-wrapper');
+            const boxes = Array.from(document.querySelectorAll('.box-item'));
+            const contentArea = document.querySelector('#content-area');
+            const contentTag = document.querySelector('#content-tag');
+            const contentTitle = document.querySelector('#content-title');
+            const contentBody = document.querySelector('#content-body');
+            const contentList = document.querySelector('#content-list');
+            const layout = createLayout(root);
+
+            const details = {
+                5R: {
+                    theme: '#38bdf8',
+                    tag: '5R',
+                    title: 'Budaya Area Rapi',
+                    body: 'Fokus pada area yang rapih, bersih, dan teratur. Setiap temuan dicatat secara cepat agar area kerja selalu siap operasi.',
+                    items: [
+                        'Inspeksi visual area kerja untuk menjaga kebersihan.',
+                        'Sistem laporan cepat untuk temuan rapi.',
+                        'Tindak lanjut terjadwal untuk area prioritas.'
+                    ]
+                },
+                7S: {
+                    theme: '#f43f5e',
+                    tag: '7S',
+                    title: 'Budaya Teratur',
+                    body: 'Menciptakan disiplin dan tata kelola kerja yang konsisten melalui monitoring dan laporan terstruktur.',
+                    items: [
+                        'Standarisasi kebersihan dan kerapian area.',
+                        'Pencatatan temuan secara rutin.',
+                        'Evaluasi budaya kerja berdasarkan 7S.'
+                    ]
+                },
+                K3: {
+                    theme: '#10b981',
+                    tag: 'K3',
+                    title: 'Keamanan Kerja',
+                    body: 'Menangani risiko kerja dengan laporan K3 terstruktur, memastikan perlindungan tim lapangan dan pencegahan insiden.',
+                    items: [
+                        'Identifikasi bahaya potensial secara proaktif.',
+                        'Koordinasi tindakan keselamatan lapangan.',
+                        'Pelaporan cepat untuk pencegahan insiden.'
+                    ]
+                }
+            };
+
+            animate('.box-item', {
+                rotate: () => utils.random(-10, 10),
+                y: [0, -15],
+                direction: 'alternate',
+                loop: true,
+                duration: () => utils.random(1500, 2500),
+                easing: 'easeInOutSine'
+            });
+
+            boxes.forEach((box) => {
+                box.addEventListener('click', () => {
+                    const selected = details[box.dataset.layoutId];
+                    if (!selected) return;
+
+                    layout.update(() => {
+                        root.style.gridTemplateColumns = '180px 1fr';
+                        boxesWrapper.classList.remove('flex-wrap', 'justify-center');
+                        boxesWrapper.classList.add('flex-col', 'justify-start');
+                        boxesWrapper.style.alignItems = 'stretch';
+                        contentArea.style.display = 'block';
+                    });
+
+                    contentTag.textContent = selected.tag;
+                    contentTitle.textContent = selected.title;
+                    contentBody.textContent = selected.body;
+                    contentList.innerHTML = selected.items
+                        .map(item => `<div class="rounded-3xl border border-white/10 bg-white/5 p-4 text-slate-200">${item}</div>`)
+                        .join('');
+
+                    animate(box, {
+                        scale: 1.05,
+                        boxShadow: '0 0 0 2px rgba(255,255,255,0.35)',
+                        duration: 320,
+                        easing: 'easeOutExpo'
+                    });
+
+                    animate('.box-item', {
+                        scale: (el) => (el === box ? 1.02 : 0.88),
+                        opacity: (el) => (el === box ? 1 : 0.45),
+                        borderColor: (el) => (el === box ? 'rgba(255,255,255,0.45)' : 'rgba(255,255,255,0.12)'),
+                        duration: 450,
+                        easing: 'easeOutQuad'
+                    });
+
+                    animate(contentArea, {
+                        opacity: [0, 1],
+                        x: [30, 0],
+                        duration: 700,
+                        easing: 'easeOutQuart'
+                    });
+                });
+            });
+        </script>
+
+        <section id="hero3" class="relative border-t border-slate-800 bg-slate-900 px-4 py-24 text-slate-100">
+            <div class="container mx-auto grid gap-10 lg:grid-cols-[0.95fr_1.05fr] items-start">
+                <div class="space-y-6">
+                    <p class="text-sm uppercase tracking-[0.4em] text-cyan-300">Workflow Interaktif</p>
+                    <h2 class="text-4xl font-black">Modal detail meledak dari setiap langkah</h2>
+                    <p class="max-w-xl text-slate-400">Ketika Anda klik tiap blok, sistem menampilkan alur kerja lengkap dengan detail yang muncul sebagai modal detail.</p>
+                    <div class="grid gap-4 sm:grid-cols-3">
+                        <button class="hero3-card rounded-[1.75rem] border border-slate-800 bg-slate-950/90 p-8 text-left transition" data-target="workflow-1">
+                            <p class="text-sm uppercase tracking-[0.28em] text-cyan-300">Langkah 1</p>
+                            <h3 class="mt-4 text-xl font-semibold">Pengamatan</h3>
+                        </button>
+                        <button class="hero3-card rounded-[1.75rem] border border-slate-800 bg-slate-950/90 p-8 text-left transition" data-target="workflow-2">
+                            <p class="text-sm uppercase tracking-[0.28em] text-rose-300">Langkah 2</p>
+                            <h3 class="mt-4 text-xl font-semibold">Verifikasi</h3>
+                        </button>
+                        <button class="hero3-card rounded-[1.75rem] border border-slate-800 bg-slate-950/90 p-8 text-left transition" data-target="workflow-3">
+                            <p class="text-sm uppercase tracking-[0.28em] text-emerald-300">Langkah 3</p>
+                            <h3 class="mt-4 text-xl font-semibold">Eksekusi</h3>
+                        </button>
+                    </div>
+                </div>
+                <div class="relative rounded-[2rem] border border-slate-800 bg-slate-950/90 p-8 shadow-2xl shadow-slate-950/40">
+                    <svg id="hero3-line" class="pointer-events-none absolute inset-0 h-full w-full opacity-40" viewBox="0 0 560 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M28 320 C180 240, 320 80, 532 60" stroke="url(#line-gradient)" stroke-width="3" stroke-linecap="round" />
+                        <defs>
+                            <linearGradient id="line-gradient" x1="0" y1="0" x2="560" y2="0" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#0ea5e9" />
+                                <stop offset="1" stop-color="#34d399" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <div class="relative space-y-4">
+                        <div class="rounded-[1.75rem] border border-slate-800 bg-slate-950/90 p-6">
+                            <p class="text-sm uppercase tracking-[0.3em] text-slate-400">Visualisasi Alur</p>
+                            <h3 class="mt-4 text-3xl font-bold text-white">Workflow dalam Satu Tampilan</h3>
+                            <p class="mt-4 text-slate-400">Klik salah satu kartu untuk memperluas pembahasan dan melihat data terperinci dalam modal detail.</p>
+                        </div>
+                        <div class="grid gap-4 md:grid-cols-2">
+                            <div class="rounded-[1.75rem] border border-slate-800 bg-slate-950/90 p-6">
+                                <p class="text-sm uppercase tracking-[0.25em] text-cyan-300">Status</p>
+                                <h4 class="mt-3 text-xl font-semibold text-white">Dashboard real-time</h4>
+                            </div>
+                            <div class="rounded-[1.75rem] border border-slate-800 bg-slate-950/90 p-6">
+                                <p class="text-sm uppercase tracking-[0.25em] text-emerald-300">Integrasi</p>
+                                <h4 class="mt-3 text-xl font-semibold text-white">Laporan, tindak lanjut, dan penilaian</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="hero4" class="border-t border-slate-800 bg-slate-950 px-4 py-24 text-slate-100">
+            <div class="container mx-auto">
+                <div class="mb-12 text-center">
+                    <p class="text-sm uppercase tracking-[0.4em] text-cyan-300">Leaderboard Dinamis</p>
+                    <h2 class="mt-4 text-4xl font-black">Kinerja Pelapor Berbasis Poin</h2>
+                    <p class="mx-auto mt-4 max-w-2xl text-slate-400">Leaderboard muncul dengan efek stagger pada baris, menunjukkan kontributor terbaik dalam sistem.</p>
+                </div>
+                <div class="overflow-hidden rounded-[2rem] border border-slate-800 bg-slate-900/95 p-6 shadow-2xl shadow-slate-950/40">
+                    <table class="w-full text-left text-sm text-slate-300">
+                        <thead>
+                            <tr class="border-b border-slate-800 text-slate-500">
+                                <th class="py-4">Rank</th>
+                                <th>Nama</th>
+                                <th>Tipe</th>
+                                <th class="text-right">Total Poin</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($topUsers as $index => $user)
+                            @php
+                                $displayName = ($user->role === 'reporter' && !$user->show_name_on_landing) ? 'Anonim' : $user->full_name;
+                            @endphp
+                            <tr class="border-b border-slate-800 opacity-0 transform translate-y-6">
+                                <td class="py-4 font-semibold text-white">#{{ $index + 1 }}</td>
+                                <td class="py-4">{{ $displayName }}</td>
+                                <td class="py-4 text-slate-400">{{ ucfirst($user->user_type) }}</td>
+                                <td class="py-4 text-right font-semibold text-cyan-300">{{ number_format($user->total_points) }}</td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="4" class="py-12 text-center text-slate-500">Data leaderboard belum tersedia.</td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+@push('styles')
+<style>
+    #landingNav { transition: box-shadow 0.25s ease; }
+    .btn-animate { transform: scale(1); transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .slider-card { min-height: 420px; }
+    .slider-card::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(15,23,42,0.12), rgba(15,23,42,0.8));
+        pointer-events: none;
+    }
+    .slider-card::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(34,211,238,0.18), transparent 40%);
+        pointer-events: none;
+        mix-blend-mode: screen;
+    }
+    .slider-container { box-shadow: 0 40px 90px rgba(34, 211, 238, 0.16); }
+    .slider-content { position: relative; z-index: 2; }
+    .slider-nav { transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease; }
+    .slider-nav:hover { transform: translateY(-1px); }
+    .exploration-wrapper { display: flex; justify-content: center; gap: 2rem; min-height: 400px; align-items: center; flex-wrap: wrap; }
+    .sidebar-mode { display: flex; flex-direction: column; width: 150px; gap: 1rem; justify-content: flex-start; align-items: stretch; }
+    .hero2-explore-card { width: 250px; height: 300px; overflow: hidden; }
+    .hero2-box-inner { pointer-events: none; }
+    .hero1-slide { transition: opacity 0.5s ease, transform 0.5s ease; }
+    .hero1-slide-active { opacity: 1; transform: translateX(0); }
+    .hero1-slide.hidden { opacity: 0; visibility: hidden; transform: translateX(-10%); }
+    .hero2-box:hover { transform: translateY(-6px); }
+    .hero2-nav-item.active { background: rgba(56, 189, 248, 0.18); border-color: rgba(56, 189, 248, 0.35); color: #ffffff !important; }
+    .hero2-panel { transition: opacity 0.4s ease, transform 0.4s ease; }
+    .hero2-panel.hidden { position: absolute; inset: 0; opacity: 0; pointer-events: none; transform: translateX(12%); }
+    .hero3-card:hover { transform: translateY(-8px); }
+    .hero3-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .modal-overlay { background: rgba(0, 0, 0, 0.65); }
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+</style>
+@endpush
 @endsection

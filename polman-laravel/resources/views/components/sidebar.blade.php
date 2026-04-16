@@ -35,8 +35,8 @@
         </a>
     </div>
 
-    {{-- Manager Menu --}}
-    @if(Auth::user()->isManagerOrAbove())
+    {{-- Management Menu --}}
+    @if(Auth::user()->isPjArea() || Auth::user()->isAdmin())
     <div class="sidebar-section">
         <div class="sidebar-label">Manajemen</div>
         <a href="{{ route('reports.review') }}" class="sidebar-link {{ request()->routeIs('reports.review') ? 'active' : '' }}">
@@ -46,6 +46,24 @@
         <a href="{{ route('followups.index') }}" class="sidebar-link {{ request()->routeIs('followups.*') ? 'active' : '' }}">
             <i data-lucide="list-checks" style="width:20px;height:20px;"></i>
             Tindak Lanjut
+        </a>
+        <a href="{{ route('warnings.index') }}" class="sidebar-link {{ request()->routeIs('warnings.*') ? 'active' : '' }}">
+            <i data-lucide="alert-circle" style="width:20px;height:20px;"></i>
+            Kelola Peringatan
+        </a>
+    </div>
+    @endif
+
+    @if(Auth::user()->isPjAreaOrAbove())
+    <div class="sidebar-section">
+        <div class="sidebar-label">Audit</div>
+        <a href="{{ route('audits.index') }}" class="sidebar-link {{ request()->routeIs('audits.index') ? 'active' : '' }}">
+            <i data-lucide="search-check" style="width:20px;height:20px;"></i>
+            Audit PJ Area
+        </a>
+        <a href="{{ route('logs.history') }}" class="sidebar-link {{ request()->routeIs('logs.history') ? 'active' : '' }}">
+            <i data-lucide="clock-history" style="width:20px;height:20px;"></i>
+            Riwayat Log
         </a>
     </div>
     @endif
@@ -66,6 +84,7 @@
             <i data-lucide="gift" style="width:20px;height:20px;"></i>
             Periode Reward
         </a>
+
     </div>
     @endif
 </aside>

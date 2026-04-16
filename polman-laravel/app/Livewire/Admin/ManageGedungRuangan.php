@@ -2,115 +2,246 @@
 
 namespace App\Livewire\Admin;
 
-use App\Models\Gedung;
+use App\Models\Location;
 use App\Models\Report;
-use App\Models\Ruangan;
 use App\Models\User;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 
 class ManageGedungRuangan extends Component
 {
-    // Gedung form
-    public bool $showGedungForm = false;
-    public ?int $editGedungId = null;
-    public string $gKode = '';
-    public string $gNama = '';
-    public string $gNamaEn = '';
+    public bool $showForm = false;
+    public ?int $editLocationId = null;
+    public string $lParentId = '';
+    public string $lType = '';
+    public string $lCode = '';
+    public string $lName = '';
+    public string $lCategory = '';
 
-    // Ruangan form
-    public bool $showRuanganForm = false;
-    public ?int $editRuanganId = null;
-    public string $rGedungId = '';
-    public string $rKode = '';
-    public string $rNama = '';
-    public string $rJenjang = 'D3';
-
-    // Message handling
     public ?string $message = null;
     public ?string $messageType = null;
 
-    // ─── Gedung ─────────────────────────────────
+    public ?int $activeAddParentId = null;
+    public string $activeAddType = '';
+    public string $addName = '';
+    public string $addCode = '';
 
-    public function openGedungForm(?int $id = null): void
+    public function openForm(?int $id = null): void
     {
         if ($id) {
-            $g = Gedung::findOrFail($id);
-            $this->editGedungId = $g->id;
-            $this->gKode = $g->kode;
-            $this->gNama = $g->nama;
-            $this->gNamaEn = $g->nama_en ?? '';
+            $location = Location::findOrFail($id);
+            $this->editLocationId = $location->id;
+            $this->lParentId = (string) $location->parent_id;
+            $this->lType = $location->type;
+            $this->lCode = $location->code ?? '';
+            $this->lName = $location->name;
+            $this->lCategory = $location->category ?? '';
         } else {
-            $this->resetGedungForm();
+            $this->resetForm();
+            $this->lType = 'campus';
+            $this->lCategory = 'Kampus';
         }
-        $this->showGedungForm = true;
+
+        $this->showForm = true;
     }
 
-    public function resetGedungForm(): void
+    public function openChildForm(int $parentId, string $type = ''): void
     {
-        $this->editGedungId = null;
-        $this->gKode = '';
-        $this->gNama = '';
-        $this->gNamaEn = '';
+        $this->showForm = false;
+        $this->activeAddParentId = $parentId;
+        $this->activeAddType = $type;
+        $this->addName = '';
+        $this->addCode = '';
     }
 
-    public function closeGedungForm(): void
+    public function cancelAddChild(): void
     {
-        $this->showGedungForm = false;
-        $this->resetGedungForm();
+        $this->activeAddParentId = null;
+        $this->activeAddType = '';
+        $this->addName = '';
+        $this->addCode = '';
     }
 
-    public function saveGedung(): void
+    public function submitAddChild(): void
     {
-        $this->validate([
-            'gKode' => ['required', 'string', 'max:10', Rule::unique('gedungs', 'kode')->ignore($this->editGedungId)],
-            'gNama' => ['required', 'string', 'max:150'],
-            'gNamaEn' => ['nullable', 'string', 'max:150'],
-        ]);
+        $rules = [
+            'addName' => ['required', 'string', 'max:150'],
+            'addCode' => ['nullable', 'string', 'max:20'],
+            'activeAddType' => ['required', Rule::in(['gedung', 'infrastruktur', 'lantai', 'ruangan', 'area'])],
+        ];
 
-        $isEdit = (bool) $this->editGedungId;
-
-        Gedung::updateOrCreate(
-            ['id' => $this->editGedungId],
-            [
-                'kode' => strtoupper($this->gKode),
-                'nama' => $this->gNama,
-                'nama_en' => $this->gNamaEn ?: null,
-            ]
-        );
-
-        $this->closeGedungForm();
-        $this->message = $isEdit ? 'Gedung diperbarui.' : 'Gedung ditambahkan.';
-        $this->messageType = 'success';
-    }
-
-    public function toggleGedung(int $id): void
-    {
-        $g = Gedung::findOrFail($id);
-        $g->update(['is_active' => !$g->is_active]);
-    }
-
-    public function deleteGedung(int $id): void
-    {
-        $g = Gedung::findOrFail($id);
-
-        // Check if gedung has ruangans
-        if ($g->ruangans()->count() > 0) {
-            $this->message = 'Tidak dapat menghapus gedung yang memiliki ruangan. Hapus ruangan terlebih dahulu.';
+        if (! $this->activeAddParentId) {
+            $this->message = 'Induk lokasi tidak valid.';
             $this->messageType = 'error';
             return;
         }
 
-        // Check if gedung is used by any users
-        if (User::where('gedung_id', $id)->count() > 0) {
-            $this->message = 'Tidak dapat menghapus gedung yang sudah diassign ke user. Ubah assignment terlebih dahulu.';
+        $this->validate($rules);
+
+        $parent = Location::find($this->activeAddParentId);
+        if (! $parent) {
+            $this->message = 'Induk lokasi tidak ditemukan.';
+            $this->messageType = 'error';
+            return;
+        }
+
+        if (in_array($this->activeAddType, ['gedung', 'infrastruktur'], true) && $parent->type !== 'campus') {
+            $this->message = 'Induk lokasi untuk Gedung/Infrastruktur harus berupa Kampus.';
+            $this->messageType = 'error';
+            return;
+        }
+
+        if ($this->activeAddType === 'lantai' && $parent->type !== 'gedung') {
+            $this->message = 'Induk lokasi untuk Lantai harus berupa Gedung.';
+            $this->messageType = 'error';
+            return;
+        }
+
+        if (in_array($this->activeAddType, ['ruangan', 'area'], true) && $parent->type !== 'lantai') {
+            $this->message = 'Induk lokasi untuk Ruangan/Area harus berupa Lantai.';
+            $this->messageType = 'error';
+            return;
+        }
+
+        $category = match ($this->activeAddType) {
+            'gedung' => 'Gedung',
+            'infrastruktur' => 'Infrastruktur Umum',
+            'ruangan' => 'Ruangan',
+            'area' => 'Area Lainnya',
+            default => null,
+        };
+
+        Location::create([
+            'parent_id' => $parent->id,
+            'code' => $this->addCode ? strtoupper($this->addCode) : null,
+            'name' => $this->addName,
+            'type' => $this->activeAddType,
+            'category' => $category,
+            'is_active' => true,
+        ]);
+
+        $this->message = 'Sub-lokasi berhasil ditambahkan.';
+        $this->messageType = 'success';
+        $this->cancelAddChild();
+    }
+
+    public function resetForm(): void
+    {
+        $this->editLocationId = null;
+        $this->lParentId = '';
+        $this->lType = 'campus';
+        $this->lCode = '';
+        $this->lName = '';
+        $this->lCategory = 'Kampus';
+    }
+
+    public function closeForm(): void
+    {
+        $this->showForm = false;
+        $this->resetForm();
+    }
+
+    public function updatedLType(): void
+    {
+        $this->lParentId = '';
+    }
+
+    public function saveLocation(): void
+    {
+        $rules = [
+            'lType' => ['required', Rule::in(['campus', 'gedung', 'infrastruktur', 'lantai', 'ruangan', 'area'])],
+            'lName' => ['required', 'string', 'max:150'],
+            'lCode' => ['nullable', 'string', 'max:20'],
+            'lParentId' => $this->lType === 'campus' ? 'nullable' : ['required', 'exists:locations,id'],
+        ];
+
+        $this->validate($rules);
+
+        if ($this->lType === 'gedung' || $this->lType === 'infrastruktur') {
+            $parent = Location::find($this->lParentId);
+            if (! $parent || $parent->type !== 'campus') {
+                $this->message = 'Induk lokasi untuk Gedung/Infrastruktur harus berupa Kampus.';
+                $this->messageType = 'error';
+                return;
+            }
+        }
+
+        if ($this->lType === 'lantai') {
+            $parent = Location::find($this->lParentId);
+            if (! $parent || $parent->type !== 'gedung') {
+                $this->message = 'Induk lokasi untuk Lantai harus berupa Gedung.';
+                $this->messageType = 'error';
+                return;
+            }
+        }
+
+        if (in_array($this->lType, ['ruangan', 'area'], true)) {
+            $parent = Location::find($this->lParentId);
+            if (! $parent || $parent->type !== 'lantai') {
+                $this->message = 'Induk lokasi untuk Ruangan/Area harus berupa Lantai.';
+                $this->messageType = 'error';
+                return;
+            }
+        }
+
+        $category = match ($this->lType) {
+            'gedung' => 'Gedung',
+            'infrastruktur' => 'Infrastruktur Umum',
+            'ruangan' => 'Ruangan',
+            'area' => 'Area Lainnya',
+            default => null,
+        };
+
+        $isEdit = (bool) $this->editLocationId;
+
+        Location::updateOrCreate(
+            ['id' => $this->editLocationId],
+            [
+                'parent_id' => $this->lParentId ?: null,
+                'code' => $this->lCode ? strtoupper($this->lCode) : null,
+                'name' => $this->lName,
+                'type' => $this->lType,
+                'category' => $category,
+            ]
+        );
+
+        $this->closeForm();
+        $this->message = $isEdit ? 'Lokasi diperbarui.' : 'Lokasi ditambahkan.';
+        $this->messageType = 'success';
+    }
+
+    public function toggleLocation(int $id): void
+    {
+        $location = Location::findOrFail($id);
+        $location->update(['is_active' => ! $location->is_active]);
+    }
+
+    protected function gatherDescendantIds(Location $location): array
+    {
+        $ids = [];
+
+        foreach ($location->children as $child) {
+            $ids[] = $child->id;
+            $ids = array_merge($ids, $this->gatherDescendantIds($child));
+        }
+
+        return $ids;
+    }
+
+    public function deleteLocation(int $id): void
+    {
+        $location = Location::with('children')->findOrFail($id);
+        $locationIds = array_merge([$location->id], $this->gatherDescendantIds($location));
+
+        if (Report::whereIn('location_id', $locationIds)->count() > 0) {
+            $this->message = 'Tidak dapat menghapus lokasi yang atau sub-lokasinya sudah digunakan dalam laporan. Hapus atau edit laporan terlebih dahulu.';
             $this->messageType = 'error';
             return;
         }
 
         try {
-            $g->delete();
-            $this->message = 'Gedung berhasil dihapus.';
+            Location::destroy($locationIds);
+            $this->message = 'Lokasi dan seluruh sub-lokasinya berhasil dihapus.';
             $this->messageType = 'success';
         } catch (\Exception $e) {
             $this->message = 'Terjadi kesalahan: ' . $e->getMessage();
@@ -118,107 +249,31 @@ class ManageGedungRuangan extends Component
         }
     }
 
-    // ─── Ruangan ───────────────────────────────
-
-    public function openRuanganForm(?int $id = null): void
+    public function getParentOptionsProperty()
     {
-        if ($id) {
-            $r = Ruangan::findOrFail($id);
-            $this->editRuanganId = $r->id;
-            $this->rGedungId = (string) $r->gedung_id;
-            $this->rKode = $r->kode;
-            $this->rNama = $r->nama;
-            $this->rJenjang = $r->jenjang;
-        } else {
-            $this->resetRuanganForm();
-        }
-        $this->showRuanganForm = true;
+        return match ($this->lType) {
+            'gedung', 'infrastruktur' => Location::type('campus')->active()->orderBy('name')->get(),
+            'lantai' => Location::type('gedung')->active()->orderBy('name')->get(),
+            'ruangan', 'area' => Location::type('lantai')->active()->orderBy('name')->get(),
+            default => collect(),
+        };
     }
 
-    public function resetRuanganForm(): void
+    public function getLocationsProperty()
     {
-        $this->editRuanganId = null;
-        $this->rGedungId = '';
-        $this->rKode = '';
-        $this->rNama = '';
-        $this->rJenjang = 'D3';
+        return Location::with(['children.children.children'])
+            ->whereNull('parent_id')
+            ->orderBy('name')
+            ->get();
     }
-
-    public function closeRuanganForm(): void
-    {
-        $this->showRuanganForm = false;
-        $this->resetRuanganForm();
-    }
-
-    public function saveRuangan(): void
-    {
-        $this->validate([
-            'rGedungId' => ['required', 'exists:gedungs,id'],
-            'rKode' => ['required', 'string', 'max:10', Rule::unique('ruangans', 'kode')->ignore($this->editRuanganId)],
-            'rNama' => ['required', 'string', 'max:150'],
-            'rJenjang' => ['required', 'in:D1,D2,D3,D4,S1,S2'],
-        ]);
-
-        $isEdit = (bool) $this->editRuanganId;
-
-        Ruangan::updateOrCreate(
-            ['id' => $this->editRuanganId],
-            [
-                'gedung_id' => $this->rGedungId,
-                'kode' => strtoupper($this->rKode),
-                'nama' => $this->rNama,
-                'jenjang' => $this->rJenjang,
-            ]
-        );
-
-        $this->closeRuanganForm();
-        $this->message = $isEdit ? 'Ruangan diperbarui.' : 'Ruangan ditambahkan.';
-        $this->messageType = 'success';
-    }
-
-    public function toggleRuangan(int $id): void
-    {
-        $r = Ruangan::findOrFail($id);
-        $r->update(['is_active' => !$r->is_active]);
-    }
-
-    public function deleteRuangan(int $id): void
-    {
-        $r = Ruangan::findOrFail($id);
-
-        // Check if ruangan is used by any users
-        if (User::where('ruangan', $r->kode)->count() > 0) {
-            $this->message = 'Tidak dapat menghapus ruangan yang sudah digunakan user. Ubah data user terlebih dahulu.';
-            $this->messageType = 'error';
-            return;
-        }
-
-        // Check if ruangan is used in any reports
-        if (Report::whereRaw('lokasi LIKE ?', ['%' . $r->kode . '%'])->count() > 0) {
-            $this->message = 'Tidak dapat menghapus ruangan yang sudah digunakan dalam laporan. Hapus atau edit laporan terlebih dahulu.';
-            $this->messageType = 'error';
-            return;
-        }
-
-        try {
-            $r->delete();
-            $this->message = 'Ruangan berhasil dihapus.';
-            $this->messageType = 'success';
-        } catch (\Exception $e) {
-            $this->message = 'Terjadi kesalahan: ' . $e->getMessage();
-            $this->messageType = 'error';
-        }
-    }
-
-    // ─── Render ──────────────────────────────────────
 
     public function render()
     {
-        $gedungs = Gedung::with('ruangans')->withCount('ruangans')->orderBy('nama')->get();
-        $allGedungs = Gedung::active()->orderBy('nama')->get();
-
-        return view('livewire.admin.manage-gedung-ruangan', compact('gedungs', 'allGedungs'))
+        return view('livewire.admin.manage-gedung-ruangan', [
+            'locations' => $this->locations,
+            'parentOptions' => $this->parentOptions,
+        ])
             ->layout('layouts.app')
-            ->title('Kelola Gedung & Ruangan');
+            ->title('Kelola Lokasi');
     }
 }

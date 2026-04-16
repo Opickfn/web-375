@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Gedung;
-use App\Models\Ruangan;
+use App\Models\Location;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -12,55 +12,130 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // ─── Gedung & Ruangan ────────────────────────────
+        // ─── Lokasi Hirarki Kampus ─────────────────────────
 
-        $gedung1 = Gedung::create([
+        $kampus = Location::create([
+            'code' => 'KP1',
+            'name' => 'Kampus Politeknik Negeri Malang',
+            'type' => 'campus',
+        ]);
+
+        $gedungUtama = Location::create([
+            'parent_id' => $kampus->id,
+            'code' => 'G1',
+            'name' => 'Gedung Utama',
+            'type' => 'gedung',
+            'category' => 'Gedung',
+        ]);
+
+        $gedungUtamaGedung = Gedung::create([
             'kode' => 'G1',
             'nama' => 'Gedung Utama',
             'nama_en' => 'Main Building',
-        ]);
-        Ruangan::insert([
-            ['gedung_id' => $gedung1->id, 'kode' => 'R101', 'nama' => 'Ruang Kelas A', 'jenjang' => 'D3', 'created_at' => now(), 'updated_at' => now()],
-            ['gedung_id' => $gedung1->id, 'kode' => 'R102', 'nama' => 'Ruang Kelas B', 'jenjang' => 'D3', 'created_at' => now(), 'updated_at' => now()],
-            ['gedung_id' => $gedung1->id, 'kode' => 'R201', 'nama' => 'Lab Mesin', 'jenjang' => 'D4', 'created_at' => now(), 'updated_at' => now()],
+            'is_active' => true,
         ]);
 
-        $gedung2 = Gedung::create([
+        $lantai1 = Location::create([
+            'parent_id' => $gedungUtama->id,
+            'code' => 'L1',
+            'name' => 'Lantai 1',
+            'type' => 'lantai',
+        ]);
+        Location::create([
+            'parent_id' => $lantai1->id,
+            'code' => 'R101',
+            'name' => 'Ruang Kelas A',
+            'type' => 'ruangan',
+            'category' => 'Ruangan',
+        ]);
+        Location::create([
+            'parent_id' => $lantai1->id,
+            'code' => 'R102',
+            'name' => 'Ruang Kelas B',
+            'type' => 'ruangan',
+            'category' => 'Ruangan',
+        ]);
+        Location::create([
+            'parent_id' => $lantai1->id,
+            'name' => 'Area Sirkulasi Utama',
+            'type' => 'area',
+            'category' => 'Area Lainnya',
+        ]);
+
+        $lantai2 = Location::create([
+            'parent_id' => $gedungUtama->id,
+            'code' => 'L2',
+            'name' => 'Lantai 2',
+            'type' => 'lantai',
+        ]);
+        Location::create([
+            'parent_id' => $lantai2->id,
+            'code' => 'R201',
+            'name' => 'Lab Mesin',
+            'type' => 'ruangan',
+            'category' => 'Ruangan',
+        ]);
+
+        $gedungBengkel = Location::create([
+            'parent_id' => $kampus->id,
+            'code' => 'G2',
+            'name' => 'Gedung Bengkel',
+            'type' => 'gedung',
+            'category' => 'Gedung',
+        ]);
+
+        $gedungBengkelGedung = Gedung::create([
             'kode' => 'G2',
             'nama' => 'Gedung Bengkel',
             'nama_en' => 'Workshop Building',
-        ]);
-        Ruangan::insert([
-            ['gedung_id' => $gedung2->id, 'kode' => 'B001', 'nama' => 'Bengkel Mesin', 'jenjang' => 'D3', 'created_at' => now(), 'updated_at' => now()],
-            ['gedung_id' => $gedung2->id, 'kode' => 'B002', 'nama' => 'Bengkel Otomasi', 'jenjang' => 'D3', 'created_at' => now(), 'updated_at' => now()],
-            ['gedung_id' => $gedung2->id, 'kode' => 'B101', 'nama' => 'Lab CNC', 'jenjang' => 'D4', 'created_at' => now(), 'updated_at' => now()],
+            'is_active' => true,
         ]);
 
-        $gedung3 = Gedung::create([
-            'kode' => 'G3',
-            'nama' => 'Gedung Administrasi',
-            'nama_en' => 'Administration Building',
+        $lantaiBengkel = Location::create([
+            'parent_id' => $gedungBengkel->id,
+            'code' => 'L1',
+            'name' => 'Lantai 1',
+            'type' => 'lantai',
         ]);
-        Ruangan::insert([
-            ['gedung_id' => $gedung3->id, 'kode' => 'A101', 'nama' => 'Kantor Rektorat', 'jenjang' => 'D3', 'created_at' => now(), 'updated_at' => now()],
-            ['gedung_id' => $gedung3->id, 'kode' => 'A102', 'nama' => 'Ruang Meeting', 'jenjang' => 'D3', 'created_at' => now(), 'updated_at' => now()],
-            ['gedung_id' => $gedung3->id, 'kode' => 'A201', 'nama' => 'Library', 'jenjang' => 'D4', 'created_at' => now(), 'updated_at' => now()],
+        $bengkelMesin = Location::create([
+            'parent_id' => $lantaiBengkel->id,
+            'code' => 'B001',
+            'name' => 'Bengkel Mesin',
+            'type' => 'ruangan',
+            'category' => 'Ruangan',
+        ]);
+        $bengkelOtomasi = Location::create([
+            'parent_id' => $lantaiBengkel->id,
+            'code' => 'B002',
+            'name' => 'Bengkel Otomasi',
+            'type' => 'ruangan',
+            'category' => 'Ruangan',
         ]);
 
-        $gedung4 = Gedung::create([
-            'kode' => 'G4',
-            'nama' => 'Gedung Perancangan',
-            'nama_en' => 'Design Building',
+        $jalanUtama = Location::create([
+            'parent_id' => $kampus->id,
+            'code' => 'INF01',
+            'name' => 'Jalan Utama',
+            'type' => 'infrastruktur',
+            'category' => 'Infrastruktur Umum',
         ]);
-        Ruangan::insert([
-            ['gedung_id' => $gedung4->id, 'kode' => 'D101', 'nama' => 'Studio Desain', 'jenjang' => 'D3', 'created_at' => now(), 'updated_at' => now()],
-            ['gedung_id' => $gedung4->id, 'kode' => 'D102', 'nama' => 'Lab CAD', 'jenjang' => 'D3', 'created_at' => now(), 'updated_at' => now()],
-            ['gedung_id' => $gedung4->id, 'kode' => 'D201', 'nama' => 'Lab Simulasi', 'jenjang' => 'D4', 'created_at' => now(), 'updated_at' => now()],
+        $kantin = Location::create([
+            'parent_id' => $kampus->id,
+            'code' => 'INF02',
+            'name' => 'Kantin Polman',
+            'type' => 'infrastruktur',
+            'category' => 'Infrastruktur Umum',
+        ]);
+        $masjid = Location::create([
+            'parent_id' => $kampus->id,
+            'code' => 'INF03',
+            'name' => 'Masjid Kampus',
+            'type' => 'infrastruktur',
+            'category' => 'Infrastruktur Umum',
         ]);
 
         // ─── Users ──────────────────────────────────────
 
-        // Admin (Manajer Puncak)
         User::create([
             'full_name' => 'Admin Polman',
             'email' => 'admin@polman.ac.id',
@@ -69,18 +144,39 @@ class DatabaseSeeder extends Seeder
             'user_type' => 'umum',
         ]);
 
-        // Manager (Kepala Manajemen) - Assign ke Gedung 2
-        User::create([
-            'full_name' => 'Dr. Budi Santoso, M.T.',
-            'email' => 'manager@polman.ac.id',
+        $pimpinan = User::create([
+            'full_name' => 'Ir. Siti Hasnah, M.Eng.',
+            'email' => 'pimpinan@polman.ac.id',
             'password' => Hash::make('password'),
-            'role' => 'manager',
+            'role' => 'pimpinan',
             'user_type' => 'dosen',
-            'nomor_dosen' => '0028107501',
-            'jabatan' => 'Kepala K3 & Lingkungan',
+            'nomor_dosen' => '0012093405',
+            'jabatan' => 'Wakil Direktur Bidang Kemahasiswaan',
         ]);
+        $pimpinan->assignedLocations()->sync([$gedungUtama->id, $gedungBengkel->id]);
 
-        // Reporter - Mahasiswa 1
+        $spmi = User::create([
+            'full_name' => 'Dr. Rendra Fadhil, S.T.',
+            'email' => 'spmi@polman.ac.id',
+            'password' => Hash::make('password'),
+            'role' => 'spmi',
+            'user_type' => 'dosen',
+            'nomor_dosen' => '0011072207',
+            'jabatan' => 'Auditor Internal SPMI',
+        ]);
+        $spmi->assignedLocations()->sync([$masjid->id, $jalanUtama->id, $kantin->id]);
+
+        $pjArea = User::create([
+            'full_name' => 'Ir. Yanto Susanto',
+            'email' => 'pjarea@polman.ac.id',
+            'password' => Hash::make('password'),
+            'role' => 'pj_area',
+            'user_type' => 'dosen',
+            'nomor_dosen' => '0016045603',
+            'jabatan' => 'Penanggung Jawab Area',
+        ]);
+        $pjArea->assignedLocations()->sync([$gedungBengkel->id]);
+
         User::create([
             'full_name' => 'Andi Pratama',
             'email' => 'andi@polman.ac.id',
@@ -94,7 +190,6 @@ class DatabaseSeeder extends Seeder
             'tahun_angkatan' => '2022',
         ]);
 
-        // Reporter - Mahasiswa 2
         User::create([
             'full_name' => 'Sari Dewi',
             'email' => 'sari@polman.ac.id',
@@ -108,7 +203,6 @@ class DatabaseSeeder extends Seeder
             'tahun_angkatan' => '2022',
         ]);
 
-        // Reporter - Dosen
         User::create([
             'full_name' => 'Ir. Cahya Nugraha, M.Eng.',
             'email' => 'cahya@polman.ac.id',
@@ -119,7 +213,6 @@ class DatabaseSeeder extends Seeder
             'jabatan' => 'Lektor',
         ]);
 
-        // Reporter - Umum
         User::create([
             'full_name' => 'Rini Kurniawati',
             'email' => 'rini@polman.ac.id',

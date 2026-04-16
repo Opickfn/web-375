@@ -47,7 +47,7 @@
                         </div>
                         <div style="grid-column:1/-1;">
                             <p style="margin:0 0 4px 0;font-size:0.85rem;color:var(--text-muted);font-weight:500;">LOKASI</p>
-                            <p style="margin:0;color:var(--text-dark);">{{ $successReport->lokasi }}</p>
+                            <p style="margin:0;color:var(--text-dark);">{{ $successReport->location_breadcrumb }}</p>
                         </div>
                     </div>
                 </div>
@@ -88,28 +88,57 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Gedung</label>
-                    <select wire:model="gedung_id" class="form-select" wire:change="resetRuangan">
-                        <option value="">Pilih gedung</option>
-                        @foreach(\App\Models\Gedung::active()->orderBy('nama')->get() as $g)
-                            <option value="{{ $g->id }}">{{ $g->full_name }}</option>
+                    <label class="form-label">Kampus</label>
+                    <select wire:model="campus_id" wire:change="$refresh" class="form-select">
+                        <option value="">Pilih kampus</option>
+                        @foreach($campuses as $campus)
+                            <option value="{{ $campus->id }}">{{ $campus->name }}</option>
                         @endforeach
                     </select>
-                    @error('gedung_id') <p class="form-error">{{ $message }}</p> @enderror
+                    @error('campus_id') <p class="form-error">{{ $message }}</p> @enderror
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Ruangan</label>
-                    <select wire:model="ruangan_id" class="form-select">
-                        <option value="">Pilih ruangan</option>
-                        @if($gedung_id)
-                            @foreach(\App\Models\Ruangan::where('gedung_id', $gedung_id)->active()->orderBy('nama')->get() as $r)
-                                <option value="{{ $r->id }}">{{ $r->jenjang }} {{ $r->nama }}</option>
-                            @endforeach
-                        @endif
+                    <label class="form-label">Cabang Lokasi</label>
+                    <select id="reportBranchId" wire:key="report-branch-{{ $campus_id ?: 'none' }}" wire:model="branch_id" wire:change="$refresh" class="form-select" @disabled(!$campus_id)>
+                        <option value="">Pilih Gedung atau Infrastruktur</option>
+                        @foreach($branches as $branch)
+                            <option value="{{ $branch->id }}" data-type="{{ $branch->type }}">{{ ucfirst($branch->type) }} - {{ $branch->name }}</option>
+                        @endforeach
                     </select>
-                    @error('ruangan_id') <p class="form-error">{{ $message }}</p> @enderror
+                    @error('branch_id') <p class="form-error">{{ $message }}</p> @enderror
+                    @if($branchType === 'gedung')
+                        <p class="text-sm text-muted" style="margin-top:4px;">Pilih gedung terlebih dahulu, lalu lanjutkan ke lantai dan ruang.</p>
+                    @elseif($branchType === 'infrastruktur')
+                        <p class="text-sm text-muted" style="margin-top:4px;">Infrastruktur umum dipilih langsung sebagai lokasi akhir.</p>
+                    @endif
                 </div>
+
+                @if($branchType === 'gedung')
+                <div id="reportFloorGroup" class="form-group">
+                    <label class="form-label">Lantai</label>
+                    <select wire:model="floor_id" wire:change="$refresh" class="form-select">
+                        <option value="">Pilih lantai</option>
+                        @foreach($floors as $floor)
+                            <option value="{{ $floor->id }}">{{ $floor->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('floor_id') <p class="form-error">{{ $message }}</p> @enderror
+                </div>
+
+                @if($floor_id)
+                <div id="reportSpaceGroup" class="form-group">
+                    <label class="form-label">Ruang / Area</label>
+                    <select wire:model="space_id" class="form-select">
+                        <option value="">Pilih ruangan atau area</option>
+                        @foreach($spaces as $space)
+                            <option value="{{ $space->id }}">{{ ucfirst($space->type) }} - {{ $space->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('space_id') <p class="form-error">{{ $message }}</p> @enderror
+                </div>
+                @endif
+                @endif
 
                 <div class="form-group">
                     <label class="form-label">Detail Lokasi</label>
@@ -155,4 +184,5 @@
         </div>
     </div>
     @endif
+
 </div>

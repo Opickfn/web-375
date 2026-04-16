@@ -51,7 +51,7 @@
                         <tr>
                             <td class="font-medium">{{ $report->code }}</td>
                             <td><span class="badge badge-info">{{ $report->kategori }}</span></td>
-                            <td>{{ \Illuminate\Support\Str::limit($report->lokasi, 30) }}</td>
+                            <td>{{ \Illuminate\Support\Str::limit($report->location_breadcrumb, 40) }}</td>
                             <td>
                                 <span class="badge {{ $report->prioritas === 'tinggi' ? 'badge-danger' : ($report->prioritas === 'sedang' ? 'badge-warning' : 'badge-neutral') }}">
                                     {{ $report->prioritas_label }}

@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Profile;
 
-use App\Models\Gedung;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -21,6 +20,7 @@ class EditProfile extends Component
     public string $gedung = '';
     public string $ruangan = '';
     public string $tahun_angkatan = '';
+    public bool $show_name_on_landing = true;
 
     // Dosen
     public string $nomor_dosen = '';
@@ -37,6 +37,7 @@ class EditProfile extends Component
         $this->full_name = $user->full_name;
         $this->email = $user->email;
         $this->phone = $user->phone ?? '';
+        $this->show_name_on_landing = $user->show_name_on_landing ?? true;
 
         if ($user->isMahasiswa()) {
             $this->nim = $user->nim ?? '';
@@ -62,11 +63,15 @@ class EditProfile extends Component
             'phone'     => ['nullable', 'string', 'max:20'],
         ];
 
+        if ($user->role === 'reporter') {
+            $rules['show_name_on_landing'] = ['boolean'];
+        }
+
         if ($user->isMahasiswa()) {
             $rules['nim']            = ['required', 'string', 'max:20', Rule::unique('users', 'nim')->ignore($user->id)];
             $rules['kelas']          = ['required', 'string', 'max:20'];
-            $rules['gedung']         = ['required', 'string', 'max:150'];
-            $rules['ruangan']        = ['required', 'string', 'max:150'];
+            $rules['gedung']         = ['required', 'string', 'max:100'];
+            $rules['ruangan']        = ['required', 'string', 'max:100'];
             $rules['tahun_angkatan'] = ['required', 'string', 'size:4'];
         }
 
@@ -100,10 +105,15 @@ class EditProfile extends Component
             ];
         }
 
+        if ($user->role === 'reporter') {
+            $data['show_name_on_landing'] = $this->show_name_on_landing;
+        }
+
         $user->update($data);
 
         session()->flash('success', 'Profil berhasil diperbarui.');
     }
+
 
     public function updatePassword(): void
     {
@@ -130,9 +140,7 @@ class EditProfile extends Component
 
     public function render()
     {
-        $gedungs = Gedung::active()->orderBy('nama')->get();
-
-        return view('livewire.profile.edit-profile', compact('gedungs'))
+        return view('livewire.profile.edit-profile')
             ->layout('layouts.app')
             ->title('Profil Saya');
     }

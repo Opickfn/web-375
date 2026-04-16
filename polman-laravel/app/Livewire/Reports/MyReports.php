@@ -22,7 +22,7 @@ class MyReports extends Component
 
     public function render()
     {
-        $query = Report::where('reporter_id', Auth::id());
+        $query = Report::with('location')->where('reporter_id', Auth::id());
 
         if ($this->search) {
             $query->search($this->search);

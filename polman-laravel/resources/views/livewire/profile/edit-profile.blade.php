@@ -15,8 +15,8 @@
                     <h3 style="margin-top:16px;">{{ Auth::user()->full_name }}</h3>
                     <p class="text-sm text-muted" style="margin-top:4px;">{{ Auth::user()->email }}</p>
                     <div style="margin-top:12px;display:flex;justify-content:center;gap:8px;">
-                        <span class="badge {{ match(Auth::user()->role) { 'admin' => 'badge-danger', 'manager' => 'badge-warning', default => 'badge-primary' } }}">
-                            {{ ucfirst(Auth::user()->role) }}
+                        <span class="badge {{ match(Auth::user()->role) { 'admin' => 'badge-danger', 'pj_area' => 'badge-warning', default => 'badge-primary' } }}">
+                            {{ Auth::user()->role === 'pj_area' ? 'PJ Area' : ucfirst(Auth::user()->role) }}
                         </span>
                         <span class="badge {{ match(Auth::user()->user_type) { 'mahasiswa' => 'badge-info', 'dosen' => 'badge-warning', default => 'badge-neutral' } }}">
                             {{ ucfirst(Auth::user()->user_type) }}
@@ -30,11 +30,11 @@
                             <span class="profile-detail-value">{{ Auth::user()->nim }}</span>
                         </div>
                         <div class="profile-detail">
-                            <span class="profile-detail-label">Gedung</span>
+                            <span class="profile-detail-label">Jurusan</span>
                             <span class="profile-detail-value">{{ Auth::user()->gedung }}</span>
                         </div>
                         <div class="profile-detail">
-                            <span class="profile-detail-label">Ruangan</span>
+                            <span class="profile-detail-label">Program Studi</span>
                             <span class="profile-detail-value">{{ Auth::user()->ruangan }}</span>
                         </div>
                         <div class="profile-detail">
@@ -115,6 +115,16 @@
                             @error('phone') <p class="form-error">{{ $message }}</p> @enderror
                         </div>
 
+                        @if(Auth::user()->role === 'reporter')
+                        <div class="form-group">
+                            <label class="form-label flex items-center gap-3">
+                                <input type="checkbox" wire:model="show_name_on_landing" class="form-checkbox">
+                                <span>Tampilkan nama di landing page</span>
+                            </label>
+                            <p class="form-help">Jika dimatikan, nama Anda akan tampil sebagai "Anonim" di leaderboard publik.</p>
+                        </div>
+                        @endif
+
                         {{-- Mahasiswa Fields --}}
                         @if(Auth::user()->isMahasiswa())
                         <div style="border-top:1px solid var(--border-light);margin:24px 0 20px;padding-top:20px;">
@@ -133,25 +143,15 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">Gedung</label>
-                                <select wire:model="gedung" class="form-select" id="profileGedung" onchange="loadProfileRuangan()">
-                                    <option value="">Pilih gedung</option>
-                                    @foreach($gedungs as $g)
-                                        <option value="{{ $g->nama }}" data-id="{{ $g->id }}">{{ $g->full_name }}</option>
-                                    @endforeach
-                                </select>
+                                <label class="form-label">Jurusan</label>
+                                <input type="text" wire:model="gedung" class="form-input" placeholder="Contoh: Teknik Mesin">
                                 @error('gedung') <p class="form-error">{{ $message }}</p> @enderror
                             </div>
 
                             <div class="grid grid-2 gap-4">
                                 <div class="form-group">
-                                    <label class="form-label">Ruangan</label>
-                                    <select wire:model="ruangan" class="form-select" id="profileRuangan">
-                                        <option value="">Pilih ruangan</option>
-                                        @if($ruangan)
-                                        <option value="{{ $ruangan }}" selected>{{ $ruangan }}</option>
-                                        @endif
-                                    </select>
+                                    <label class="form-label">Program Studi</label>
+                                    <input type="text" wire:model="ruangan" class="form-input" placeholder="Contoh: Teknik Produksi">
                                     @error('ruangan') <p class="form-error">{{ $message }}</p> @enderror
                                 </div>
                                 <div class="form-group">
@@ -236,33 +236,4 @@
     </div>
 </div>
 
-@script
-<script>
-    async function loadProfileRuangan() {
-        const sel = document.getElementById('profileGedung');
-        const opt = sel.options[sel.selectedIndex];
-        const gedungId = opt?.dataset?.id;
-        const ruanganSelect = document.getElementById('profileRuangan');
 
-        if (!gedungId) {
-            ruanganSelect.innerHTML = '<option value="">Pilih ruangan</option>';
-            return;
-        }
-
-        ruanganSelect.innerHTML = '<option value="">Memuat...</option>';
-        try {
-            const res = await fetch(`/api/gedung/${gedungId}/ruangan`);
-            const data = await res.json();
-            ruanganSelect.innerHTML = '<option value="">Pilih ruangan</option>';
-            data.forEach(r => {
-                const o = document.createElement('option');
-                o.value = r.label;
-                o.textContent = r.label;
-                ruanganSelect.appendChild(o);
-            });
-        } catch {
-            ruanganSelect.innerHTML = '<option value="">Gagal memuat</option>';
-        }
-    }
-</script>
-@endscript

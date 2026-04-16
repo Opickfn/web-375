@@ -4,24 +4,37 @@ namespace App\Livewire\Points;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Livewire\Component;
 
 class Leaderboard extends Component
 {
     public function render()
     {
+        $hasShowNameOnLanding = Schema::hasColumn('users', 'show_name_on_landing');
+
         $leaderboard = DB::table('points')
             ->join('users', 'users.id', '=', 'points.user_id')
             ->select(
                 'users.id',
                 'users.full_name',
+                'users.role',
+                $hasShowNameOnLanding ? 'users.show_name_on_landing' : DB::raw('true as show_name_on_landing'),
                 'users.user_type',
                 'users.gedung',
                 'users.jabatan',
                 DB::raw('SUM(points.amount) as total_points'),
                 DB::raw('COUNT(DISTINCT points.report_id) as total_reports')
             )
-            ->groupBy('users.id', 'users.full_name', 'users.user_type', 'users.gedung', 'users.jabatan')
+            ->groupBy(
+                'users.id',
+                'users.full_name',
+                'users.role',
+                $hasShowNameOnLanding ? 'users.show_name_on_landing' : DB::raw('true'),
+                'users.user_type',
+                'users.gedung',
+                'users.jabatan'
+            )
             ->orderByDesc('total_points')
             ->get();
 

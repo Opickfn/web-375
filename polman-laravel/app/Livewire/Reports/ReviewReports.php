@@ -63,10 +63,10 @@ class ReviewReports extends Component
 
     public function render()
     {
-        $query = Report::with('reporter')->where('status', 'pending');
+        $query = Report::with(['reporter', 'location'])->where('status', 'pending');
 
-        // Filter by manager's assigned building if user is a manager
-        if (Auth::user()?->isManager() && Auth::user()?->gedung_id) {
+        // Filter by PJ Area's assigned building if user is a PJ Area
+        if (Auth::user()?->isPjArea() && Auth::user()?->gedung_id) {
             $query->where('gedung_id', Auth::user()->gedung_id);
         }
 
