@@ -61,6 +61,9 @@ Route::get('/', function () {
 // Leaderboard bisa dilihat publik
 Route::get('/leaderboard', Leaderboard::class)->name('leaderboard');
 
+// Alias route untuk jalur publik create/publik/reports
+Route::redirect('/create/publik/reports', '/reports/public');
+
 // Public bisa buat laporan tanpa login (tidak ada poin)
 Route::get('/reports/public', CreatePublicReport::class)->name('reports.public');
 

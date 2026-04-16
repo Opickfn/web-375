@@ -33,9 +33,9 @@
                     </h1>
                     <p class="max-w-xl text-[#94a3b8] text-lg leading-relaxed hero-copy">Sistem pelaporan modern untuk mengumpulkan, memverifikasi, dan menindaklanjuti temuan K3, 7S, dan 5R dengan visualisasi yang jelas dan responsif.</p>
                     <div class="grid gap-4 sm:grid-cols-3">
-                        <button type="button" class="btn-animate rounded-[12px] bg-[#22d3ee] px-6 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-slate-950 shadow-lg shadow-[#22d3ee]/20">Mulai Dari Sini</button>
-                        <button type="button" class="btn-animate rounded-[12px] border border-slate-600 bg-transparent px-6 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-white shadow-sm shadow-slate-950/10">Lapor sebagai Publik</button>
-                        <button type="button" class="btn-animate rounded-[12px] border border-slate-600 bg-transparent px-6 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-white shadow-sm shadow-slate-950/10">Pelajari Lebih Lanjut</button>
+                        <a href="{{ route('register') }}" class="btn-animate rounded-[12px] bg-[#22d3ee] px-6 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-slate-950 shadow-lg shadow-[#22d3ee]/20">Mulai Dari Sini</a>
+                        <a href="/create/publik/reports" class="btn-animate rounded-[12px] border border-slate-600 bg-transparent px-6 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-white shadow-sm shadow-slate-950/10">Lapor sebagai Publik</a>
+                        <a href="#hero3" class="btn-animate rounded-[12px] border border-slate-600 bg-transparent px-6 py-3 text-sm font-semibold uppercase tracking-[0.18em] text-white shadow-sm shadow-slate-950/10">Pelajari Lebih Lanjut</a>
                     </div>
                 </div>
 
