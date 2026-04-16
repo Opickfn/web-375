@@ -61,155 +61,10 @@
             </div>
         </section>
 
-        <script type="module">
-            import anime from 'https://unpkg.com/animejs@4.0.0/lib/anime.es.js';
-
-            const slides = [
-                {
-                    image: 'https://images.unsplash.com/photo-1519337265831-281ec6cc8514?auto=format&fit=crop&w=1200&q=80',
-                    label: 'Bangunan Kampus Modern',
-                    title: 'Peningkatan Infrastruktur Kampus',
-                    description: 'Bangunan kampus modern dengan pemantauan dan pelaporan K3 yang terintegrasi untuk menjaga keselamatan semua pengguna.',
-                    heroCopy: 'Slide pertama menyorot kekuatan sistem pelaporan untuk mendukung lingkungan kampus yang aman dan terkontrol.',
-                },
-                {
-                    image: 'https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=80',
-                    label: 'Peringatan Kebersihan',
-                    title: 'Temuan Kebersihan & Keamanan',
-                    description: 'Laporan cepat ketika area kerja tidak memenuhi standar kebersihan dan SOP K3.',
-                    heroCopy: 'Dukung kepatuhan lapangan dengan laporan kebersihan yang mendetail dan tindak lanjut yang transparan.',
-                },
-                {
-                    image: 'https://images.unsplash.com/photo-1520027296538-7ecaef410a6a?auto=format&fit=crop&w=1200&q=80',
-                    label: 'Peralatan Rusak',
-                    title: 'Perbaikan Peralatan Prioritas',
-                    description: 'Identifikasi kerusakan peralatan lebih cepat dan kirim laporan langsung kepada tim pemeliharaan.',
-                    heroCopy: 'Fokus pada penanganan risiko dengan pelaporan alat rusak yang mempercepat respons teknis.',
-                },
-            ];
-
-            const btns = document.querySelectorAll('.btn-animate');
-            const sliderCard = document.querySelector('.slider-card');
-            const sliderLabel = document.querySelector('.slider-label');
-            const sliderTitle = document.querySelector('.slider-title');
-            const sliderDescription = document.querySelector('.slider-description');
-            const sliderIndex = document.querySelector('.slider-index');
-            const sliderTotal = document.querySelector('.slider-total');
-            const sliderContainer = document.querySelector('.slider-container');
-            const heroCopy = document.querySelector('.hero-copy');
-            const navButtons = document.querySelectorAll('.slider-nav');
-            let currentSlide = 0;
-            let hoveredButton = null;
-            let slideInterval = null;
-
-            if (sliderTotal) {
-                sliderTotal.textContent = slides.length;
-            }
-
-            const animateButton = (target, scale, duration = 400) => {
-                if (!target) return;
-                anime.remove(target);
-                anime({
-                    targets: target,
-                    scale,
-                    duration,
-                    elasticity: 600,
-                    easing: 'easeOutElastic(1, .8)',
-                });
-            };
-
-            btns.forEach((button) => {
-                button.style.transformOrigin = 'center center';
-                button.addEventListener('mouseenter', () => {
-                    hoveredButton = button;
-                    animateButton(button, 1.2, 400);
-                });
-                button.addEventListener('mouseleave', () => {
-                    hoveredButton = null;
-                    animateButton(button, 1.0, 400);
-                });
-                button.addEventListener('mousedown', () => {
-                    animateButton(button, 0.92, 140);
-                });
-                button.addEventListener('mouseup', () => {
-                    const scale = hoveredButton === button ? 1.2 : 1.0;
-                    animateButton(button, scale, 220);
-                });
-            });
-
-            function updateSlide(index) {
-                if (!sliderCard || !sliderLabel || !sliderTitle || !sliderDescription || !sliderIndex || !heroCopy) return;
-
-                currentSlide = (index + slides.length) % slides.length;
-                const slide = slides[currentSlide];
-                sliderIndex.textContent = currentSlide + 1;
-
-                const fadeOut = anime.timeline({ easing: 'easeInQuad', duration: 250 });
-                fadeOut.add({
-                    targets: [sliderLabel, sliderTitle, sliderDescription, heroCopy],
-                    opacity: [1, 0],
-                    translateY: [0, 18],
-                    duration: 220,
-                    delay: anime.stagger(35),
-                });
-                fadeOut.add({
-                    targets: sliderCard,
-                    opacity: [1, 0.72],
-                    duration: 250,
-                }, 0);
-
-                fadeOut.finished.then(() => {
-                    sliderCard.style.backgroundImage = `url('${slide.image}')`;
-                    sliderLabel.textContent = slide.label;
-                    sliderTitle.textContent = slide.title;
-                    sliderDescription.textContent = slide.description;
-                    heroCopy.textContent = slide.heroCopy;
-
-                    anime.timeline({ easing: 'easeOutExpo', duration: 420 })
-                        .add({
-                            targets: sliderCard,
-                            opacity: [0.72, 1],
-                        })
-                        .add({
-                            targets: [sliderLabel, sliderTitle, sliderDescription, heroCopy],
-                            opacity: [0, 1],
-                            translateY: [18, 0],
-                            duration: 420,
-                            delay: anime.stagger(50),
-                        }, '-=260');
-                });
-            }
-
-            navButtons.forEach((button) => {
-                button.addEventListener('click', () => {
-                    const action = button.dataset.action;
-                    const nextIndex = action === 'next' ? currentSlide + 1 : currentSlide - 1;
-                    updateSlide(nextIndex);
-                });
-            });
-
-            const startSliderLoop = () => {
-                if (slideInterval) {
-                    clearInterval(slideInterval);
-                }
-                slideInterval = setInterval(() => updateSlide(currentSlide + 1), 6500);
-            };
-
-            if (sliderContainer) {
-                sliderContainer.addEventListener('mouseenter', () => {
-                    if (slideInterval) clearInterval(slideInterval);
-                });
-                sliderContainer.addEventListener('mouseleave', startSliderLoop);
-            }
-
-            updateSlide(0);
-            startSliderLoop();
-        </script>
-
-        <section id="hero2" class="relative min-h-screen overflow-hidden p-10 bg-[#0B1120]">
+        <section id="hero2" class="hero2-section relative min-h-screen overflow-hidden p-10 transition-colors duration-500 bg-[#0B1120]">
             <div id="layout-root" class="w-full max-w-6xl mx-auto grid grid-cols-1 gap-8">
-                <div class="boxes-wrapper flex flex-wrap justify-center gap-6 rounded-[2rem] border border-white/10 bg-white/5 p-6 backdrop-blur-xl shadow-2xl shadow-slate-950/25">
-                    <div data-layout-id="5R" class="box-item cursor-pointer rounded-[2rem] border border-cyan-400/25 bg-cyan-400/15 p-7 shadow-2xl shadow-cyan-500/15 text-left text-white">
+                <div class="boxes-wrapper hero2-boxes flex flex-wrap justify-center gap-6 rounded-[2rem] border border-white/10 bg-white/5 p-6 backdrop-blur-xl shadow-2xl shadow-slate-950/25">
+                    <div data-layout-id="5R" class="hero2-box box-item cursor-pointer rounded-[2rem] border border-cyan-400/25 bg-cyan-400/15 p-7 shadow-2xl shadow-cyan-500/15 text-left text-white">
                         <div class="flex h-full flex-col justify-between">
                             <div>
                                 <p class="text-xs uppercase tracking-[0.3em] text-cyan-100">5R</p>
@@ -218,7 +73,7 @@
                             <p class="mt-3 text-cyan-100 text-sm">Klik untuk melihat detail budaya area rapi dan pengelolaan visual.</p>
                         </div>
                     </div>
-                    <div data-layout-id="7S" class="box-item cursor-pointer rounded-[2rem] border border-rose-500/25 bg-rose-500/15 p-7 shadow-2xl shadow-rose-500/15 text-left text-white">
+                    <div data-layout-id="7S" class="hero2-box box-item cursor-pointer rounded-[2rem] border border-rose-500/25 bg-rose-500/15 p-7 shadow-2xl shadow-rose-500/15 text-left text-white">
                         <div class="flex h-full flex-col justify-between">
                             <div>
                                 <p class="text-xs uppercase tracking-[0.3em] text-rose-100">7S</p>
@@ -227,7 +82,7 @@
                             <p class="mt-3 text-rose-100 text-sm">Klik untuk menampilkan praktik disiplin dan tata kelola kerja.</p>
                         </div>
                     </div>
-                    <div data-layout-id="K3" class="box-item cursor-pointer rounded-[2rem] border border-emerald-400/25 bg-emerald-400/15 p-7 shadow-2xl shadow-emerald-400/15 text-left text-white">
+                    <div data-layout-id="K3" class="hero2-box box-item cursor-pointer rounded-[2rem] border border-emerald-400/25 bg-emerald-400/15 p-7 shadow-2xl shadow-emerald-400/15 text-left text-white">
                         <div class="flex h-full flex-col justify-between">
                             <div>
                                 <p class="text-xs uppercase tracking-[0.3em] text-emerald-100">K3</p>
@@ -238,117 +93,18 @@
                     </div>
                 </div>
 
-                <div id="content-area" class="rounded-[2rem] border border-white/10 bg-white/5 p-8 backdrop-blur-xl opacity-0" style="display:none;">
+                <div id="content-area" class="hero2-content rounded-[2rem] border border-white/10 bg-white/5 p-8 backdrop-blur-xl opacity-0 transition duration-500" style="display:none;">
                     <p id="content-tag" class="text-xs uppercase tracking-[0.4em] text-cyan-200">Detail</p>
                     <h2 id="content-title" class="mt-4 text-4xl font-black text-white"></h2>
                     <div id="content-body" class="mt-4 text-slate-300 leading-relaxed"></div>
                     <div id="content-list" class="mt-8 space-y-3"></div>
+                    <div class="mt-10 rounded-[2rem] border border-slate-800 bg-slate-950/90 p-6">
+                        <p class="text-xs uppercase tracking-[0.35em] text-slate-400">Contoh Laporan</p>
+                        <div id="sample-report-list" class="mt-4 space-y-4"></div>
+                    </div>
                 </div>
             </div>
         </section>
-
-        <script type="module">
-            import { animate, createLayout, utils } from 'https://cdn.jsdelivr.net/npm/animejs@4.0.0-beta.90/+esm';
-
-            const root = document.querySelector('#layout-root');
-            const boxesWrapper = document.querySelector('.boxes-wrapper');
-            const boxes = Array.from(document.querySelectorAll('.box-item'));
-            const contentArea = document.querySelector('#content-area');
-            const contentTag = document.querySelector('#content-tag');
-            const contentTitle = document.querySelector('#content-title');
-            const contentBody = document.querySelector('#content-body');
-            const contentList = document.querySelector('#content-list');
-            const layout = createLayout(root);
-
-            const details = {
-                5R: {
-                    theme: '#38bdf8',
-                    tag: '5R',
-                    title: 'Budaya Area Rapi',
-                    body: 'Fokus pada area yang rapih, bersih, dan teratur. Setiap temuan dicatat secara cepat agar area kerja selalu siap operasi.',
-                    items: [
-                        'Inspeksi visual area kerja untuk menjaga kebersihan.',
-                        'Sistem laporan cepat untuk temuan rapi.',
-                        'Tindak lanjut terjadwal untuk area prioritas.'
-                    ]
-                },
-                7S: {
-                    theme: '#f43f5e',
-                    tag: '7S',
-                    title: 'Budaya Teratur',
-                    body: 'Menciptakan disiplin dan tata kelola kerja yang konsisten melalui monitoring dan laporan terstruktur.',
-                    items: [
-                        'Standarisasi kebersihan dan kerapian area.',
-                        'Pencatatan temuan secara rutin.',
-                        'Evaluasi budaya kerja berdasarkan 7S.'
-                    ]
-                },
-                K3: {
-                    theme: '#10b981',
-                    tag: 'K3',
-                    title: 'Keamanan Kerja',
-                    body: 'Menangani risiko kerja dengan laporan K3 terstruktur, memastikan perlindungan tim lapangan dan pencegahan insiden.',
-                    items: [
-                        'Identifikasi bahaya potensial secara proaktif.',
-                        'Koordinasi tindakan keselamatan lapangan.',
-                        'Pelaporan cepat untuk pencegahan insiden.'
-                    ]
-                }
-            };
-
-            animate('.box-item', {
-                rotate: () => utils.random(-10, 10),
-                y: [0, -15],
-                direction: 'alternate',
-                loop: true,
-                duration: () => utils.random(1500, 2500),
-                easing: 'easeInOutSine'
-            });
-
-            boxes.forEach((box) => {
-                box.addEventListener('click', () => {
-                    const selected = details[box.dataset.layoutId];
-                    if (!selected) return;
-
-                    layout.update(() => {
-                        root.style.gridTemplateColumns = '180px 1fr';
-                        boxesWrapper.classList.remove('flex-wrap', 'justify-center');
-                        boxesWrapper.classList.add('flex-col', 'justify-start');
-                        boxesWrapper.style.alignItems = 'stretch';
-                        contentArea.style.display = 'block';
-                    });
-
-                    contentTag.textContent = selected.tag;
-                    contentTitle.textContent = selected.title;
-                    contentBody.textContent = selected.body;
-                    contentList.innerHTML = selected.items
-                        .map(item => `<div class="rounded-3xl border border-white/10 bg-white/5 p-4 text-slate-200">${item}</div>`)
-                        .join('');
-
-                    animate(box, {
-                        scale: 1.05,
-                        boxShadow: '0 0 0 2px rgba(255,255,255,0.35)',
-                        duration: 320,
-                        easing: 'easeOutExpo'
-                    });
-
-                    animate('.box-item', {
-                        scale: (el) => (el === box ? 1.02 : 0.88),
-                        opacity: (el) => (el === box ? 1 : 0.45),
-                        borderColor: (el) => (el === box ? 'rgba(255,255,255,0.45)' : 'rgba(255,255,255,0.12)'),
-                        duration: 450,
-                        easing: 'easeOutQuad'
-                    });
-
-                    animate(contentArea, {
-                        opacity: [0, 1],
-                        x: [30, 0],
-                        duration: 700,
-                        easing: 'easeOutQuart'
-                    });
-                });
-            });
-        </script>
 
         <section id="hero3" class="relative border-t border-slate-800 bg-slate-900 px-4 py-24 text-slate-100">
             <div class="container mx-auto grid gap-10 lg:grid-cols-[0.95fr_1.05fr] items-start">
@@ -480,6 +236,12 @@
     .hero2-panel.hidden { position: absolute; inset: 0; opacity: 0; pointer-events: none; transform: translateX(12%); }
     .hero3-card:hover { transform: translateY(-8px); }
     .hero3-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .hero2-section { transition: background-color 0.45s ease; }
+    .hero2-box { transition: transform 0.35s ease, opacity 0.35s ease, box-shadow 0.35s ease, background-color 0.35s ease; }
+    .hero2-box:hover { transform: translateY(-4px) scale(1.02); }
+    .hero2-content { will-change: opacity, transform; }
+    .hero2-boxes { min-height: 320px; }
+    .hero2-content .rounded-[2rem] { border-color: rgba(148, 163, 184, 0.18); }
     .modal-overlay { background: rgba(0, 0, 0, 0.65); }
     .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.7s ease, transform 0.7s ease; }
     .reveal.active { opacity: 1; transform: translateY(0); }
