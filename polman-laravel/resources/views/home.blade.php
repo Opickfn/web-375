@@ -499,7 +499,7 @@
                 </div>
             </div>
             <div class="text-center mt-12 pt-8 text-xs" style="border-top: 1px solid rgba(20,83,116,0.3); color: rgba(232,232,232,0.3);">
-                &copy; 2026 TRII POLMAN Bandung. Proyek Sistem Pelaporan Keselamatan.
+                &copy; 2026 TRIN POLMAN Bandung. Proyek Sistem Pelaporan Keselamatan.
             </div>
         </footer>
     </main>
