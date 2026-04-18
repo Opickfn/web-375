@@ -20,10 +20,10 @@
     @endif
 
     <div class="card card-bordered mb-6">
-        <div class="card-header flex items-center justify-between gap-3 rounded-t-3xl bg-slate-50 px-5 py-4 border-b border-slate-200">
-            <h3 class="text-lg font-semibold">Daftar Lokasi</h3>
-            <button wire:click="openForm" class="btn btn-primary btn-sm">
-                <i data-lucide="plus" style="width:14px;height:14px;"></i> Tambah Kampus
+        <div class="card-header flex items-center justify-between gap-3 rounded-t-3xl bg-slate-950/70 px-5 py-4 border-b border-white/5">
+            <h3 class="text-lg font-semibold text-white">Daftar Lokasi</h3>
+            <button wire:click="openForm" class="btn btn-primary btn-sm btn-dashboard-action btn-plus-glow" title="Tambah Kampus">
+                <i data-lucide="plus" style="width:14px;height:14px;"></i>
             </button>
         </div>
 
@@ -100,40 +100,39 @@
         @endif
 
         <div class="card-body px-0">
-            <div x-data="locationTree()" x-cloak class="space-y-5 rounded-3xl bg-slate-100 border border-slate-200 px-4 py-5">
+            <div x-data="locationTree()" x-cloak class="tree-panel">
                 @forelse($locations as $location)
-                    <div class="card card-bordered border-l-4 border-red-500 mb-4 {{ $location->is_active ? '' : 'opacity-60' }}">
-                        <div class="card-body p-0">
-                            <div class="relative flex items-center gap-2 px-4 py-4">
-                                <button type="button" @click="toggle('loc-{{ $location->id }}')" class="inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-500 transition hover:bg-slate-100 focus:outline-none" :class="open['loc-{{ $location->id }}'] ? 'rotate-90' : ''">
-                                    <i data-lucide="chevron-right" class="h-3.5 w-3.5"></i>
-                                </button>
-                            <div class="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-100 text-slate-600">
+                    <div class="tree-node border-l-4 border-red-500 mb-4 {{ $location->is_active ? '' : 'opacity-70' }}">
+                        <div class="tree-node-head">
+                            <button type="button" @click="toggle('loc-{{ $location->id }}')" class="tree-toggle-btn" :class="open['loc-{{ $location->id }}'] ? 'rotate-90' : ''" title="Perluas / Tutup Kampus">
+                                <i data-lucide="chevron-right" class="h-3.5 w-3.5"></i>
+                            </button>
+                            <div class="tree-icon">
                                 <i data-lucide="layers" class="h-4 w-4"></i>
                             </div>
-                            <div class="min-w-0">
-                                <div class="text-[10px] font-semibold uppercase tracking-[0.25em] text-slate-500">Kampus</div>
-                                <h3 class="truncate text-sm font-semibold text-slate-900">{{ $location->name }}</h3>
+                            <div class="tree-node-label">
+                                <div class="text-[10px] font-semibold uppercase tracking-[0.25em] text-slate-400">Kampus</div>
+                                <h3>{{ $location->name }}</h3>
                             </div>
-                            <div class="ml-auto flex flex-wrap items-center gap-1">
-                                <span class="rounded-full bg-slate-100 px-2 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-600">Kampus</span>
-                                <button wire:click="openChildForm({{ $location->id }})" class="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white px-2.5 py-1 text-xs text-slate-600 hover:bg-slate-50">
-                                    <i data-lucide="plus" class="h-3.5 w-3.5"></i> Tambah
+                            <div class="tree-node-actions">
+                                <span class="tree-status-pill">Kampus</span>
+                                <button wire:click="openChildForm({{ $location->id }})" class="tree-action-btn" title="Tambah Gedung">
+                                    <i data-lucide="plus" class="h-4 w-4"></i>
                                 </button>
-                                <button wire:click="openForm({{ $location->id }})" class="inline-flex h-8 items-center justify-center rounded-full border border-slate-200 bg-white px-2.5 text-slate-600 hover:bg-slate-50">
-                                    <i data-lucide="pencil" class="h-3.5 w-3.5"></i>
+                                <button wire:click="openForm({{ $location->id }})" class="tree-action-btn" title="Edit Lokasi">
+                                    <i data-lucide="pencil" class="h-4 w-4"></i>
                                 </button>
-                                <button wire:click="toggleLocation({{ $location->id }})" class="inline-flex h-8 items-center justify-center rounded-full border border-slate-200 bg-white px-2.5 text-slate-600 hover:bg-slate-50" title="{{ $location->is_active ? 'Nonaktifkan' : 'Aktifkan' }}">
-                                    <i data-lucide="{{ $location->is_active ? 'eye-off' : 'eye' }}" class="h-3.5 w-3.5"></i>
+                                <button wire:click="toggleLocation({{ $location->id }})" class="tree-action-btn" title="{{ $location->is_active ? 'Nonaktifkan' : 'Aktifkan' }}">
+                                    <i data-lucide="{{ $location->is_active ? 'eye-off' : 'eye' }}" class="h-4 w-4"></i>
                                 </button>
-                                <button wire:click="deleteLocation({{ $location->id }})" onclick="return confirm('Yakin hapus lokasi ini? Tindakan tidak dapat dibatalkan.')" class="inline-flex h-8 items-center justify-center rounded-full border border-slate-200 bg-white px-2.5 text-slate-600 hover:bg-slate-50" title="Hapus">
-                                    <i data-lucide="trash-2" class="h-3.5 w-3.5"></i>
+                                <button wire:click="deleteLocation({{ $location->id }})" onclick="return confirm('Yakin hapus lokasi ini? Tindakan tidak dapat dibatalkan.')" class="tree-action-btn" title="Hapus Lokasi">
+                                    <i data-lucide="trash-2" class="h-4 w-4"></i>
                                 </button>
                             </div>
                         </div>
 
                         @if($activeAddParentId === $location->id)
-                            <div class="border-t border-slate-100 bg-slate-50 px-3 py-3">
+                            <div class="tree-add-panel">
                                 <div class="grid gap-3 md:grid-cols-3">
                                     <div>
                                         <label class="form-label">Jenis Sub-Lokasi</label>
@@ -162,41 +161,40 @@
                             </div>
                         @endif
 
-                        <div x-show="open['loc-{{ $location->id }}']" x-transition class="border-t border-slate-100 px-3 pb-3 pt-2">
+                        <div x-show="open['loc-{{ $location->id }}']" x-transition class="tree-node-children">
                             @if($location->children->isEmpty())
-                                <div class="rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-3 text-sm text-slate-500">Belum ada sub-lokasi.</div>
+                                <div class="tree-empty-state">Belum ada sub-lokasi.</div>
                             @endif
 
-                            <div class="space-y-2">
-                                @foreach($location->children as $branch)
-                                    <div class="card card-bordered border-l-4 border-amber-400 mb-3 {{ $branch->is_active ? '' : 'opacity-60' }}">
-                                        <div class="card-body p-3">
-                                            <div class="relative flex items-center gap-2 px-4 py-3">
-                                                <button type="button" @click="toggle('branch-{{ $branch->id }}')" class="inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-500 transition hover:bg-slate-100 focus:outline-none" :class="open['branch-{{ $branch->id }}'] ? 'rotate-90' : ''">
-                                                    <i data-lucide="chevron-right" class="h-3.5 w-3.5"></i>
-                                                </button>
-                                            <div class="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-100 text-slate-600">
+                            <div class="space-y-3">
+                                @foreach($location->children->take($childDisplayLimit) as $branch)
+                                    <div class="tree-node tree-level border-l-4 border-amber-400 mb-3 {{ $branch->is_active ? '' : 'opacity-70' }}">
+                                        <div class="tree-node-head">
+                                            <button type="button" @click="toggle('branch-{{ $branch->id }}')" class="tree-toggle-btn" :class="open['branch-{{ $branch->id }}'] ? 'rotate-90' : ''" title="Perluas / Tutup {{ $branch->type === 'gedung' ? 'Gedung' : 'Infrastruktur' }}">
+                                                <i data-lucide="chevron-right" class="h-3.5 w-3.5"></i>
+                                            </button>
+                                            <div class="tree-icon">
                                                 <i data-lucide="building" class="h-4 w-4"></i>
                                             </div>
-                                            <div class="min-w-0">
-                                                <p class="truncate text-sm font-semibold text-slate-900">{{ $branch->name }}</p>
-                                                <p class="text-xs text-slate-500">{{ $branch->type === 'gedung' ? 'Gedung' : 'Infrastruktur' }}</p>
+                                            <div class="tree-node-label">
+                                                <h3>{{ $branch->name }}</h3>
+                                                <p>{{ $branch->type === 'gedung' ? 'Gedung' : 'Infrastruktur' }}</p>
                                             </div>
-                                            <div class="ml-auto flex flex-wrap items-center gap-1">
-                                                <span class="rounded-full bg-slate-100 px-2 py-1 text-[11px] text-slate-600">{{ $branch->type === 'gedung' ? 'Gedung' : 'Infrastruktur' }}</span>
+                                            <div class="tree-node-actions">
+                                                <span class="tree-status-pill">{{ $branch->type === 'gedung' ? 'Gedung' : 'Infrastruktur' }}</span>
                                                 @if($branch->type === 'gedung')
-                                                    <button wire:click="openChildForm({{ $branch->id }}, 'lantai')" class="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white px-2.5 py-1 text-xs text-slate-600 hover:bg-slate-50">
-                                                        <i data-lucide="plus" class="h-3.5 w-3.5"></i>
+                                                    <button wire:click="openChildForm({{ $branch->id }}, 'lantai')" class="tree-action-btn" title="Tambah Lantai">
+                                                        <i data-lucide="plus" class="h-4 w-4"></i>
                                                     </button>
                                                 @endif
-                                                <button wire:click="openForm({{ $branch->id }})" class="inline-flex h-8 items-center justify-center rounded-full border border-slate-200 bg-white px-2.5 text-slate-600 hover:bg-slate-50">
-                                                    <i data-lucide="pencil" class="h-3.5 w-3.5"></i>
+                                                <button wire:click="openForm({{ $branch->id }})" class="tree-action-btn" title="Edit Gedung">
+                                                    <i data-lucide="pencil" class="h-4 w-4"></i>
                                                 </button>
                                             </div>
                                         </div>
 
                                         @if($activeAddParentId === $branch->id)
-                                            <div class="mt-3 rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-3">
+                                            <div class="tree-add-panel">
                                                 <div class="grid gap-3 md:grid-cols-3">
                                                     <div>
                                                         <label class="form-label">Nama Lantai</label>
@@ -216,39 +214,38 @@
                                             </div>
                                         @endif
 
-                                        <div x-show="open['branch-{{ $branch->id }}']" x-transition class="mt-2 border-l border-slate-200 pl-5">
+                                        <div x-show="open['branch-{{ $branch->id }}']" x-transition class="tree-node-children">
                                             @if($branch->children->isEmpty())
-                                                <div class="rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-3 text-sm text-slate-500">Belum ada lantai.</div>
+                                                <div class="tree-empty-state">Belum ada lantai.</div>
                                             @endif
 
                                             <div class="space-y-2">
-                                                @foreach($branch->children as $floor)
-                                                    <div class="card card-bordered border-l-4 border-emerald-400 mb-3 {{ $floor->is_active ? '' : 'opacity-60' }}">
-                                                        <div class="card-body p-3">
-                                                            <div class="relative flex items-center gap-2 px-4 py-3">
-                                                                <button type="button" @click="toggle('floor-{{ $floor->id }}')" class="inline-flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-500 transition hover:bg-slate-100 focus:outline-none" :class="open['floor-{{ $floor->id }}'] ? 'rotate-90' : ''">
-                                                                    <i data-lucide="chevron-right" class="h-3.5 w-3.5"></i>
-                                                                </button>
-                                                            <div class="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-100 text-slate-600">
+                                                @foreach($branch->children->take($childDisplayLimit) as $floor)
+                                                    <div class="tree-node tree-level border-l-4 border-emerald-400 mb-3 {{ $floor->is_active ? '' : 'opacity-70' }}">
+                                                        <div class="tree-node-head">
+                                                            <button type="button" @click="toggle('floor-{{ $floor->id }}')" class="tree-toggle-btn" :class="open['floor-{{ $floor->id }}'] ? 'rotate-90' : ''" title="Perluas / Tutup Lantai">
+                                                                <i data-lucide="chevron-right" class="h-3.5 w-3.5"></i>
+                                                            </button>
+                                                            <div class="tree-icon">
                                                                 <i data-lucide="home" class="h-4 w-4"></i>
                                                             </div>
-                                                            <div class="min-w-0">
-                                                                <p class="truncate text-sm font-semibold text-slate-900">{{ $floor->name }}</p>
-                                                                <p class="text-xs text-slate-500">Lantai</p>
+                                                            <div class="tree-node-label">
+                                                                <h3>{{ $floor->name }}</h3>
+                                                                <p>Lantai</p>
                                                             </div>
-                                                            <div class="ml-auto flex flex-wrap items-center gap-1">
-                                                                <span class="rounded-full bg-slate-100 px-2 py-1 text-[11px] text-slate-600">Lantai</span>
-                                                                <button wire:click="openChildForm({{ $floor->id }})" class="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white px-2.5 py-1 text-xs text-slate-600 hover:bg-slate-50">
-                                                                    <i data-lucide="plus" class="h-3.5 w-3.5"></i>
+                                                            <div class="tree-node-actions">
+                                                                <span class="tree-status-pill">Lantai</span>
+                                                                <button wire:click="openChildForm({{ $floor->id }})" class="tree-action-btn" title="Tambah Ruangan/Area">
+                                                                    <i data-lucide="plus" class="h-4 w-4"></i>
                                                                 </button>
-                                                                <button wire:click="openForm({{ $floor->id }})" class="inline-flex h-8 items-center justify-center rounded-full border border-slate-200 bg-white px-2.5 text-slate-600 hover:bg-slate-50">
-                                                                    <i data-lucide="pencil" class="h-3.5 w-3.5"></i>
+                                                                <button wire:click="openForm({{ $floor->id }})" class="tree-action-btn" title="Edit Lantai">
+                                                                    <i data-lucide="pencil" class="h-4 w-4"></i>
                                                                 </button>
                                                             </div>
                                                         </div>
 
                                                         @if($activeAddParentId === $floor->id)
-                                                            <div class="mt-3 rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-3">
+                                                            <div class="tree-add-panel">
                                                                 <div class="grid gap-3 md:grid-cols-3">
                                                                     <div>
                                                                         <label class="form-label">Jenis</label>
@@ -277,30 +274,44 @@
                                                             </div>
                                                         @endif
 
-                                                        <div x-show="open['floor-{{ $floor->id }}']" x-transition class="mt-2 border-l border-slate-200 pl-5">
+                                                        <div x-show="open['floor-{{ $floor->id }}']" x-transition class="tree-node-children">
                                                             @if($floor->children->isEmpty())
-                                                                <div class="rounded-2xl border border-dashed border-slate-200 bg-slate-50 p-3 text-sm text-slate-500">Belum ada ruang atau area.</div>
+                                                                <div class="tree-empty-state">Belum ada ruang atau area.</div>
                                                             @endif
                                                             <div class="space-y-2">
-                                                                @foreach($floor->children as $space)
-                                                                    <div class="card card-bordered border-l-4 border-emerald-200 mb-3 {{ $space->is_active ? '' : 'opacity-60' }}">
-                                                                        <div class="card-body flex flex-col gap-3 p-3 md:flex-row md:items-center md:justify-between">
-                                                                            <div>
-                                                                                <p class="truncate text-sm font-semibold text-slate-900">{{ $space->name }}</p>
-                                                                                <p class="text-xs text-slate-500">{{ $space->type === 'area' ? 'Area Lainnya' : 'Ruangan' }}</p>
+                                                                @foreach($floor->children->take($childDisplayLimit) as $space)
+                                                                    <div class="tree-node tree-leaf border-l-4 border-emerald-200 mb-3 {{ $space->is_active ? '' : 'opacity-70' }}">
+                                                                        <div class="tree-node-head">
+                                                                            <div class="tree-icon">
+                                                                                <i data-lucide="square" class="h-4 w-4"></i>
                                                                             </div>
-                                                                        <div class="flex flex-wrap items-center gap-1">
-                                                                            <span class="rounded-full bg-slate-100 px-2 py-1 text-[11px] text-slate-600">{{ ucfirst($space->type) }}</span>
-                                                                            <button wire:click="openForm({{ $space->id }})" class="inline-flex h-8 items-center justify-center rounded-full border border-slate-200 bg-white px-2.5 text-slate-600 hover:bg-slate-50">
-                                                                                <i data-lucide="pencil" class="h-3.5 w-3.5"></i>
-                                                                            </button>
+                                                                            <div class="tree-node-label">
+                                                                                <h3>{{ $space->name }}</h3>
+                                                                                <p>{{ $space->type === 'area' ? 'Area Lainnya' : 'Ruangan' }}</p>
+                                                                            </div>
+                                                                            <div class="tree-node-actions">
+                                                                                <span class="tree-status-pill">{{ ucfirst($space->type) }}</span>
+                                                                                <button wire:click="openForm({{ $space->id }})" class="tree-action-btn" title="Edit Lokasi">
+                                                                                    <i data-lucide="pencil" class="h-4 w-4"></i>
+                                                                                </button>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 @endforeach
                                                             </div>
+                                                            @if($floor->children->count() > $childDisplayLimit)
+                                                                <div class="text-sm text-slate-400 mt-2 ml-12">
+                                                                    Menampilkan {{ $childDisplayLimit }} dari {{ $floor->children->count() }} ruang/area pertama.
+                                                                </div>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 @endforeach
+                                                @if($branch->children->count() > $childDisplayLimit)
+                                                    <div class="text-sm text-slate-400 mt-2 ml-12">
+                                                        Menampilkan {{ $childDisplayLimit }} dari {{ $branch->children->count() }} lantai pertama.
+                                                    </div>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -308,8 +319,11 @@
                             </div>
                         </div>
                     </div>
+                @if($locations->hasPages())
+                    <div class="card-footer flex justify-end pt-4">{{ $locations->links() }}</div>
+                @endif
                 @empty
-                    <div class="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center text-sm text-slate-500">
+                    <div class="empty-state">
                         <i data-lucide="map-pin" class="w-10 h-10 mx-auto mb-3"></i>
                         Belum ada data lokasi.
                     </div>

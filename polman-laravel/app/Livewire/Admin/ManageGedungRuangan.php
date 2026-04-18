@@ -7,9 +7,15 @@ use App\Models\Report;
 use App\Models\User;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class ManageGedungRuangan extends Component
 {
+    use WithPagination;
+
+    protected $paginationTheme = 'tailwind';
+
+    public int $childDisplayLimit = 5;
     public bool $showForm = false;
     public ?int $editLocationId = null;
     public string $lParentId = '';
@@ -264,7 +270,7 @@ class ManageGedungRuangan extends Component
         return Location::with(['children.children.children'])
             ->whereNull('parent_id')
             ->orderBy('name')
-            ->get();
+            ->paginate(10);
     }
 
     public function render()

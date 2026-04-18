@@ -4,7 +4,7 @@
             <h1>Periode Reward</h1>
             <p>Kelola periode untuk rekap poin dan pemberian reward</p>
         </div>
-        <button wire:click="openForm" class="btn btn-primary">
+        <button wire:click="openForm" class="btn btn-primary btn-dashboard-action">
             <i data-lucide="plus" style="width:16px;height:16px;"></i> Buat Periode
         </button>
     </div>
@@ -42,19 +42,19 @@
 
     <div class="grid grid-2 gap-4">
         @forelse($periods as $period)
-        <div class="card">
+        <div class="card period-card">
             <div class="card-body">
                 <div class="flex justify-between items-center mb-2">
-                    <h4>{{ $period->name }}</h4>
+                    <h4 class="text-white font-bold">{{ $period->name }}</h4>
                     <span class="badge {{ $period->isActive() ? 'badge-success' : 'badge-neutral' }}">
                         {{ $period->isActive() ? 'Aktif' : 'Ditutup' }}
                     </span>
                 </div>
-                <p class="text-sm text-muted mb-4">
+                <p class="text-sm text-slate-400 mb-4">
                     {{ $period->start_date->format('d M Y') }} - {{ $period->end_date->format('d M Y') }}
                 </p>
                 @if($period->isActive())
-                <button wire:click="closePeriod({{ $period->id }})" class="btn btn-outline btn-sm" wire:confirm="Tutup periode ini?">
+                <button wire:click="closePeriod({{ $period->id }})" class="btn btn-outline btn-sm btn-close-period" wire:confirm="Tutup periode ini?">
                     <i data-lucide="lock" style="width:14px;height:14px;"></i> Tutup Periode
                 </button>
                 @endif
@@ -71,4 +71,10 @@
         </div>
         @endforelse
     </div>
+
+    @if($periods->hasPages())
+    <div class="card-footer flex justify-end mt-4">
+        {{ $periods->links() }}
+    </div>
+    @endif
 </div>

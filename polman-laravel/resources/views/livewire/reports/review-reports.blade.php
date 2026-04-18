@@ -78,8 +78,11 @@
                 </table>
             </div>
         </div>
-        @if($reports->hasPages())
-        <div class="card-footer">{{ $reports->links() }}</div>
-        @endif
+        <div class="card-footer flex flex-col md:flex-row items-center justify-between gap-3">
+            <div class="text-sm text-slate-300">
+                Menampilkan {{ $reports->firstItem() ?: 0 }}-{{ $reports->lastItem() ?: 0 }} dari total {{ $reports->total() }} laporan
+            </div>
+            <div>{{ $reports->links() }}</div>
+        </div>
     </div>
 </div>

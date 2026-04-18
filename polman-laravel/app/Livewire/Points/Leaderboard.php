@@ -6,15 +6,22 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Leaderboard extends Component
 {
+    use WithPagination;
+
+    protected $paginationTheme = 'tailwind';
+
     public function render()
     {
         $hasShowNameOnLanding = Schema::hasColumn('users', 'show_name_on_landing');
 
         $leaderboard = DB::table('points')
+            ->join('reports', 'reports.id', '=', 'points.report_id')
             ->join('users', 'users.id', '=', 'points.user_id')
+            ->where('reports.status', 'approved')
             ->select(
                 'users.id',
                 'users.full_name',
@@ -36,7 +43,7 @@ class Leaderboard extends Component
                 'users.jabatan'
             )
             ->orderByDesc('total_points')
-            ->get();
+            ->paginate(10);
 
         $layout = Auth::check() ? 'layouts.app' : 'layouts.guest';
 

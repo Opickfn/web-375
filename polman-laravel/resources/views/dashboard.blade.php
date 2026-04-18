@@ -1,13 +1,24 @@
 @extends('layouts.app')
 @section('title', 'Dashboard')
+@section('page-title', 'Ringkasan Dashboard')
+@section('breadcrumbs', 'Dashboard > Ringkasan')
 
 @section('content')
-<div class="page-header">
-    <h1>Dashboard</h1>
-    <p>Selamat datang, {{ Auth::user()->full_name }}</p>
+<div class="dashboard-hero animate-in">
+    <div>
+        <h1>Ringkasan Dashboard</h1>
+        <p class="subtext">Ikhtisar laporan K3 dan perbaikan teknis untuk tim Anda.</p>
+    </div>
+    <div class="dashboard-actions">
+        @if(Auth::user()->canCreateReport())
+            <a href="{{ route('reports.create') }}" class="btn btn-primary">
+                <i data-lucide="plus-circle" style="width:18px;height:18px;"></i>
+                Tambah Laporan
+            </a>
+        @endif
+    </div>
 </div>
 
-{{-- Stats Grid --}}
 <div class="grid grid-4 gap-4 mb-6">
     <div class="stat-card animate-in">
         <div class="stat-icon primary"><i data-lucide="file-text" style="width:24px;height:24px;"></i></div>
@@ -175,8 +186,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // === Tren Bulanan (Area / Line) ===
     const monthlyCtx = document.getElementById('chartMonthly').getContext('2d');
     const gradient = monthlyCtx.createLinearGradient(0, 0, 0, 260);
-    gradient.addColorStop(0, 'rgba(12, 107, 175, 0.15)');
-    gradient.addColorStop(1, 'rgba(12, 107, 175, 0.01)');
+    gradient.addColorStop(0, 'rgba(34, 211, 238, 0.24)');
+    gradient.addColorStop(1, 'rgba(34, 211, 238, 0.04)');
 
     new Chart(monthlyCtx, {
         type: 'line',
@@ -185,18 +196,18 @@ document.addEventListener('DOMContentLoaded', function() {
             datasets: [{
                 label: 'Jumlah Laporan',
                 data: @json($chartMonthly['data']),
-                borderColor: '#0c6baf',
+                borderColor: '#22d3ee',
                 backgroundColor: gradient,
                 borderWidth: 3,
                 fill: true,
                 tension: 0.4,
                 pointRadius: 5,
-                pointBackgroundColor: '#fff',
-                pointBorderColor: '#0c6baf',
+                pointBackgroundColor: '#f8fafc',
+                pointBorderColor: '#22d3ee',
                 pointBorderWidth: 2.5,
                 pointHoverRadius: 8,
-                pointHoverBackgroundColor: '#0c6baf',
-                pointHoverBorderColor: '#fff',
+                pointHoverBackgroundColor: '#22d3ee',
+                pointHoverBorderColor: '#f8fafc',
                 pointHoverBorderWidth: 3,
             }]
         },

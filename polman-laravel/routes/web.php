@@ -30,7 +30,9 @@ Route::get('/', function () {
     $hasShowNameOnLanding = Schema::hasColumn('users', 'show_name_on_landing');
 
     $topUsers = \Illuminate\Support\Facades\DB::table('points')
+        ->join('reports', 'reports.id', '=', 'points.report_id')
         ->join('users', 'users.id', '=', 'points.user_id')
+        ->where('reports.status', 'approved')
         ->select(
             'users.full_name',
             'users.role',
@@ -50,7 +52,7 @@ Route::get('/', function () {
             'users.jabatan'
         )
         ->orderByDesc('total_points')
-        ->limit(10)
+        ->limit(5)
         ->get();
 
     $activeWarnings = \App\Models\Warning::public()->active()->orderByDesc('created_at')->get();

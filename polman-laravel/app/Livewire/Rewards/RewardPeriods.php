@@ -4,9 +4,14 @@ namespace App\Livewire\Rewards;
 
 use App\Models\RewardPeriod;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class RewardPeriods extends Component
 {
+    use WithPagination;
+
+    protected $paginationTheme = 'tailwind';
+
     public bool $showForm = false;
     public string $name = '';
     public string $startDate = '';
@@ -41,7 +46,7 @@ class RewardPeriods extends Component
 
     public function render()
     {
-        $periods = RewardPeriod::latest()->get();
+        $periods = RewardPeriod::latest()->paginate(10);
 
         return view('livewire.rewards.reward-periods', compact('periods'))
             ->layout('layouts.app')

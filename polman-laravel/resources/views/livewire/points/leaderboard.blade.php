@@ -37,15 +37,16 @@
                             $displayName = ($user->role === 'reporter' && !$user->show_name_on_landing)
                                 ? 'Anonim'
                                 : $user->full_name;
+                            $rank = $leaderboard->firstItem() + $idx;
                         @endphp
                         <tr>
                             <td>
-                                @if($idx < 3)
-                                    <span class="badge {{ $idx === 0 ? 'badge-warning' : ($idx === 1 ? 'badge-neutral' : 'badge-info') }}" style="font-size:.85rem;">
-                                        #{{ $idx + 1 }}
+                                @if($rank <= 3)
+                                    <span class="badge {{ $rank === 1 ? 'badge-warning' : ($rank === 2 ? 'badge-neutral' : 'badge-info') }}" style="font-size:.85rem;">
+                                        #{{ $rank }}
                                     </span>
                                 @else
-                                    <span class="text-muted">{{ $idx + 1 }}</span>
+                                    <span class="text-muted">{{ $rank }}</span>
                                 @endif
                             </td>
                             <td class="font-medium">{{ $displayName }}</td>
@@ -72,5 +73,13 @@
                 </table>
             </div>
         </div>
+        @if($leaderboard->hasPages())
+        <div class="card-footer flex flex-col md:flex-row items-center justify-between gap-3">
+            <div class="text-sm text-slate-300">
+                Menampilkan {{ $leaderboard->firstItem() }}-{{ $leaderboard->lastItem() }} dari total {{ $leaderboard->total() }} peringkat
+            </div>
+            <div>{{ $leaderboard->links() }}</div>
+        </div>
+        @endif
     </div>
 </div>

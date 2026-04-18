@@ -1,194 +1,396 @@
-<div>
-    @if($showSuccess && $successReport)
-    {{-- Success Confirmation --}}
-    <div style="max-width:600px;margin:60px auto;padding:0 24px;">
-        <div class="card animate-in">
-            <div class="card-body" style="text-align:center;padding:40px 24px;">
-                <div style="width:80px;height:80px;background:rgba(16,185,129,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;color:#10b981;">
-                    <i data-lucide="check-circle" style="width:40px;height:40px;"></i>
-                </div>
-
-                <h2 style="margin:0 0 12px 0;color:var(--text-dark);">Laporan Berhasil Dikirim!</h2>
-                <p style="color:var(--text-muted);margin:0 0 32px 0;font-size:0.95rem;">
-                    Terima kasih atas kontribusi Anda untuk meningkatkan kualitas kampus. Laporan akan ditinjau oleh tim manajemen.
-                </p>
-
-                {{-- Report Details --}}
-                <div style="background:var(--bg-surface);border-radius:var(--radius);padding:20px;margin-bottom:32px;border-left:4px solid #10b981;">
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;text-align:left;">
-                        <div>
-                            <p style="margin:0 0 4px 0;font-size:0.85rem;color:var(--text-muted);font-weight:500;">KODE LAPORAN</p>
-                            <p style="margin:0;font-size:1.1rem;color:var(--text-dark);font-weight:600;">{{ $successReport->code }}</p>
-                        </div>
-                        <div>
-                            <p style="margin:0 0 4px 0;font-size:0.85rem;color:var(--text-muted);font-weight:500;">KATEGORI</p>
-                            <p style="margin:0;"><span class="badge badge-info">{{ $successReport->kategori }}</span></p>
-                        </div>
-                        <div>
-                            <p style="margin:0 0 4px 0;font-size:0.85rem;color:var(--text-muted);font-weight:500;">PRIORITAS</p>
-                            <p style="margin:0;">
-                                <span class="badge {{ $successReport->prioritas === 'tinggi' ? 'badge-danger' : ($successReport->prioritas === 'sedang' ? 'badge-warning' : 'badge-neutral') }}">
-                                    {{ ucfirst($successReport->prioritas) }}
-                                </span>
-                            </p>
-                        </div>
-                        <div>
-                            <p style="margin:0 0 4px 0;font-size:0.85rem;color:var(--text-muted);font-weight:500;">STATUS</p>
-                            <p style="margin:0;"><span class="badge badge-warning">Menunggu Review</span></p>
-                        </div>
-                        <div style="grid-column:1/-1;">
-                            <p style="margin:0 0 4px 0;font-size:0.85rem;color:var(--text-muted);font-weight:500;">LOKASI</p>
-                            <p style="margin:0;color:var(--text-dark);">{{ $successReport->location_breadcrumb }}</p>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Actions --}}
-                <div class="flex gap-3" style="display:flex;gap:12px;justify-content:center;">
-                    <button wire:click="resetForm" class="btn btn-primary btn-lg">
-                        <i data-lucide="plus" style="width:18px;height:18px;"></i>
-                        Buat Laporan Baru
-                    </button>
-                    <a href="{{ route('home') }}" class="btn btn-outline btn-lg">
-                        <i data-lucide="home" style="width:18px;height:18px;"></i>
-                        Kembali ke Beranda
-                    </a>
-                </div>
-
-                {{-- Info Box --}}
-                <div style="background:rgba(12,107,175,0.05);border:1px solid rgba(12,107,175,0.2);border-radius:var(--radius);padding:16px;margin-top:24px;">
-                    <p style="margin:0;color:var(--text-muted);font-size:0.9rem;">
-                        <strong>Ingin akses dashboard lengkap?</strong> <a href="{{ route('register') }}" style="color:var(--primary);font-weight:500;text-decoration:none;">Daftar sekarang</a> untuk mendapat poin dan akses dashboard!
+<div class="public-report-shell">
+    <div class="min-h-screen flex items-center justify-center px-4 py-12">
+        <div class="public-report-card w-full max-w-5xl">
+            <div class="public-report-inner">
+                <div class="public-report-header mb-10">
+                    <h1>Buat Laporan Publik</h1>
+                    <p class="text-slate-300 leading-relaxed">
+                        Tambahkan temuan lapangan Anda dengan detail, foto, dan prioritas agar tim kampus dapat menindaklanjuti lebih cepat.
                     </p>
                 </div>
+
+                @if($showSuccess && $successReport)
+                    <div class="success-card">
+                        <div class="success-panel">
+                            <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-cyan-500/15 text-cyan-300 mb-6 shadow-[0_20px_60px_rgba(6,182,212,0.18)]">
+                                <i data-lucide="check-circle" class="w-10 h-10"></i>
+                            </div>
+                            <h2 class="success-title">Laporan Berhasil Dikirim!</h2>
+                            <p class="text-slate-300 max-w-2xl mx-auto mb-8">Terima kasih atas kontribusi Anda. Laporan telah terkirim dan akan ditinjau oleh tim manajemen kampus.</p>
+
+                            <div class="grid gap-4 sm:grid-cols-2 mb-8 text-left text-slate-200">
+                                <div class="rounded-3xl border border-white/10 bg-white/5 p-5">
+                                    <span class="text-xs uppercase tracking-[0.18em] text-slate-400">Kode Laporan</span>
+                                    <p class="mt-3 text-xl font-semibold">{{ $successReport->code }}</p>
+                                </div>
+                                <div class="rounded-3xl border border-white/10 bg-white/5 p-5">
+                                    <span class="text-xs uppercase tracking-[0.18em] text-slate-400">Kategori</span>
+                                    <p class="mt-3 text-xl font-semibold">{{ $successReport->kategori }}</p>
+                                </div>
+                                <div class="rounded-3xl border border-white/10 bg-white/5 p-5">
+                                    <span class="text-xs uppercase tracking-[0.18em] text-slate-400">Prioritas</span>
+                                    <p class="mt-3 text-xl font-semibold capitalize">{{ $successReport->prioritas }}</p>
+                                </div>
+                                <div class="rounded-3xl border border-white/10 bg-white/5 p-5">
+                                    <span class="text-xs uppercase tracking-[0.18em] text-slate-400">Lokasi</span>
+                                    <p class="mt-3 text-xl font-semibold">{{ $successReport->location_breadcrumb }}</p>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col gap-3 sm:flex-row sm:justify-center">
+                                <button wire:click="resetForm" class="submit-button px-6 py-4 w-full sm:w-auto">Buat Laporan Baru</button>
+                                <a href="{{ route('home') }}" class="btn btn-outline btn-lg px-6 py-4 text-center w-full sm:w-auto">Kembali ke Beranda</a>
+                            </div>
+                        </div>
+                    </div>
+                @else
+                    <div class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] items-start">
+                        <div class="glass-card p-8">
+                            <div class="mb-6 rounded-3xl bg-slate-900/70 border border-cyan-500/10 p-5">
+                                <p class="text-cyan-300 font-medium">Form Laporan Publik</p>
+                                <p class="mt-2 text-slate-400 text-sm leading-relaxed">Cocok untuk temuan umum dan pelanggaran lingkungan kerja. Laporan ini akan diproses oleh tim manajemen kampus.</p>
+                            </div>
+
+                            <form wire:submit.prevent="submit" class="space-y-5">
+                                <div class="form-group input-group">
+                                    <label class="form-label" for="kategori">Kategori Pelanggaran</label>
+                                    <select wire:model="kategori" id="kategori" class="input-field-custom appearance-none bg-slate-950 text-white">
+                                        <option value="">Pilih kategori</option>
+                                        <option value="5R">5R (Ringkas, Rapi, Resik, Rawat, Rajin)</option>
+                                        <option value="7S">7S (Seiri, Seiton, Seiso, Seiketsu, Shitsuke, Safety, Semangat)</option>
+                                        <option value="K3">K3 (Keselamatan dan Kesehatan Kerja)</option>
+                                    </select>
+                                    @error('kategori') <p class="form-error">{{ $message }}</p> @enderror
+                                </div>
+
+                                <div class="form-group input-group">
+                                    <label class="form-label" for="campus_id">Kampus</label>
+                                    <select wire:model="campus_id" id="campus_id" wire:change="$refresh" class="input-field-custom appearance-none bg-slate-950 text-white">
+                                        <option value="">Pilih kampus</option>
+                                        @foreach($campuses as $campus)
+                                            <option value="{{ $campus->id }}">{{ $campus->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('campus_id') <p class="form-error">{{ $message }}</p> @enderror
+                                </div>
+
+                                <div class="form-group input-group">
+                                    <label class="form-label" for="branch_id">Cabang Lokasi</label>
+                                    <select id="branch_id" wire:key="public-branch-{{ $campus_id ?: 'none' }}" wire:model="branch_id" wire:change="$refresh" class="input-field-custom appearance-none bg-slate-950 text-white" @disabled(!$campus_id)>
+                                        <option value="">Pilih Gedung atau Infrastruktur</option>
+                                        @foreach($branches as $branch)
+                                            <option value="{{ $branch->id }}" data-type="{{ $branch->type }}">{{ ucfirst($branch->type) }} - {{ $branch->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('branch_id') <p class="form-error">{{ $message }}</p> @enderror
+                                    @if($branchType === 'gedung')
+                                        <p class="text-sm text-slate-400 mt-2">Pilih gedung terlebih dahulu, lalu lanjutkan ke lantai dan ruang.</p>
+                                    @elseif($branchType === 'infrastruktur')
+                                        <p class="text-sm text-slate-400 mt-2">Infrastruktur umum dipilih langsung sebagai lokasi akhir.</p>
+                                    @endif
+                                </div>
+
+                                @if($branchType === 'gedung')
+                                    <div class="form-group input-group">
+                                        <label class="form-label" for="floor_id">Lantai</label>
+                                        <select id="floor_id" wire:model="floor_id" wire:change="$refresh" class="input-field-custom appearance-none bg-slate-950 text-white">
+                                            <option value="">Pilih lantai</option>
+                                            @foreach($floors as $floor)
+                                                <option value="{{ $floor->id }}">{{ $floor->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('floor_id') <p class="form-error">{{ $message }}</p> @enderror
+                                    </div>
+
+                                    @if($floor_id)
+                                        <div class="form-group input-group">
+                                            <label class="form-label" for="space_id">Ruang / Area</label>
+                                            <select id="space_id" wire:model="space_id" class="input-field-custom appearance-none bg-slate-950 text-white">
+                                                <option value="">Pilih ruangan atau area</option>
+                                                @foreach($spaces as $space)
+                                                    <option value="{{ $space->id }}">{{ ucfirst($space->type) }} - {{ $space->name }}</option>
+                                                @endforeach
+                                            </select>
+                                            @error('space_id') <p class="form-error">{{ $message }}</p> @enderror
+                                        </div>
+                                    @endif
+                                @endif
+
+                                <div class="form-group input-group">
+                                    <label class="form-label" for="detail_lokasi">Detail Lokasi</label>
+                                    <input id="detail_lokasi" type="text" wire:model="detail_lokasi" class="input-field-custom" placeholder="Contoh: Dekat pintu masuk area kerja">
+                                    @error('detail_lokasi') <p class="form-error">{{ $message }}</p> @enderror
+                                </div>
+
+                                <div class="form-group input-group">
+                                    <label class="form-label" for="deskripsi">Deskripsi Temuan</label>
+                                    <textarea id="deskripsi" wire:model="deskripsi" rows="5" class="input-field-custom" placeholder="Jelaskan detail temuan yang ditemukan di lapangan..."></textarea>
+                                    @error('deskripsi') <p class="form-error">{{ $message }}</p> @enderror
+                                </div>
+
+                                <div class="form-group input-group">
+                                    <label class="form-label" for="prioritas">Tingkat Prioritas</label>
+                                    <select id="prioritas" wire:model="prioritas" class="input-field-custom appearance-none bg-slate-950 text-white">
+                                        <option value="rendah">Rendah</option>
+                                        <option value="sedang">Sedang</option>
+                                        <option value="tinggi">Tinggi</option>
+                                    </select>
+                                    @error('prioritas') <p class="form-error">{{ $message }}</p> @enderror
+                                </div>
+
+                                <div class="form-group input-group">
+                                    <label class="form-label" for="bukti">Bukti Foto (opsional)</label>
+                                    <input id="bukti" type="file" wire:model="bukti" accept="image/*" class="input-field-custom cursor-pointer" />
+                                    @error('bukti') <p class="form-error">{{ $message }}</p> @enderror
+
+                                    @if($bukti)
+                                        @php
+                                            $previewBorder = $kategori === 'K3'
+                                                ? 'border-cyan-400 shadow-[0_0_25px_rgba(34,211,238,0.25)]'
+                                                : ($kategori === '7S'
+                                                    ? 'border-rose-400 shadow-[0_0_25px_rgba(244,63,94,0.25)]'
+                                                    : ($kategori === '5R'
+                                                        ? 'border-emerald-400 shadow-[0_0_25px_rgba(34,197,94,0.25)]'
+                                                        : 'border-white/10 shadow-[0_0_15px_rgba(255,255,255,0.08)]'));
+                                        @endphp
+                                        <img src="{{ $bukti->temporaryUrl() }}" alt="Preview"
+                                             class="report-preview mt-4 rounded-3xl border {{ $previewBorder }}" />
+                                    @endif
+                                </div>
+
+                                <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between pt-2">
+                                    <button type="submit" class="submit-button w-full sm:w-auto py-4 font-semibold">Kirim Laporan Safety</button>
+                                    <a href="{{ route('home') }}" class="btn btn-outline btn-lg w-full sm:w-auto text-center py-4">Kembali</a>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="glass-card p-8 border border-white/10 bg-slate-950/70 shadow-[0_30px_90px_rgba(15,23,42,0.3)]">
+                            <div class="rounded-[2rem] border border-cyan-500/10 bg-cyan-500/5 p-6 mb-6">
+                                <h3 class="text-xl font-semibold text-cyan-200">Ringkasan</h3>
+                                <p class="mt-3 text-slate-300 leading-relaxed">Isi laporan lengkap dengan lokasi, kategori, dan bukti akan membantu tim memproses lebih cepat. Semakin lengkap, semakin baik.</p>
+                            </div>
+                            <div class="space-y-4 text-slate-300 text-sm leading-7">
+                                <div>
+                                    <span class="inline-flex rounded-full bg-cyan-500/10 px-3 py-1 text-cyan-200 text-xs uppercase tracking-[0.2em]">Pro tip</span>
+                                    <p class="mt-3">Pilih kategori yang paling relevan dan tambahkan detail lokasi agar tim tidak perlu menebak.</p>
+                                </div>
+                                <div>
+                                    <span class="inline-flex rounded-full bg-slate-700/80 px-3 py-1 text-slate-200 text-xs uppercase tracking-[0.18em]">Fokus</span>
+                                    <p class="mt-3">Gunakan foto yang jelas, dan jangan lupa cantumkan lantai atau area agar penanganan lebih cepat.</p>
+                                </div>
+                                <div>
+                                    <span class="inline-flex rounded-full bg-slate-700/80 px-3 py-1 text-slate-200 text-xs uppercase tracking-[0.18em]">Keamanan</span>
+                                    <p class="mt-3">Laporan ini akan diproses secara publik oleh tim internal. Pastikan informasi yang dikirim relevan dan sopan.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
-    @else
-    {{-- Form --}}
-    <div class="page-header">
-        <h1>Buat Laporan Improvement</h1>
-        <p>Bantu tingkatkan kualitas lingkungan kampus dengan melaporkan temuan Anda</p>
-    </div>
-
-    <div class="card animate-in" style="max-width:680px;">
-        <div class="card-body">
-            {{-- Info Box --}}
-            <div style="background:rgba(12,107,175,0.05);border:1px solid rgba(12,107,175,0.2);border-radius:var(--radius);padding:16px;margin-bottom:24px;display:flex;gap:12px;">
-                <i data-lucide="info" style="width:20px;height:20px;color:var(--primary);flex-shrink:0;margin-top:2px;"></i>
-                <div style="font-size:0.9rem;color:var(--text-muted);">
-                    Laporan publik diproses oleh tim manajemen. <a href="{{ route('register') }}" style="color:var(--primary);font-weight:500;text-decoration:none;">Daftar</a> untuk mendapatkan poin dan akses dashboard!
-                </div>
-            </div>
-
-            <form wire:submit="submit">
-                <div class="form-group">
-                    <label class="form-label">Kategori Pelanggaran</label>
-                    <select wire:model="kategori" class="form-select">
-                        <option value="">Pilih kategori</option>
-                        <option value="5R">5R (Ringkas, Rapi, Resik, Rawat, Rajin)</option>
-                        <option value="7S">7S (Seiri, Seiton, Seiso, Seiketsu, Shitsuke, Safety, Semangat)</option>
-                        <option value="K3">K3 (Keselamatan dan Kesehatan Kerja)</option>
-                    </select>
-                    @error('kategori') <p class="form-error">{{ $message }}</p> @enderror
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Kampus</label>
-                    <select wire:model="campus_id" wire:change="$refresh" class="form-select">
-                        <option value="">Pilih kampus</option>
-                        @foreach($campuses as $campus)
-                            <option value="{{ $campus->id }}">{{ $campus->name }}</option>
-                        @endforeach
-                    </select>
-                    @error('campus_id') <p class="form-error">{{ $message }}</p> @enderror
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Cabang Lokasi</label>
-                    <select id="publicReportBranchId" wire:key="public-branch-{{ $campus_id ?: 'none' }}" wire:model="branch_id" wire:change="$refresh" class="form-select" @disabled(!$campus_id)>
-                        <option value="">Pilih Gedung atau Infrastruktur</option>
-                        @foreach($branches as $branch)
-                            <option value="{{ $branch->id }}" data-type="{{ $branch->type }}">{{ ucfirst($branch->type) }} - {{ $branch->name }}</option>
-                        @endforeach
-                    </select>
-                    @error('branch_id') <p class="form-error">{{ $message }}</p> @enderror
-                    @if($branchType === 'gedung')
-                        <p class="text-sm text-muted" style="margin-top:4px;">Pilih gedung terlebih dahulu, lalu lanjutkan ke lantai dan ruang.</p>
-                    @elseif($branchType === 'infrastruktur')
-                        <p class="text-sm text-muted" style="margin-top:4px;">Infrastruktur umum dipilih langsung sebagai lokasi akhir.</p>
-                    @endif
-                </div>
-
-                @if($branchType === 'gedung')
-                <div id="publicReportFloorGroup" class="form-group">
-                    <label class="form-label">Lantai</label>
-                    <select wire:model="floor_id" wire:change="$refresh" class="form-select">
-                        <option value="">Pilih lantai</option>
-                        @foreach($floors as $floor)
-                            <option value="{{ $floor->id }}">{{ $floor->name }}</option>
-                        @endforeach
-                    </select>
-                    @error('floor_id') <p class="form-error">{{ $message }}</p> @enderror
-                </div>
-
-                @if($floor_id)
-                <div id="publicReportSpaceGroup" class="form-group">
-                    <label class="form-label">Ruang / Area</label>
-                    <select wire:model="space_id" class="form-select">
-                        <option value="">Pilih ruangan atau area</option>
-                        @foreach($spaces as $space)
-                            <option value="{{ $space->id }}">{{ ucfirst($space->type) }} - {{ $space->name }}</option>
-                        @endforeach
-                    </select>
-                    @error('space_id') <p class="form-error">{{ $message }}</p> @enderror
-                </div>
-                @endif
-                @endif
-
-                <div class="form-group">
-                    <label class="form-label">Detail Lokasi</label>
-                    <input type="text" wire:model="detail_lokasi" class="form-input" placeholder="Contoh: Dekat pintu masuk area kerja">
-                    @error('detail_lokasi') <p class="form-error">{{ $message }}</p> @enderror
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Deskripsi Temuan</label>
-                    <textarea wire:model="deskripsi" class="form-textarea" placeholder="Jelaskan detail temuan yang ditemukan di lapangan..."></textarea>
-                    @error('deskripsi') <p class="form-error">{{ $message }}</p> @enderror
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Tingkat Prioritas</label>
-                    <select wire:model="prioritas" class="form-select">
-                        <option value="rendah">Rendah</option>
-                        <option value="sedang">Sedang</option>
-                        <option value="tinggi">Tinggi</option>
-                    </select>
-                    @error('prioritas') <p class="form-error">{{ $message }}</p> @enderror
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Bukti Foto (opsional)</label>
-                    <input type="file" wire:model="bukti" class="form-input" accept="image/*">
-                    @error('bukti') <p class="form-error">{{ $message }}</p> @enderror
-
-                    @if($bukti)
-                        <img src="{{ $bukti->temporaryUrl() }}" alt="Preview" style="margin-top:8px; max-height:200px; border-radius:var(--radius);">
-                    @endif
-                </div>
-
-                <div class="flex gap-3 mt-4">
-                    <button type="submit" class="btn btn-primary btn-lg" wire:loading.attr="disabled">
-                        <i data-lucide="send" style="width:18px;height:18px;"></i>
-                        <span wire:loading.remove>Kirim Laporan</span>
-                        <span wire:loading>Mengirim...</span>
-                    </button>
-                    <a href="{{ route('home') }}" class="btn btn-outline btn-lg">Kembali</a>
-                </div>
-            </form>
-        </div>
-    </div>
-    @endif
-
 </div>
+
+@push('styles')
+<style>
+    .public-report-shell {
+        min-height: 100vh;
+        position: relative;
+        background: radial-gradient(circle at top right, rgba(6, 182, 212, 0.18), transparent 28%),
+                    radial-gradient(circle at bottom left, rgba(148, 163, 184, 0.12), transparent 22%),
+                    linear-gradient(180deg, #020617 0%, #0b1220 100%);
+        overflow: hidden;
+    }
+    .public-report-shell::before,
+    .public-report-shell::after {
+        content: '';
+        position: absolute;
+        border-radius: 9999px;
+        filter: blur(110px);
+        opacity: 0.4;
+    }
+    .public-report-shell::before {
+        width: 540px;
+        height: 540px;
+        top: -150px;
+        right: -120px;
+        background: rgba(14, 165, 233, 0.2);
+    }
+    .public-report-shell::after {
+        width: 420px;
+        height: 420px;
+        bottom: -140px;
+        left: -120px;
+        background: rgba(15, 23, 42, 0.35);
+    }
+    .public-report-card {
+        border-radius: 2rem;
+        background: rgba(10, 20, 34, 0.82);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 60px 120px rgba(5, 10, 20, 0.55);
+        backdrop-filter: blur(22px);
+    }
+    .public-report-inner {
+        padding: 2.5rem;
+    }
+    .public-report-header h1 {
+        font-size: clamp(2.5rem, 4vw, 3.6rem);
+        line-height: 1;
+        font-weight: 800;
+        background: linear-gradient(90deg, #f8fafc, #94a3b8);
+        -webkit-background-clip: text;
+        color: transparent;
+    }
+    .public-report-header p {
+        margin-top: 0.9rem;
+        max-width: 44rem;
+        color: #cbd5e1;
+    }
+    .glass-card {
+        border-radius: 2rem;
+        background: rgba(15, 23, 42, 0.72);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 30px 90px rgba(15, 23, 42, 0.3);
+        backdrop-filter: blur(18px);
+    }
+    .input-field-custom {
+        width: 100%;
+        min-height: 3rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 1.2rem;
+        padding: 1rem 1.2rem;
+        color: #f8fafc;
+        transition: all 0.28s ease;
+        backdrop-filter: blur(14px);
+    }
+    select.input-field-custom {
+        background: #0f172a;
+        color: #ffffff;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%239ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+        background-position: right 1rem center;
+        background-repeat: no-repeat;
+        background-size: 1.2em 1.2em;
+        padding-right: 2.8rem;
+    }
+    select.input-field-custom option {
+        background-color: #0f172a;
+        color: #ffffff;
+        padding: 10px;
+    }
+    select {
+        color-scheme: dark;
+    }
+    .input-field-custom:focus {
+        border-color: rgba(34, 211, 238, 0.95);
+        box-shadow: 0 0 24px rgba(34, 211, 238, 0.18);
+        outline: none;
+        transform: translateY(-1px);
+    }
+    .form-label {
+        display: block;
+        margin-bottom: 0.65rem;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #94a3b8;
+        transition: color 0.25s ease;
+    }
+    .form-group:focus-within .form-label {
+        color: #38bdf8;
+    }
+    .report-preview {
+        display: block;
+        max-width: 100%;
+        max-height: 260px;
+        border-radius: 1.5rem;
+        object-fit: cover;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .submit-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 1rem 1.5rem;
+        border-radius: 1.25rem;
+        border: none;
+        color: #ffffff;
+        background: linear-gradient(135deg, #06b6d4, #0ea5e9);
+        transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+        box-shadow: 0 22px 50px rgba(6, 182, 212, 0.18);
+    }
+    .submit-button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 28px 60px rgba(6, 182, 212, 0.22);
+    }
+    .btn-outline {
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        color: #cbd5e1;
+        background: transparent;
+        transition: all 0.25s ease;
+    }
+    .btn-outline:hover {
+        border-color: rgba(34, 211, 238, 0.4);
+        color: #ffffff;
+        background: rgba(14, 165, 233, 0.08);
+    }
+    .form-error {
+        margin-top: 0.5rem;
+        font-size: 0.92rem;
+        color: #f97316;
+    }
+</style>
+@endpush
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const groups = document.querySelectorAll('.input-group');
+        if (!groups.length) return;
+
+        if (window.anime && typeof anime === 'function') {
+            anime({
+                targets: groups,
+                opacity: [0, 1],
+                translateY: [24, 0],
+                delay: anime.stagger(90),
+                easing: 'easeOutExpo'
+            });
+        } else {
+            groups.forEach((group, index) => {
+                setTimeout(() => group.classList.add('visible'), index * 90);
+            });
+        }
+
+        const inputs = document.querySelectorAll('.input-field-custom');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                if (window.anime && typeof anime === 'function') {
+                    anime({
+                        targets: input,
+                        borderColor: '#22d3ee',
+                        boxShadow: '0 0 24px rgba(34, 211, 238, 0.2)',
+                        duration: 220,
+                        easing: 'easeOutQuad'
+                    });
+                }
+            });
+            input.addEventListener('blur', () => {
+                if (window.anime && typeof anime === 'function') {
+                    anime({
+                        targets: input,
+                        borderColor: 'rgba(255, 255, 255, 0.12)',
+                        boxShadow: '0 0 0 rgba(34, 211, 238, 0)',
+                        duration: 220,
+                        easing: 'easeOutQuad'
+                    });
+                }
+            });
+        });
+    });
+</script>
+@endpush
