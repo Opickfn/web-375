@@ -15,6 +15,7 @@
         "vite": "^8.0.0"
     },
     "dependencies": {
-        "animejs": "^4.3.6"
+        "animejs": "^4.3.6",
+        "livewire": "^0.6.1"
     }
 }

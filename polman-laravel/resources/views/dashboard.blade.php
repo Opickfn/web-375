@@ -1,174 +1,176 @@
 @extends('layouts.app')
 @section('title', 'Dashboard')
-@section('page-title', 'Ringkasan Dashboard')
-@section('breadcrumbs', 'Dashboard > Ringkasan')
+@section('page-title', 'Dashboard')
 
 @section('content')
-<div class="dashboard-hero animate-in">
+{{-- ─── Page Header ─── --}}
+<div class="pm-page-header pm-fade-in">
     <div>
-        <h1>Ringkasan Dashboard</h1>
-        <p class="subtext">Ikhtisar laporan K3 dan perbaikan teknis untuk tim Anda.</p>
+        <h1>Selamat Datang, {{ explode(' ', Auth::user()->full_name)[0] }} 👋</h1>
+        <p>Ikhtisar sistem pelaporan K3, 5R, dan 7S — {{ now()->translatedFormat('l, d F Y') }}</p>
     </div>
-    <div class="dashboard-actions">
+    <div style="display:flex;gap:0.6rem;">
         @if(Auth::user()->canCreateReport())
-            <a href="{{ route('reports.create') }}" class="btn btn-primary">
-                <i data-lucide="plus-circle" style="width:18px;height:18px;"></i>
-                Tambah Laporan
-            </a>
+        <a href="{{ route('reports.create') }}" class="pm-btn pm-btn-primary">
+            <i data-lucide="plus" style="width:15px;height:15px;"></i> Buat Laporan
+        </a>
         @endif
     </div>
 </div>
 
-<div class="grid grid-4 gap-4 mb-6">
-    <div class="stat-card animate-in">
-        <div class="stat-icon primary"><i data-lucide="file-text" style="width:24px;height:24px;"></i></div>
+{{-- ─── Stat Cards ─── --}}
+<div class="pm-grid-4" style="margin-bottom:1.5rem;gap:1rem;">
+    <div class="pm-stat pm-fade-in">
+        <div class="pm-stat-icon"><i data-lucide="file-text" style="width:22px;height:22px;color:#5588A3;"></i></div>
         <div>
-            <div class="stat-value">{{ $totalReports }}</div>
-            <div class="stat-label">Total Laporan</div>
+            <div class="pm-stat-value">{{ $totalReports }}</div>
+            <div class="pm-stat-label">Total Laporan</div>
         </div>
     </div>
-    <div class="stat-card animate-in" style="animation-delay:.05s">
-        <div class="stat-icon warning"><i data-lucide="clock" style="width:24px;height:24px;"></i></div>
+    <div class="pm-stat pm-fade-in">
+        <div class="pm-stat-icon" style="background:rgba(245,158,11,0.12);border-color:rgba(245,158,11,0.25);">
+            <i data-lucide="clock" style="width:22px;height:22px;color:#f59e0b;"></i>
+        </div>
         <div>
-            <div class="stat-value">{{ $pendingReports }}</div>
-            <div class="stat-label">Menunggu Review</div>
+            <div class="pm-stat-value">{{ $pendingReports }}</div>
+            <div class="pm-stat-label">Menunggu Review</div>
         </div>
     </div>
-    <div class="stat-card animate-in" style="animation-delay:.1s">
-        <div class="stat-icon success"><i data-lucide="check-circle" style="width:24px;height:24px;"></i></div>
+    <div class="pm-stat pm-fade-in">
+        <div class="pm-stat-icon" style="background:rgba(74,222,128,0.12);border-color:rgba(74,222,128,0.25);">
+            <i data-lucide="check-circle" style="width:22px;height:22px;color:#4ade80;"></i>
+        </div>
         <div>
-            <div class="stat-value">{{ $resolvedReports }}</div>
-            <div class="stat-label">Selesai</div>
+            <div class="pm-stat-value">{{ $resolvedReports }}</div>
+            <div class="pm-stat-label">Selesai</div>
         </div>
     </div>
-    <div class="stat-card animate-in" style="animation-delay:.15s">
-        @if(Auth::user()->canCreateReport())
-        <div class="stat-icon primary"><i data-lucide="star" style="width:24px;height:24px;"></i></div>
-        <div>
-            <div class="stat-value">{{ $myPoints }}</div>
-            <div class="stat-label">Poin Saya</div>
+    @if(Auth::user()->canCreateReport())
+    <div class="pm-stat pm-fade-in">
+        <div class="pm-stat-icon" style="background:rgba(245,158,11,0.12);border-color:rgba(245,158,11,0.25);">
+            <i data-lucide="star" style="width:22px;height:22px;color:#f59e0b;"></i>
         </div>
-        @else
-        <div class="stat-icon primary"><i data-lucide="users" style="width:24px;height:24px;"></i></div>
         <div>
-            <div class="stat-value">{{ $totalUsers }}</div>
-            <div class="stat-label">Total User</div>
+            <div class="pm-stat-value">{{ $myPoints }}</div>
+            <div class="pm-stat-label">Poin Saya</div>
         </div>
-        @endif
+    </div>
+    @else
+    <div class="pm-stat pm-fade-in">
+        <div class="pm-stat-icon"><i data-lucide="users" style="width:22px;height:22px;color:#5588A3;"></i></div>
+        <div>
+            <div class="pm-stat-value">{{ $totalUsers }}</div>
+            <div class="pm-stat-label">Total User</div>
+        </div>
+    </div>
+    @endif
+</div>
+
+{{-- ─── Charts Row 1 ─── --}}
+<div class="pm-grid-2" style="margin-bottom:1.25rem;gap:1rem;">
+    <div class="pm-card pm-fade-in">
+        <div class="pm-card-header">
+            <h3><i data-lucide="trending-up" style="width:15px;height:15px;display:inline;vertical-align:middle;margin-right:6px;color:#5588A3;"></i>Tren Laporan 6 Bulan</h3>
+        </div>
+        <div class="pm-card-body" style="padding-top:0.5rem;">
+            <canvas id="chartMonthly" height="220"></canvas>
+        </div>
+    </div>
+    <div class="pm-card pm-fade-in">
+        <div class="pm-card-header">
+            <h3><i data-lucide="pie-chart" style="width:15px;height:15px;display:inline;vertical-align:middle;margin-right:6px;color:#5588A3;"></i>Status Laporan</h3>
+        </div>
+        <div class="pm-card-body" style="display:flex;justify-content:center;padding-top:0.5rem;">
+            <div style="max-width:280px;width:100%;"><canvas id="chartStatus" height="220"></canvas></div>
+        </div>
     </div>
 </div>
 
-{{-- Charts Row --}}
-<div class="grid grid-2 gap-4 mb-6">
-    {{-- Chart 1: Tren Laporan Bulanan --}}
-    <div class="card animate-in" style="animation-delay:.2s">
-        <div class="card-header">
-            <h3>Tren Laporan Bulanan</h3>
+{{-- ─── Charts Row 2 ─── --}}
+<div class="pm-grid-2" style="margin-bottom:1.25rem;gap:1rem;">
+    <div class="pm-card pm-fade-in">
+        <div class="pm-card-header">
+            <h3><i data-lucide="bar-chart-2" style="width:15px;height:15px;display:inline;vertical-align:middle;margin-right:6px;color:#5588A3;"></i>Laporan per Kategori</h3>
         </div>
-        <div class="card-body">
-            <canvas id="chartMonthly" height="260"></canvas>
-        </div>
-    </div>
-
-    {{-- Chart 2: Status Laporan --}}
-    <div class="card animate-in" style="animation-delay:.25s">
-        <div class="card-header">
-            <h3>Status Laporan</h3>
-        </div>
-        <div class="card-body" style="display:flex;justify-content:center;">
-            <div style="max-width:300px;width:100%;">
-                <canvas id="chartStatus" height="260"></canvas>
-            </div>
+        <div class="pm-card-body" style="padding-top:0.5rem;">
+            <canvas id="chartCategory" height="220"></canvas>
         </div>
     </div>
-</div>
-
-<div class="grid grid-2 gap-4 mb-6">
-    {{-- Chart 3: Laporan per Kategori --}}
-    <div class="card animate-in" style="animation-delay:.3s">
-        <div class="card-header">
-            <h3>Laporan per Kategori</h3>
-        </div>
-        <div class="card-body">
-            <canvas id="chartCategory" height="260"></canvas>
-        </div>
-    </div>
-
-    {{-- Chart 4: Poin Bulanan (reporter) / User Stats --}}
-    <div class="card animate-in" style="animation-delay:.35s">
-        <div class="card-header">
+    <div class="pm-card pm-fade-in">
+        <div class="pm-card-header">
             @if(Auth::user()->canCreateReport())
-            <h3>Poin Bulanan Saya</h3>
+            <h3><i data-lucide="zap" style="width:15px;height:15px;display:inline;vertical-align:middle;margin-right:6px;color:#f59e0b;"></i>Poin Bulanan</h3>
             @else
-            <h3>Distribusi Laporan per Prioritas</h3>
+            <h3><i data-lucide="layers" style="width:15px;height:15px;display:inline;vertical-align:middle;margin-right:6px;color:#5588A3;"></i>Distribusi Prioritas</h3>
             @endif
         </div>
-        <div class="card-body">
+        <div class="pm-card-body" style="padding-top:0.5rem;">
             @if(Auth::user()->canCreateReport())
-            <canvas id="chartPoints" height="260"></canvas>
+            <canvas id="chartPoints" height="220"></canvas>
             @else
-            <canvas id="chartPriority" height="260"></canvas>
+            <canvas id="chartPriority" height="220"></canvas>
             @endif
         </div>
     </div>
 </div>
 
-{{-- Recent reports --}}
-<div class="card animate-in" style="animation-delay:.4s">
-    <div class="card-header">
-        <h3>Laporan Terbaru</h3>
+{{-- ─── Recent Reports Table ─── --}}
+<div class="pm-card pm-fade-in">
+    <div class="pm-card-header">
+        <h3><i data-lucide="list" style="width:15px;height:15px;display:inline;vertical-align:middle;margin-right:6px;color:#5588A3;"></i>Laporan Terbaru</h3>
         @if(Auth::user()->canCreateReport())
-        <a href="{{ route('reports.my') }}" class="btn btn-outline btn-sm">Lihat Semua</a>
+        <a href="{{ route('reports.my') }}" class="pm-btn pm-btn-outline pm-btn-sm">Lihat Semua</a>
         @endif
     </div>
-    <div class="card-body" style="padding:0;">
-        <div class="table-wrapper">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Kode</th>
-                        <th>Kategori</th>
-                        <th>Lokasi</th>
-                        <th>Prioritas</th>
-                        <th>Status</th>
-                        <th>Tanggal</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($recentReports as $report)
-                    <tr>
-                        <td class="font-medium">{{ $report->code }}</td>
-                        <td><span class="badge badge-info">{{ $report->kategori }}</span></td>
-                        <td>{{ $report->lokasi }}</td>
-                        <td>
-                            <span class="badge {{ $report->prioritas === 'tinggi' ? 'badge-danger' : ($report->prioritas === 'sedang' ? 'badge-warning' : 'badge-neutral') }}">
-                                {{ $report->prioritas_label }}
-                            </span>
-                        </td>
-                        <td>
-                            <span class="badge {{ match($report->status) { 'pending' => 'badge-warning', 'approved' => 'badge-primary', 'in_progress' => 'badge-info', 'resolved' => 'badge-success', 'rejected' => 'badge-danger', default => 'badge-neutral' } }}">
-                                {{ $report->status_label }}
-                            </span>
-                        </td>
-                        <td class="text-sm text-muted">{{ $report->created_at->format('d M Y') }}</td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="6">
-                            <div class="empty-state">
-                                <i data-lucide="inbox" style="width:40px;height:40px;"></i>
-                                @if(Auth::user()->canCreateReport())
-                                <p>Belum ada laporan. <a href="{{ route('reports.create') }}">Buat laporan pertama</a></p>
-                                @else
-                                <p>Belum ada laporan masuk.</p>
-                                @endif
-                            </div>
-                        </td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
+    <div class="pm-table-wrap">
+        <table class="pm-table">
+            <thead>
+                <tr>
+                    <th>Kode</th>
+                    <th>Kategori</th>
+                    <th>Lokasi</th>
+                    <th>Prioritas</th>
+                    <th>Status</th>
+                    <th>Tanggal</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($recentReports as $report)
+                <tr>
+                    <td style="font-weight:700;font-family:monospace;color:#5588A3;">{{ $report->code }}</td>
+                    <td><span class="pm-badge pm-badge-info">{{ $report->kategori }}</span></td>
+                    <td style="color:rgba(232,232,232,0.75);max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ $report->lokasi }}</td>
+                    <td>
+                        <span class="pm-badge {{ $report->prioritas==='tinggi' ? 'pm-badge-danger' : ($report->prioritas==='sedang' ? 'pm-badge-warning' : 'pm-badge-neutral') }}">
+                            {{ ucfirst($report->prioritas) }}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="pm-badge {{ match($report->status) {
+                            'pending'     => 'pm-badge-warning',
+                            'approved'    => 'pm-badge-accent',
+                            'in_progress' => 'pm-badge-info',
+                            'resolved'    => 'pm-badge-success',
+                            'rejected'    => 'pm-badge-danger',
+                            default       => 'pm-badge-neutral',
+                        } }}">{{ $report->status_label }}</span>
+                    </td>
+                    <td style="color:rgba(232,232,232,0.5);font-size:0.8rem;">{{ $report->created_at->format('d M Y') }}</td>
+                </tr>
+                @empty
+                <tr><td colspan="6">
+                    <div class="pm-empty">
+                        <i data-lucide="inbox" style="width:36px;height:36px;"></i>
+                        <p>Belum ada laporan.<br>
+                            @if(Auth::user()->canCreateReport())
+                            <a href="{{ route('reports.create') }}" style="color:#5588A3;">Buat laporan pertama</a>
+                            @endif
+                        </p>
+                    </div>
+                </td></tr>
+                @endforelse
+            </tbody>
+        </table>
     </div>
 </div>
 
@@ -176,109 +178,72 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Chart defaults
     Chart.defaults.font.family = "'Inter', sans-serif";
-    Chart.defaults.font.size = 13;
-    Chart.defaults.color = '#64748b';
+    Chart.defaults.font.size = 12;
+    Chart.defaults.color = 'rgba(232,232,232,0.5)';
     Chart.defaults.plugins.legend.labels.usePointStyle = true;
-    Chart.defaults.plugins.legend.labels.pointStyle = 'circle';
     Chart.defaults.plugins.legend.labels.padding = 16;
 
-    // === Tren Bulanan (Area / Line) ===
-    const monthlyCtx = document.getElementById('chartMonthly').getContext('2d');
-    const gradient = monthlyCtx.createLinearGradient(0, 0, 0, 260);
-    gradient.addColorStop(0, 'rgba(34, 211, 238, 0.24)');
-    gradient.addColorStop(1, 'rgba(34, 211, 238, 0.04)');
+    const accent = '#5588A3';
+    const accentGlow = 'rgba(85,136,163,0.15)';
 
-    new Chart(monthlyCtx, {
+    // Monthly trend
+    const mCtx = document.getElementById('chartMonthly').getContext('2d');
+    const mGrad = mCtx.createLinearGradient(0, 0, 0, 220);
+    mGrad.addColorStop(0, 'rgba(85,136,163,0.3)');
+    mGrad.addColorStop(1, 'rgba(85,136,163,0.02)');
+    new Chart(mCtx, {
         type: 'line',
         data: {
             labels: @json($chartMonthly['labels']),
             datasets: [{
-                label: 'Jumlah Laporan',
+                label: 'Laporan',
                 data: @json($chartMonthly['data']),
-                borderColor: '#22d3ee',
-                backgroundColor: gradient,
-                borderWidth: 3,
-                fill: true,
-                tension: 0.4,
-                pointRadius: 5,
-                pointBackgroundColor: '#f8fafc',
-                pointBorderColor: '#22d3ee',
-                pointBorderWidth: 2.5,
-                pointHoverRadius: 8,
-                pointHoverBackgroundColor: '#22d3ee',
-                pointHoverBorderColor: '#f8fafc',
-                pointHoverBorderWidth: 3,
+                borderColor: accent,
+                backgroundColor: mGrad,
+                borderWidth: 2.5, fill: true, tension: 0.4,
+                pointRadius: 4, pointBackgroundColor: '#00334E',
+                pointBorderColor: accent, pointBorderWidth: 2,
+                pointHoverRadius: 7,
             }]
         },
         options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: { display: false },
-                tooltip: {
-                    backgroundColor: '#0f172a',
-                    cornerRadius: 10,
-                    padding: 12,
-                    titleFont: { weight: '600' },
-                }
-            },
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false }, tooltip: { backgroundColor: 'rgba(0,30,50,0.95)', cornerRadius: 10, padding: 12 } },
             scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: { stepSize: 1, padding: 8 },
-                    grid: { color: 'rgba(0,0,0,0.04)', drawBorder: false },
-                    border: { display: false },
-                },
-                x: {
-                    grid: { display: false },
-                    border: { display: false },
-                    ticks: { padding: 8 },
-                }
+                y: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { color: 'rgba(20,83,116,0.2)' }, border: { display: false } },
+                x: { grid: { display: false }, border: { display: false } }
             }
         }
     });
 
-    // === Status Laporan (Doughnut) ===
+    // Status doughnut
     new Chart(document.getElementById('chartStatus'), {
         type: 'doughnut',
         data: {
             labels: @json($chartStatus['labels']),
             datasets: [{
                 data: @json($chartStatus['data']),
-                backgroundColor: ['#f59e0b', '#3b82f6', '#06b6d4', '#10b981', '#ef4444'],
-                borderWidth: 0,
-                hoverOffset: 8,
-                borderRadius: 4,
-                spacing: 3,
+                backgroundColor: ['rgba(245,158,11,0.85)','rgba(85,136,163,0.85)','rgba(56,189,248,0.85)','rgba(74,222,128,0.85)','rgba(248,113,113,0.85)'],
+                borderWidth: 0, hoverOffset: 6, borderRadius: 4, spacing: 2,
             }]
         },
         options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            cutout: '65%',
+            responsive: true, maintainAspectRatio: false, cutout: '65%',
             plugins: {
-                legend: {
-                    position: 'bottom',
-                    labels: { font: { size: 12, weight: '500' }, padding: 12 }
-                },
-                tooltip: {
-                    backgroundColor: '#0f172a',
-                    cornerRadius: 10,
-                    padding: 12,
-                    callbacks: {
-                        label: function(ctx) {
-                            let total = ctx.dataset.data.reduce((a, b) => a + b, 0);
-                            let pct = total > 0 ? Math.round((ctx.parsed / total) * 100) : 0;
-                            return ` ${ctx.label}: ${ctx.parsed} (${pct}%)`;
-                        }
-                    }
+                legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 12 } },
+                tooltip: { backgroundColor: 'rgba(0,30,50,0.95)', cornerRadius: 10, padding: 12,
+                    callbacks: { label: function(ctx) {
+                        const total = ctx.dataset.data.reduce((a,b) => a+b, 0);
+                        return ` ${ctx.label}: ${ctx.parsed} (${total > 0 ? Math.round(ctx.parsed/total*100) : 0}%)`;
+                    }}
                 }
             }
         }
     });
 
-    // === Laporan per Kategori (Bar) ===
+    // Category bar
     new Chart(document.getElementById('chartCategory'), {
         type: 'bar',
         data: {
@@ -286,115 +251,63 @@ document.addEventListener('DOMContentLoaded', function() {
             datasets: [{
                 label: 'Jumlah',
                 data: @json($chartCategory['data']),
-                backgroundColor: [
-                    'rgba(12, 107, 175, 0.8)',
-                    'rgba(16, 185, 129, 0.8)',
-                    'rgba(245, 158, 11, 0.8)',
-                    'rgba(239, 68, 68, 0.8)',
-                    'rgba(59, 130, 246, 0.8)',
-                ],
-                borderRadius: 8,
-                borderSkipped: false,
-                barPercentage: 0.65,
-                maxBarThickness: 48,
+                backgroundColor: ['rgba(85,136,163,0.75)','rgba(74,222,128,0.75)','rgba(248,113,113,0.75)'],
+                borderRadius: 8, borderSkipped: false, barPercentage: 0.65, maxBarThickness: 44,
             }]
         },
         options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: { display: false },
-                tooltip: {
-                    backgroundColor: '#0f172a',
-                    cornerRadius: 10,
-                    padding: 12,
-                }
-            },
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false }, tooltip: { backgroundColor: 'rgba(0,30,50,0.95)', cornerRadius: 10, padding: 12 } },
             scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: { stepSize: 1, padding: 8 },
-                    grid: { color: 'rgba(0,0,0,0.04)', drawBorder: false },
-                    border: { display: false },
-                },
-                x: {
-                    grid: { display: false },
-                    border: { display: false },
-                    ticks: { padding: 8 },
-                }
+                y: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { color: 'rgba(20,83,116,0.2)' }, border: { display: false } },
+                x: { grid: { display: false }, border: { display: false } }
             }
         }
     });
 
-    // === Poin Bulanan (Reporter) ===
     @if(Auth::user()->canCreateReport())
-    const pointsCtx = document.getElementById('chartPoints').getContext('2d');
-    const pGradient = pointsCtx.createLinearGradient(0, 0, 0, 260);
-    pGradient.addColorStop(0, 'rgba(16, 185, 129, 0.15)');
-    pGradient.addColorStop(1, 'rgba(16, 185, 129, 0.01)');
-
-    new Chart(pointsCtx, {
+    const pCtx = document.getElementById('chartPoints').getContext('2d');
+    const pGrad = pCtx.createLinearGradient(0, 0, 0, 220);
+    pGrad.addColorStop(0, 'rgba(245,158,11,0.25)');
+    pGrad.addColorStop(1, 'rgba(245,158,11,0.02)');
+    new Chart(pCtx, {
         type: 'line',
         data: {
             labels: @json($chartPoints['labels']),
             datasets: [{
                 label: 'Poin',
                 data: @json($chartPoints['data']),
-                borderColor: '#10b981',
-                backgroundColor: pGradient,
-                borderWidth: 3,
-                fill: true,
-                tension: 0.4,
-                pointRadius: 5,
-                pointBackgroundColor: '#fff',
-                pointBorderColor: '#10b981',
-                pointBorderWidth: 2.5,
-                pointHoverRadius: 8,
+                borderColor: '#f59e0b', backgroundColor: pGrad,
+                borderWidth: 2.5, fill: true, tension: 0.4,
+                pointRadius: 4, pointBackgroundColor: '#00334E',
+                pointBorderColor: '#f59e0b', pointBorderWidth: 2, pointHoverRadius: 7,
             }]
         },
         options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: { display: false },
-                tooltip: { backgroundColor: '#0f172a', cornerRadius: 10, padding: 12 }
-            },
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false }, tooltip: { backgroundColor: 'rgba(0,30,50,0.95)', cornerRadius: 10, padding: 12 } },
             scales: {
-                y: { beginAtZero: true, ticks: { stepSize: 5, padding: 8 }, grid: { color: 'rgba(0,0,0,0.04)', drawBorder: false }, border: { display: false } },
-                x: { grid: { display: false }, border: { display: false }, ticks: { padding: 8 } }
+                y: { beginAtZero: true, grid: { color: 'rgba(20,83,116,0.2)' }, border: { display: false } },
+                x: { grid: { display: false }, border: { display: false } }
             }
         }
     });
     @else
-    // === Distribusi Prioritas (Horizontal Bar for Admin/PJ Area) ===
-    const priorityData = @json($chartStatus);
     new Chart(document.getElementById('chartPriority'), {
         type: 'bar',
         data: {
-            labels: priorityData.labels,
-            datasets: [{
-                data: priorityData.data,
-                backgroundColor: [
-                    'rgba(245, 158, 11, 0.15)',
-                    'rgba(59, 130, 246, 0.15)',
-                    'rgba(6, 182, 212, 0.15)',
-                    'rgba(16, 185, 129, 0.15)',
-                    'rgba(239, 68, 68, 0.15)',
-                ],
-                borderColor: ['#f59e0b', '#3b82f6', '#06b6d4', '#10b981', '#ef4444'],
-                borderWidth: 2,
-                borderRadius: 8,
-                borderSkipped: false,
-                barPercentage: 0.7,
+            labels: @json($chartStatus['labels']),
+            datasets: [{ data: @json($chartStatus['data']),
+                backgroundColor: ['rgba(245,158,11,0.2)','rgba(85,136,163,0.2)','rgba(56,189,248,0.2)','rgba(74,222,128,0.2)','rgba(248,113,113,0.2)'],
+                borderColor: ['#f59e0b','#5588A3','#38bdf8','#4ade80','#f87171'],
+                borderWidth: 2, borderRadius: 8, borderSkipped: false, barPercentage: 0.7,
             }]
         },
         options: {
-            indexAxis: 'y',
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false }, tooltip: { backgroundColor: '#0f172a', cornerRadius: 10, padding: 12 } },
+            indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false }, tooltip: { backgroundColor: 'rgba(0,30,50,0.95)', cornerRadius: 10, padding: 12 } },
             scales: {
-                x: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { color: 'rgba(0,0,0,0.04)' }, border: { display: false } },
+                x: { beginAtZero: true, grid: { color: 'rgba(20,83,116,0.2)' }, border: { display: false } },
                 y: { grid: { display: false }, border: { display: false } }
             }
         }

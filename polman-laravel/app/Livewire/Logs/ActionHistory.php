@@ -6,9 +6,11 @@ use App\Models\Location;
 use App\Models\Report;
 use App\Models\Warning;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
 
+#[Layout('layouts.app')]
 class ActionHistory extends Component
 {
     use WithPagination;
@@ -97,7 +99,6 @@ class ActionHistory extends Component
         $warningLogs = $warningQuery->paginate(10, ['*'], 'warningsPage');
 
         return view('livewire.logs.action-history', compact('reportLogs', 'warningLogs'))
-            ->layout('layouts.app')
             ->title('Log History');
     }
 }

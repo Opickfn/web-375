@@ -5,79 +5,126 @@ namespace App\Livewire\Reports;
 use App\Models\Point;
 use App\Models\Report;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
+#[Layout('layouts.app')]
 class ReviewReports extends Component
 {
     use WithPagination;
 
+    public string $search         = '';
     public string $filterKategori = '';
+    public string $filterPrioritas = '';
+    public string $sortBy         = 'created_at';
+    public string $sortDir        = 'desc';
+    public int    $perPage        = 15;
 
-    public function approve(int $reportId, string $notes = '')
+    public function updatingSearch()         { $this->resetPage(); }
+    public function updatingFilterKategori() { $this->resetPage(); }
+    public function updatingFilterPrioritas() { $this->resetPage(); }
+
+    public function sort(string $column): void
     {
-        $report = Report::findOrFail($reportId);
+        $this->sortDir = ($this->sortBy === $column && $this->sortDir === 'asc') ? 'desc' : 'asc';
+        $this->sortBy  = $column;
+        $this->resetPage();
+    }
+
+    public function approve(int $id, string $notes = ''): void
+    {
+        $report = Report::findOrFail($id);
         $report->update([
-            'status' => 'approved',
-            'reviewed_by' => Auth::id(),
-            'reviewed_at' => now(),
+            'status'       => 'approved',
+            'reviewed_by'  => Auth::id(),
+            'reviewed_at'  => now(),
             'review_notes' => $notes,
         ]);
-
-        // Bonus points for reporter
-        Point::create([
-            'user_id' => $report->reporter_id,
-            'report_id' => $report->id,
-            'amount' => 5,
-            'type' => 'approved',
-            'description' => 'Bonus laporan disetujui ' . $report->code,
-        ]);
-
+        if ($report->reporter_id) {
+            Point::create([
+                'user_id'     => $report->reporter_id,
+                'report_id'   => $report->id,
+                'amount'      => 5,
+                'type'        => 'approved',
+                'description' => 'Bonus laporan disetujui ' . $report->code,
+            ]);
+        }
         session()->flash('success', 'Laporan ' . $report->code . ' telah disetujui.');
     }
 
-    public function reject(int $reportId, string $notes = '')
+    public function reject(int $id, string $notes = ''): void
     {
-        $report = Report::findOrFail($reportId);
+        $report = Report::findOrFail($id);
         $report->update([
-            'status' => 'rejected',
-            'reviewed_by' => Auth::id(),
-            'reviewed_at' => now(),
+            'status'       => 'rejected',
+            'reviewed_by'  => Auth::id(),
+            'reviewed_at'  => now(),
             'review_notes' => $notes ?: 'Ditolak oleh reviewer.',
         ]);
-
-        // Remove points from submission - only if reporter exists (not public)
         if ($report->reporter_id) {
             Point::create([
-                'user_id' => $report->reporter_id,
-                'report_id' => $report->id,
-                'amount' => -10,
-                'type' => 'rejected',
-                'description' => 'Poin dihapus - laporan ditolak ' . $report->code,
+                'user_id'     => $report->reporter_id,
+                'report_id'   => $report->id,
+                'amount'      => -10,
+                'type'        => 'rejected',
+                'description' => 'Poin dihapus — laporan ditolak ' . $report->code,
             ]);
-            session()->flash('success', 'Laporan ' . $report->code . ' telah ditolak. Poin submission dihapus.');
-        } else {
-            session()->flash('success', 'Laporan ' . $report->code . ' telah ditolak.');
         }
+        session()->flash('success', 'Laporan ' . $report->code . ' telah ditolak.');
+    }
+
+    public function export(): StreamedResponse
+    {
+        $reports = $this->buildQuery()->get();
+
+        return response()->streamDownload(function () use ($reports) {
+            $h = fopen('php://output', 'w');
+            fputcsv($h, ['Kode', 'Pelapor', 'Kategori', 'Lokasi', 'Prioritas', 'Tanggal']);
+            foreach ($reports as $r) {
+                fputcsv($h, [
+                    $r->code,
+                    $r->reporter?->full_name ?? 'Publik',
+                    $r->kategori,
+                    $r->lokasi,
+                    $r->prioritas_label,
+                    $r->created_at->format('d/m/Y H:i'),
+                ]);
+            }
+            fclose($h);
+        }, 'review-laporan-' . now()->format('Ymd') . '.csv');
+    }
+
+    private function buildQuery()
+    {
+        $q = Report::with(['reporter', 'location'])->where('status', 'pending');
+
+        if (Auth::user()?->isPjArea() && Auth::user()?->gedung_id) {
+            $q->where('gedung_id', Auth::user()->gedung_id);
+        }
+        if ($this->search) {
+            $q->where(function ($s) {
+                $s->where('lokasi',    'ILIKE', "%{$this->search}%")
+                  ->orWhere('deskripsi', 'ILIKE', "%{$this->search}%")
+                  ->orWhereHas('reporter', fn ($r) => $r->where('full_name', 'ILIKE', "%{$this->search}%"));
+            });
+        }
+        if ($this->filterKategori)  $q->where('kategori',  $this->filterKategori);
+        if ($this->filterPrioritas) $q->where('prioritas', $this->filterPrioritas);
+
+        $allowed = ['created_at', 'kategori', 'prioritas'];
+        $col = in_array($this->sortBy, $allowed) ? $this->sortBy : 'created_at';
+        $q->orderBy($col, $this->sortDir);
+
+        return $q;
     }
 
     public function render()
     {
-        $query = Report::with(['reporter', 'location'])->where('status', 'pending');
-
-        // Filter by PJ Area's assigned building if user is a PJ Area
-        if (Auth::user()?->isPjArea() && Auth::user()?->gedung_id) {
-            $query->where('gedung_id', Auth::user()->gedung_id);
-        }
-
-        if ($this->filterKategori) {
-            $query->byKategori($this->filterKategori);
-        }
-
-        $reports = $query->latest()->paginate(10);
+        $reports = $this->buildQuery()->paginate($this->perPage);
 
         return view('livewire.reports.review-reports', compact('reports'))
-            ->layout('layouts.app')
             ->title('Review Laporan');
     }
 }

@@ -1,4 +1,8 @@
-﻿@extends('layouts.guest')
+﻿@php
+use Illuminate\Support\Str;
+@endphp
+
+@extends('layouts.guest')
 @section('title', 'POLMAN 375')
 
 @section('content')
@@ -43,23 +47,43 @@
                 </div>
 
                 <div class="slider-container relative overflow-hidden rounded-[28px] p-5 backdrop-blur-xl" style="border: 1px solid rgba(20,83,116,0.6); background-color: rgba(20,83,116,0.25); box-shadow: 0 40px 90px rgba(85,136,163,0.15);">
-                    <div class="slider-card relative min-h-[420px] overflow-hidden rounded-[24px] bg-cover bg-center shadow-2xl" style="background-image: url('https://images.unsplash.com/photo-1519337265831-281ec6cc8514?auto=format&fit=crop&w=1200&q=80'); box-shadow: 0 20px 60px rgba(0,51,78,0.5);">
-                        <div class="absolute inset-0 backdrop-blur-xl" style="background-color: rgba(0,51,78,0.72);"></div>
-                        <div class="slider-content relative z-10 flex h-full flex-col justify-between p-8" style="color: #E8E8E8;">
-                            <div class="space-y-4">
-                                <p class="slider-label text-sm uppercase tracking-[0.28em]" style="color: #5588A3;">Sistem Pelaporan K3, 7S, dan 5R</p>
-                                <h2 class="slider-title text-3xl font-bold leading-tight" style="color: #E8E8E8;">Sistem Pelaporan K3, 7S, dan 5R</h2>
-                                <p class="slider-description max-w-xl" style="color: rgba(232,232,232,0.65);">Lapor temuan lapangan dengan mudah, pantau tindak lanjut, dan bangun budaya keselamatan kampus.</p>
-                            </div>
-                            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                                <div class="slider-meta text-sm" style="color: rgba(232,232,232,0.5);">Slide <span class="slider-index">1</span> dari <span class="slider-total">3</span></div>
-                                <div class="flex gap-2">
-                                    <button type="button" data-action="prev" class="slider-nav rounded-[12px] px-4 py-2 text-sm transition-all" style="border: 1px solid rgba(20,83,116,0.8); background-color: rgba(0,51,78,0.7); color: #E8E8E8;">Prev</button>
-                                    <button type="button" data-action="next" class="slider-nav rounded-[12px] px-4 py-2 text-sm transition-all" style="border: 1px solid rgba(20,83,116,0.8); background-color: rgba(0,51,78,0.7); color: #E8E8E8;">Next</button>
+@forelse($activeWarnings as $index => $warning)
+                        <div class="slider-card relative min-h-[420px] overflow-hidden rounded-[24px] bg-cover bg-center shadow-2xl {{ $index === 0 ? '' : 'hidden' }}" style="background-image: url('{{ $warning->image_url }}'); box-shadow: 0 20px 60px rgba(0,51,78,0.5);">
+                            <div class="absolute inset-0 backdrop-blur-xl" style="background-color: rgba(0,51,78,0.72);"></div>
+                            <div class="slider-content relative z-10 flex h-full flex-col justify-between p-8" style="color: #E8E8E8;">
+                                <div class="space-y-4">
+                                    <p class="slider-label text-sm uppercase tracking-[0.28em]" style="color: #5588A3;">{{ strtoupper($warning->severity_label ?? 'PERINGATAN UMUM') }}</p>
+                                    <h2 class="slider-title text-3xl font-bold leading-tight" style="color: #E8E8E8;">{{ $warning->title }}</h2>
+                                    <p class="slider-description max-w-xl" style="color: rgba(232,232,232,0.65);">{{ Str::limit($warning->description, 150) }}</p>
+                                </div>
+                                <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                                    <div class="slider-meta text-sm" style="color: rgba(232,232,232,0.5);">Slide <span class="slider-index">{{ $index + 1 }}</span> dari <span class="slider-total">{{ $activeWarnings->count() }}</span></div>
+                                    <div class="flex gap-2">
+                                        <button type="button" data-action="prev" class="slider-nav rounded-[12px] px-4 py-2 text-sm transition-all" style="border: 1px solid rgba(20,83,116,0.8); background-color: rgba(0,51,78,0.7); color: #E8E8E8;">Prev</button>
+                                        <button type="button" data-action="next" class="slider-nav rounded-[12px] px-4 py-2 text-sm transition-all" style="border: 1px solid rgba(20,83,116,0.8); background-color: rgba(0,51,78,0.7); color: #E8E8E8;">Next</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    @empty
+                        <div class="slider-card relative min-h-[420px] overflow-hidden rounded-[24px] bg-cover bg-center shadow-2xl" style="background-image: url('https://images.unsplash.com/photo-1519337265831-281ec6cc8514?auto=format&fit=crop&w=1200&q=80'); box-shadow: 0 20px 60px rgba(0,51,78,0.5);">
+                            <div class="absolute inset-0 backdrop-blur-xl" style="background-color: rgba(0,51,78,0.72);"></div>
+                            <div class="slider-content relative z-10 flex h-full flex-col justify-between p-8" style="color: #E8E8E8;">
+                                <div class="space-y-4">
+                                    <p class="slider-label text-sm uppercase tracking-[0.28em]" style="color: #5588A3;">Sistem Pelaporan K3, 7S, dan 5R</p>
+                                    <h2 class="slider-title text-3xl font-bold leading-tight" style="color: #E8E8E8;">Sistem Pelaporan K3, 7S, dan 5R</h2>
+                                    <p class="slider-description max-w-xl" style="color: rgba(232,232,232,0.65);">Lapor temuan lapangan dengan mudah, pantau tindak lanjut, dan bangun budaya keselamatan kampus.</p>
+                                </div>
+                                <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                                    <div class="slider-meta text-sm" style="color: rgba(232,232,232,0.5);">Slide <span class="slider-index">1</span> dari <span class="slider-total">1</span></div>
+                                    <div class="flex gap-2">
+                                        <button type="button" data-action="prev" class="slider-nav rounded-[12px] px-4 py-2 text-sm transition-all" style="border: 1px solid rgba(20,83,116,0.8); background-color: rgba(0,51,78,0.7); color: #E8E8E8;">Prev</button>
+                                        <button type="button" data-action="next" class="slider-nav rounded-[12px] px-4 py-2 text-sm transition-all" style="border: 1px solid rgba(20,83,116,0.8); background-color: rgba(0,51,78,0.7); color: #E8E8E8;">Next</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforelse
                 </div>
             </div>
         </section>
@@ -440,37 +464,7 @@
                         <p class="text-sm uppercase tracking-[0.4em]" style="color: #5588A3;">Leaderboard Dinamis</p>
                         <h3 class="mt-2 text-3xl font-black" style="color: #E8E8E8;">LEADERBOARD PER PERIODE</h3>
                     </div>
-                    <div class="overflow-hidden rounded-[2rem] p-6" style="border: 1px solid rgba(20,83,116,0.5); background-color: rgba(20,83,116,0.2); box-shadow: 0 40px 80px rgba(0,51,78,0.5);">
-                        <table class="w-full text-left text-sm" style="color: rgba(232,232,232,0.85);">
-                            <thead>
-                                <tr style="border-bottom: 1px solid rgba(20,83,116,0.6);">
-                                    <th class="py-4 text-xs uppercase tracking-widest" style="color: rgba(232,232,232,0.45);">Rank</th>
-                                    <th class="text-xs uppercase tracking-widest" style="color: rgba(232,232,232,0.45);">Nama</th>
-                                    <th class="text-xs uppercase tracking-widest" style="color: rgba(232,232,232,0.45);">Tipe</th>
-                                    <th class="text-right text-xs uppercase tracking-widest" style="color: rgba(232,232,232,0.45);">Total Poin</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if($topUsers->isEmpty())
-                                <tr class="leaderboard-row">
-                                    <td colspan="4" class="py-12 text-center" style="color: rgba(232,232,232,0.35);">Data leaderboard belum tersedia.</td>
-                                </tr>
-                                @else
-                                    @foreach($topUsers as $index => $user)
-                                    @php
-                                        $displayName = ($user->role === 'reporter' && !$user->show_name_on_landing) ? 'Anonim' : $user->full_name;
-                                    @endphp
-                                    <tr class="leaderboard-row" style="border-bottom: 1px solid rgba(20,83,116,0.4);">
-                                        <td class="py-4 font-semibold" style="color: #E8E8E8;">#{{ $index + 1 }}</td>
-                                        <td class="py-4" style="color: #E8E8E8;">{{ $displayName }}</td>
-                                        <td class="py-4" style="color: rgba(232,232,232,0.5);">{{ ucfirst($user->user_type) }}</td>
-                                        <td class="py-4 text-right font-semibold" style="color: #5588A3;">{{ number_format($user->total_points) }}</td>
-                                    </tr>
-                                    @endforeach
-                                @endif
-                            </tbody>
-                        </table>
-                    </div>
+<livewire:points.leaderboard :limit="5" />
                 </div>
 
             </div>
@@ -599,5 +593,9 @@
     html.light .hero2-card p, html.light #hero2-description, html.light .hero-copy { color: rgba(0,51,78,0.6) !important; }
     html.light .col-span-7, html.light #hero-2-detail-panel { background-color: rgba(20,83,116,0.08) !important; }
 </style>
+@endpush
+
+@push('scripts')
+<script src="{{ asset('js/hero-slider.js') }}"></script>
 @endpush
 @endsection

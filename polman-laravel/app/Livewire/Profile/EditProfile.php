@@ -5,8 +5,10 @@ namespace App\Livewire\Profile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
+#[Layout('layouts.app')]
 class EditProfile extends Component
 {
     // Profile fields
@@ -53,14 +55,25 @@ class EditProfile extends Component
         }
     }
 
+    public function updatedShowNameOnLanding($value): void
+    {
+        if (!auth()->user()?->role === 'reporter') return;
+        
+        $user = auth()->user();
+        $user->show_name_on_landing = $value;
+        $user->save();
+
+        session()->flash('success', 'Pengaturan privasi diperbarui.');
+    }
+
     public function updateProfile(): void
     {
         $user = Auth::user();
 
         $rules = [
             'full_name' => ['required', 'string', 'max:100'],
-            'email'     => ['required', 'email', 'max:100', Rule::unique('users', 'email')->ignore($user->id)],
-            'phone'     => ['nullable', 'string', 'max:20'],
+            'email' => ['required', 'email', 'max:100', Rule::unique('users', 'email')->ignore($user->id)],
+            'phone' => ['nullable', 'string', 'max:20'],
         ];
 
         if ($user->role === 'reporter') {
@@ -84,16 +97,16 @@ class EditProfile extends Component
 
         $data = [
             'full_name' => $this->full_name,
-            'email'     => $this->email,
-            'phone'     => $this->phone ?: null,
+            'email' => $this->email,
+            'phone' => $this->phone ?: null,
         ];
 
         if ($user->isMahasiswa()) {
             $data += [
-                'nim'            => $this->nim,
-                'kelas'          => $this->kelas,
-                'gedung'         => $this->gedung,
-                'ruangan'        => $this->ruangan,
+                'nim' => $this->nim,
+                'kelas' => $this->kelas,
+                'gedung' => $this->gedung,
+                'ruangan' => $this->ruangan,
                 'tahun_angkatan' => $this->tahun_angkatan,
             ];
         }
@@ -101,7 +114,7 @@ class EditProfile extends Component
         if ($user->isDosen()) {
             $data += [
                 'nomor_dosen' => $this->nomor_dosen,
-                'jabatan'     => $this->jabatan,
+                'jabatan' => $this->jabatan,
             ];
         }
 
@@ -114,12 +127,11 @@ class EditProfile extends Component
         session()->flash('success', 'Profil berhasil diperbarui.');
     }
 
-
     public function updatePassword(): void
     {
         $this->validate([
-            'current_password'          => ['required'],
-            'new_password'              => ['required', 'string', 'min:8', 'confirmed'],
+            'current_password' => ['required'],
+            'new_password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
         $user = Auth::user();
@@ -141,7 +153,7 @@ class EditProfile extends Component
     public function render()
     {
         return view('livewire.profile.edit-profile')
-            ->layout('layouts.app')
             ->title('Profil Saya');
     }
 }
+

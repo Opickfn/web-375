@@ -1,53 +1,61 @@
-@php $newK3Reports = $newK3Reports ?? 0; @endphp
 <nav class="navbar">
-    <div class="navbar-brand">
-        <button class="sidebar-collapse" onclick="toggleSidebar()" aria-label="Toggle sidebar">
-            <i data-lucide="menu" style="width:22px;height:22px;"></i>
-        </button>
-        <div class="navbar-title-group max-w-fit flex-shrink-0">
-            <div class="navbar-title">@yield('page-title', 'Ringkasan Dashboard')</div>
-            <div class="navbar-subtitle hidden-mobile">Selamat datang kembali, {{ Auth::user()->full_name }}</div>
-            <div class="navbar-breadcrumbs hidden-mobile">@yield('breadcrumbs', 'Dashboard')</div>
-        </div>
+  <!-- Left Section -->
+  <div class="navbar-left">
+    <button class="sidebar-toggle" id="pm-sidebar-toggle">
+      <i data-lucide="menu" class="w-5 h-5"></i>
+    </button>
+    <img src="{{ asset('images/polman.png') }}" alt="POLMAN" class="logo">
+    <div>
+      <div class="navbar-title">POLMAN 375</div>
+      <div class="navbar-subtitle" id="pageSubtitle">@yield('page-title', 'Dashboard')</div>
     </div>
+  </div>
 
-    <div class="navbar-content">
-        <div class="navbar-actions">
-            <button class="btn btn-outline btn-sm{{ $newK3Reports > 0 ? ' navbar-badge' : '' }}" type="button" aria-label="Notifikasi laporan K3">
-                <i data-lucide="bell" style="width:20px;height:20px;"></i>
-                @if($newK3Reports > 0)
-                    <span class="hidden-mobile">{{ $newK3Reports }} baru</span>
-                @endif
-            </button>
-        </div>
+  <!-- Right Section -->
+  <div class="navbar-right">
+    <!-- Notification -->
+    <button class="notification-btn" title="Notifikasi">
+      <i data-lucide="bell" class="w-5 h-5"></i>
+      <span class="notification-badge" style="display: {{ $newK3Reports ?? 0 > 0 ? 'block' : 'none' }};"></span>
+    </button>
 
-        <div class="navbar-user" id="userMenuTrigger" onclick="toggleDropdown()">
-            <div class="navbar-user-info hidden-mobile">
-                <div class="navbar-user-name">{{ Auth::user()->full_name }}</div>
-                <div class="navbar-user-role">{{ Auth::user()->role }}</div>
-            </div>
-            <div class="navbar-user-avatar">
-                {{ strtoupper(substr(Auth::user()->full_name, 0, 2)) }}
-                <span class="navbar-user-status"></span>
-            </div>
+    <!-- Desktop Collapse -->
+    <button class="sidebar-toggle collapse-toggle" id="pm-collapse-btn" title="Collapse Sidebar">
+      <i data-lucide="panel-left" class="w-5 h-5"></i>
+    </button>
 
-            <div class="navbar-dropdown" id="userDropdown">
-                <a href="{{ route('dashboard') }}">
-                    <i data-lucide="layout-dashboard" style="width:16px;height:16px;"></i>
-                    Dashboard
-                </a>
-                <a href="{{ route('profile') }}">
-                    <i data-lucide="user" style="width:16px;height:16px;"></i>
-                    Profil Saya
-                </a>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit">
-                        <i data-lucide="log-out" style="width:16px;height:16px;"></i>
-                        Keluar
-                    </button>
-                </form>
-            </div>
-        </div>
+    <!-- User Profile -->
+    <div class="user-profile" id="pm-user-trigger">
+      <div class="user-info">
+        <h4>{{ Auth::user()->full_name }}</h4>
+        <div class="user-role">{{ Auth::user()->role }}</div>
+      </div>
+      <div class="user-avatar">
+        {{ strtoupper(substr(Auth::user()->full_name, 0, 2)) }}
+      </div>
+
+      <!-- Dropdown Menu -->
+      <div class="dropdown" id="pm-user-dropdown">
+        <a wire:navigate href="{{ route('dashboard') }}" class="dropdown-item">
+
+          <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+          Dashboard
+        </a>
+<a wire:navigate href="{{ route('profile') }}" class="dropdown-item">
+
+          <i data-lucide="user" class="w-4 h-4"></i>
+          Profil Saya
+        </a>
+        <div class="dropdown-divider"></div>
+        <form method="POST" action="{{ route('logout') }}" class="dropdown-item" style="border: none;">
+          @csrf
+          <button type="submit" class="w-full text-left text-red-400 hover:text-red-300">
+            <i data-lucide="log-out" class="w-4 h-4"></i>
+            Keluar
+          </button>
+        </form>
+      </div>
     </div>
+  </div>
 </nav>
+

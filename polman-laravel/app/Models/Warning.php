@@ -15,6 +15,7 @@ class Warning extends Model
         'status',
         'is_public',
         'expires_at',
+        'image_path',
     ];
 
     protected function casts(): array
@@ -73,4 +74,20 @@ class Warning extends Model
             default => $this->status,
         };
     }
+
+    public function getImageUrlAttribute(): string
+    {
+        $default = 'https://images.unsplash.com/photo-1519337265831-281ec6cc8514?auto=format&fit=crop&w=1200&q=80';
+
+        if ($this->image_source === 'report' && $this->report && $this->report->bukti) {
+            return $this->report->bukti;
+        }
+
+        if ($this->image_path && \Illuminate\Support\Facades\Storage::disk('public')->exists('warnings/' . $this->image_path)) {
+            return \Illuminate\Support\Facades\Storage::url('warnings/' . $this->image_path);
+        }
+
+        return $default;
+    }
 }
+

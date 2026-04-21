@@ -6,8 +6,12 @@ use App\Models\Location;
 use App\Models\Report;
 use App\Models\User;
 use Illuminate\Validation\Rule;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
+
+#[Layout('layouts.app')]
+
 
 class ManageGedungRuangan extends Component
 {
@@ -279,7 +283,7 @@ class ManageGedungRuangan extends Component
             'locations' => $this->locations,
             'parentOptions' => $this->parentOptions,
         ])
-            ->layout('layouts.app')
             ->title('Kelola Lokasi');
     }
+
 }

@@ -1,0 +1,60 @@
+<script>
+function initAppInteractions() {
+    // Lucide Icons
+    if (window.lucide) lucide.createIcons();
+
+    console.log('[PM-NAV] Initializing app interactions...');
+    
+    // 1. Profile Dropdown
+    const trigger = document.getElementById('pm-user-trigger');
+    const dropdown = document.getElementById('pm-user-dropdown');
+    if (trigger && dropdown) {
+        dropdown.classList.remove('show'); // Initial state
+        trigger.onclick = (e) => {
+            e.stopPropagation();
+            dropdown.classList.toggle('show');
+        };
+        // Close on outside click (window level)
+        window.onclick = (e) => {
+            if (dropdown && dropdown.classList.contains('show') && !trigger.contains(e.target)) {
+                dropdown.classList.remove('show');
+            }
+        };
+    }
+
+    // 2. Sidebar Toggle
+    const sidebarToggle = document.getElementById('pm-sidebar-toggle');
+    const sidebar = document.querySelector('.pm-sidebar');
+    if (sidebarToggle && sidebar) {
+        sidebarToggle.onclick = () => {
+            sidebar.classList.toggle('open');
+        };
+    }
+
+    // Desktop Collapse
+    const colBtn = document.getElementById('pm-collapse-btn');
+    if (colBtn && sidebar) {
+        colBtn.style.display = window.innerWidth > 1024 ? 'flex' : 'none';
+        colBtn.onclick = () => {
+            sidebar.classList.toggle('collapsed');
+        };
+    }
+
+    // Overlay
+    const overlay = document.getElementById('pm-sidebar-overlay');
+    if (overlay && sidebar) {
+        overlay.onclick = () => {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('show');
+        };
+    }
+}
+
+// Initial load
+document.addEventListener('DOMContentLoaded', initAppInteractions);
+
+// Re-run after Livewire navigation
+document.addEventListener('livewire:navigated', initAppInteractions);
+
+// Animations and other inits (keep existing if needed, but minimal for navbar fix)
+</script>

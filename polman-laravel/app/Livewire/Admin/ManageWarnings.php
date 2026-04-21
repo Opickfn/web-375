@@ -5,47 +5,93 @@ namespace App\Livewire\Admin;
 use App\Models\Warning;
 use App\Models\Report;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\WithFileUploads;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
+#[Layout('layouts.app')]
 class ManageWarnings extends Component
 {
-    use WithPagination;
+    use WithPagination, WithFileUploads;
 
     // Form fields
-    public bool $showForm = false;
-    public ?int $editingId = null;
-    public string $formTitle = '';
-    public string $formDescription = '';
-    public string $formSeverity = 'medium';
-    public string $formStatus = 'active';
-    public bool $formIsPublic = true;
-    public ?string $formExpiresAt = null;
-    public ?int $formReportId = null;
+    public bool    $showForm        = false;
+    public ?int    $editingId       = null;
+    public string  $formTitle       = '';
+    public string  $formDescription = '';
+    public string  $formSeverity    = 'medium';
+    public string  $formStatus      = 'active';
+    public bool    $formIsPublic    = true;
+    public ?string $formExpiresAt   = null;
+    public ?int    $formReportId    = null;
+    public $formImage;
+    public string $image_source = 'manual';
 
-    // Filters
-    public string $search = '';
+    // Filters + sort + pagination
+    public string $search         = '';
     public string $filterSeverity = 'all';
-    public string $filterStatus = 'all';
+    public string $filterStatus   = 'all';
+    public string $sortBy         = 'created_at';
+    public string $sortDir        = 'desc';
+    public int    $perPage        = 15;
 
-    // Message handling
-    public ?string $message = null;
+    // Feedback
+    public ?string $message     = null;
     public ?string $messageType = null;
 
-    // ─── Form Methods ─────────────────────────────────
+    public function updatingSearch()         { $this->resetPage(); }
+    public function updatingFilterSeverity() { $this->resetPage(); }
+    public function updatingFilterStatus()   { $this->resetPage(); }
 
+    // ── Sort ──────────────────────────────────────────────
+    public function sort(string $column): void
+    {
+        $this->sortDir = ($this->sortBy === $column && $this->sortDir === 'desc') ? 'asc' : 'desc';
+        $this->sortBy  = $column;
+        $this->resetPage();
+    }
+
+    // ── Export ────────────────────────────────────────────
+    public function exportWarnings(): StreamedResponse
+    {
+        $data = $this->buildQuery()->get();
+
+        return response()->streamDownload(function () use ($data) {
+            $h = fopen('php://output', 'w');
+            fputcsv($h, ['ID', 'Judul', 'Deskripsi', 'Level', 'Status', 'Publik', 'Berlaku Sampai', 'Laporan', 'Dibuat']);
+            foreach ($data as $w) {
+                fputcsv($h, [
+                    $w->id,
+                    $w->title,
+                    $w->description,
+                    $w->severity_label,
+                    $w->status_label,
+                    $w->is_public ? 'Ya' : 'Tidak',
+                    $w->expires_at?->format('d/m/Y') ?? '—',
+                    $w->report?->code ?? '—',
+                    $w->created_at->format('d/m/Y H:i'),
+                ]);
+            }
+            fclose($h);
+        }, 'peringatan-' . now()->format('Ymd') . '.csv');
+    }
+
+    // ── Form Methods ──────────────────────────────────────
     public function openForm(?int $id = null): void
     {
         if ($id) {
-            $warning = Warning::findOrFail($id);
-            $this->editingId = $warning->id;
-            $this->formTitle = $warning->title;
-            $this->formDescription = $warning->description;
-            $this->formSeverity = $warning->severity;
-            $this->formStatus = $warning->status;
-            $this->formIsPublic = $warning->is_public;
-            $this->formExpiresAt = $warning->expires_at?->format('Y-m-d');
-            $this->formReportId = $warning->report_id;
+            $w = Warning::findOrFail($id);
+            $this->editingId       = $w->id;
+            $this->formTitle       = $w->title;
+            $this->formDescription = $w->description;
+            $this->formSeverity    = $w->severity;
+            $this->formStatus      = $w->status;
+            $this->formIsPublic    = $w->is_public;
+            $this->formExpiresAt   = $w->expires_at?->format('Y-m-d');
+            $this->formReportId    = $w->report_id;
+            $this->image_source = $w->image_source ?? 'manual';
         } else {
             $this->resetForm();
         }
@@ -55,13 +101,14 @@ class ManageWarnings extends Component
     public function resetForm(): void
     {
         $this->editingId = null;
-        $this->formTitle = '';
-        $this->formDescription = '';
-        $this->formSeverity = 'medium';
-        $this->formStatus = 'active';
-        $this->formIsPublic = true;
+        $this->formTitle = $this->formDescription = '';
+        $this->formSeverity  = 'medium';
+        $this->formStatus    = 'active';
+        $this->formIsPublic  = true;
         $this->formExpiresAt = null;
-        $this->formReportId = null;
+        $this->formReportId  = null;
+        $this->image_source = 'manual';
+        $this->formImage = null;
         $this->resetValidation();
     }
 
@@ -73,34 +120,43 @@ class ManageWarnings extends Component
 
     public function save(): void
     {
-        $validated = $this->validate([
-            'formTitle' => 'required|string|max:255',
+        $this->validate([
+            'formTitle'       => 'required|string|max:255',
             'formDescription' => 'required|string',
-            'formSeverity' => 'required|in:low,medium,high',
-            'formStatus' => 'required|in:active,inactive,expired',
-            'formIsPublic' => 'boolean',
-            'formExpiresAt' => 'nullable|date|date_format:Y-m-d',
-            'formReportId' => 'nullable|exists:reports,id',
+            'formSeverity'    => 'required|in:low,medium,high',
+            'formStatus'      => 'required|in:active,inactive,expired',
+            'formIsPublic'    => 'boolean',
+            'formExpiresAt'   => 'nullable|date|date_format:Y-m-d',
+            'formReportId'    => 'nullable|exists:reports,id|required_if:image_source,report',
+            'image_source'    => 'required|in:manual,report',
+            'formImage'       => 'nullable|image|max:2048', // 2MB
         ]);
+
+        $imagePath = null;
+        if ($this->image_source === 'manual' && $this->formImage) {
+            $imagePath = $this->formImage->store('warnings', 'public');
+        }
 
         $isEdit = (bool) $this->editingId;
 
         Warning::updateOrCreate(
             ['id' => $this->editingId],
             [
-                'created_by' => Auth::id(),
-                'title' => $this->formTitle,
+                'created_by'  => Auth::id(),
+                'title'       => $this->formTitle,
                 'description' => $this->formDescription,
-                'severity' => $this->formSeverity,
-                'status' => $this->formStatus,
-                'is_public' => $this->formIsPublic,
-                'expires_at' => $this->formExpiresAt ? now()->parse($this->formExpiresAt) : null,
-                'report_id' => $this->formReportId,
+                'severity'    => $this->formSeverity,
+                'status'      => $this->formStatus,
+                'is_public'   => $this->formIsPublic,
+                'expires_at'  => $this->formExpiresAt ? now()->parse($this->formExpiresAt) : null,
+                'report_id'   => $this->formReportId,
+                'image_source' => $this->image_source,
+                'image_path' => $imagePath,
             ]
         );
 
         $this->closeForm();
-        $this->message = $isEdit ? 'Peringatan diperbarui.' : 'Peringatan ditambahkan.';
+        $this->message     = $isEdit ? 'Peringatan berhasil diperbarui.' : 'Peringatan berhasil ditambahkan.';
         $this->messageType = 'success';
     }
 
@@ -108,57 +164,51 @@ class ManageWarnings extends Component
     {
         try {
             Warning::findOrFail($id)->delete();
-            $this->message = 'Peringatan berhasil dihapus.';
+            $this->message     = 'Peringatan berhasil dihapus.';
             $this->messageType = 'success';
         } catch (\Exception $e) {
-            $this->message = 'Terjadi kesalahan: ' . $e->getMessage();
+            $this->message     = 'Terjadi kesalahan: ' . $e->getMessage();
             $this->messageType = 'error';
         }
     }
 
     public function toggleStatus(int $id): void
     {
-        $warning = Warning::findOrFail($id);
-        $newStatus = $warning->status === 'active' ? 'inactive' : 'active';
-        $warning->update(['status' => $newStatus]);
-        $this->message = 'Status peringatan diperbarui.';
+        $w = Warning::findOrFail($id);
+        $w->update(['status' => $w->status === 'active' ? 'inactive' : 'active']);
+        $this->message     = 'Status peringatan diperbarui.';
         $this->messageType = 'success';
     }
 
-    // ─── Render ───────────────────────────────────────
+    // ── Query Builder ─────────────────────────────────────
+    private function buildQuery()
+    {
+        $q = Warning::with(['creator', 'report']);
+
+        if ($this->search) {
+            $q->where(fn ($s) => $s
+                ->where('title',       'ILIKE', "%{$this->search}%")
+                ->orWhere('description', 'ILIKE', "%{$this->search}%")
+            );
+        }
+
+        if ($this->filterSeverity !== 'all') $q->where('severity', $this->filterSeverity);
+        if ($this->filterStatus   !== 'all') $q->where('status',   $this->filterStatus);
+
+        $allowed = ['title', 'severity', 'status', 'expires_at', 'created_at'];
+        $col = in_array($this->sortBy, $allowed) ? $this->sortBy : 'created_at';
+        $q->orderBy($col, $this->sortDir);
+
+        return $q;
+    }
 
     public function render()
     {
-        $query = Warning::query();
-
-        // Search
-        if ($this->search) {
-            $query->where(function ($q) {
-                $q->where('title', 'ILIKE', "%{$this->search}%")
-                  ->orWhere('description', 'ILIKE', "%{$this->search}%");
-            });
-        }
-
-        // Filters
-        if ($this->filterSeverity !== 'all') {
-            $query->where('severity', $this->filterSeverity);
-        }
-
-        if ($this->filterStatus !== 'all') {
-            $query->where('status', $this->filterStatus);
-        }
-
-        $warnings = $query->with(['creator', 'report'])
-                         ->orderByDesc('created_at')
-                         ->paginate(15);
-
-        $approvedReports = Report::where('status', 'approved')
-                                 ->orderByDesc('created_at')
-                                 ->limit(20)
-                                 ->get();
+        $warnings        = $this->buildQuery()->paginate($this->perPage);
+        $approvedReports = Report::whereIn('status', ['approved', 'in_progress'])
+                                 ->orderByDesc('created_at')->limit(30)->get();
 
         return view('livewire.admin.manage-warnings', compact('warnings', 'approvedReports'))
-            ->layout('layouts.app')
             ->title('Kelola Peringatan');
     }
 }

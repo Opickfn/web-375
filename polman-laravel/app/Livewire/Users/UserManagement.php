@@ -6,15 +6,20 @@ use App\Models\Location;
 use App\Models\User;
 use App\Models\Gedung;
 use Illuminate\Support\Facades\Hash;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
 
+#[Layout('layouts.app')]
 class UserManagement extends Component
 {
     use WithPagination;
 
     public string $search = '';
     public string $filterRole = '';
+    public string $sortBy = 'full_name';
+    public string $sortDir = 'asc';
+    public int $perPage = 15;
 
     // Create form
     public bool $showCreate = false;
@@ -469,24 +474,71 @@ class UserManagement extends Component
 
     public function render()
     {
-        $query = User::query();
-        if ($this->search) {
-            $query->where(function ($q) {
-                $q->where('full_name', 'ILIKE', "%{$this->search}%")
-                  ->orWhere('email', 'ILIKE', "%{$this->search}%")
-                  ->orWhere('nim', 'ILIKE', "%{$this->search}%")
-                  ->orWhere('nomor_dosen', 'ILIKE', "%{$this->search}%");
-            });
-        }
-        if ($this->filterRole) { $query->where('role', $this->filterRole); }
-
-        $users = $query->with(['assignedLocations', 'gedungRelation'])->orderBy('full_name')->paginate(15);
+        $users = $this->buildUserQuery()->paginate($this->perPage);
         $gedungs = Gedung::active()->orderBy('nama')->get();
         $locations = Location::active()->orderBy('name')->get();
 
         return view('livewire.users.user-management', compact('users', 'gedungs', 'locations'))
-            ->layout('layouts.app')
             ->title('Kelola User');
     }
-}
+ 
+    // Add these properties and methods to the existing UserManagement class
 
+    // Properties to add:
+    // public string $sortBy  = 'full_name';
+    // public string $sortDir = 'asc';
+    // public int    $perPage = 15;
+
+    // Methods to add to UserManagement:
+
+    public function sort(string $column): void
+    {
+        $this->sortDir = ($this->sortBy === $column && $this->sortDir === 'asc') ? 'desc' : 'asc';
+        $this->sortBy  = $column;
+        $this->resetPage();
+    }
+
+    public function export(): \Symfony\Component\HttpFoundation\StreamedResponse
+    {
+        $users = $this->buildUserQuery()->get();
+
+        return response()->streamDownload(function () use ($users) {
+            $h = fopen('php://output', 'w');
+            fputcsv($h, ['Nama', 'Email', 'Tipe', 'ID/NIM/NIDN', 'Role', 'Area', 'Tanggal Daftar']);
+            foreach ($users as $u) {
+                fputcsv($h, [
+                    $u->full_name, $u->email,
+                    $u->user_type_label,
+                    $u->nim ?? $u->nomor_dosen ?? '—',
+                    $u->role,
+                    $u->assigned_location_labels ?: '—',
+                    $u->created_at->format('d/m/Y'),
+                ]);
+            }
+            fclose($h);
+        }, 'kelola-user-' . now()->format('Ymd') . '.csv');
+    }
+
+    private function buildUserQuery()
+    {
+        $q = User::query();
+        if ($this->search) {
+            $q->where(function ($s) {
+                $s->where('full_name',    'ILIKE', "%{$this->search}%")
+                  ->orWhere('email',       'ILIKE', "%{$this->search}%")
+                  ->orWhere('nim',         'ILIKE', "%{$this->search}%")
+                  ->orWhere('nomor_dosen', 'ILIKE', "%{$this->search}%");
+            });
+        }
+        if ($this->filterRole) $q->where('role', $this->filterRole);
+
+        $allowed = ['full_name', 'email', 'role', 'user_type', 'created_at'];
+        $col = in_array($this->sortBy, $allowed) ? $this->sortBy : 'full_name';
+        $q->orderBy($col, $this->sortDir);
+        return $q->with(['assignedLocations', 'gedungRelation']);
+    }
+
+    // In render(), replace $users = User::query()... with:
+    // $users = $this->buildUserQuery()->paginate($this->perPage);
+
+}

@@ -1,109 +1,115 @@
-<div>
-    <div class="page-header flex justify-between items-center">
-        <div>
-            <h1>Tindak Lanjut</h1>
-            <p>Rencana dan status penyelesaian masalah</p>
+<div x-data="fuAnim()" x-init="init()">
+    <div class="pm-header" data-anim="slide-down">
+        <div><h1 class="pm-h1">Tindak Lanjut</h1><p class="pm-sub">Rencana aksi dan status penyelesaian temuan</p></div>
+        <div style="display:flex;gap:0.6rem;">
+            <button wire:click="exportFU" class="pm-btn pm-btn-ghost"><i data-lucide="download"></i> Export</button>
+            @if(Auth::user()->role !== 'pimpinan')
+            <button wire:click="openForm" class="pm-btn pm-btn-primary"><i data-lucide="plus"></i> Buat Tindak Lanjut</button>
+            @endif
         </div>
-        @if(Auth::check() && Auth::user()->role !== 'pimpinan')
-        <button wire:click="openForm" class="btn btn-primary">
-            <i data-lucide="plus" style="width:16px;height:16px;"></i> Buat Tindak Lanjut
-        </button>
-        @endif
     </div>
 
     @if($showForm)
-    <div class="card mb-4 animate-in">
-        <div class="card-header"><h3>Buat Tindak Lanjut Baru</h3></div>
-        <div class="card-body">
+    <div class="pm-card" style="margin-bottom:1.25rem;">
+        <div class="pm-card-header">
+            <h3>Buat Tindak Lanjut Baru</h3>
+            <button wire:click="closeForm" class="pm-btn pm-btn-ghost pm-btn-icon"><i data-lucide="x"></i></button>
+        </div>
+        <div class="pm-card-body">
             <form wire:submit="save">
-                <div class="grid grid-2 gap-4">
-                    <div class="form-group">
-                        <label class="form-label">Laporan</label>
-                        <select wire:model="reportId" class="form-select">
-                            <option value="">Pilih laporan</option>
+                <div class="pm-grid-2" style="gap:1rem;">
+                    <div class="pm-form-group">
+                        <label class="pm-label">Laporan</label>
+                        <select wire:model="reportId" class="pm-select-full">
+                            <option value="">Pilih laporan...</option>
                             @foreach($approvedReports as $r)
-                                <option value="{{ $r->id }}">{{ $r->code }} - {{ substr($r->lokasi, 0, 30) }}</option>
+                            <option value="{{ $r->id }}">{{ $r->code }} — {{ Str::limit($r->lokasi, 35) }}</option>
                             @endforeach
                         </select>
-                        @error('reportId') <p class="form-error">{{ $message }}</p> @enderror
+                        @error('reportId') <p class="pm-form-error">{{ $message }}</p> @enderror
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Ditugaskan Kepada</label>
-                        <input type="text" wire:model="assignedTo" class="form-input" placeholder="Nama penanggung jawab">
-                        @error('assignedTo') <p class="form-error">{{ $message }}</p> @enderror
+                    <div class="pm-form-group">
+                        <label class="pm-label">Ditugaskan Kepada</label>
+                        <input type="text" wire:model="assignedTo" class="pm-input" placeholder="Nama penanggung jawab">
+                        @error('assignedTo') <p class="pm-form-error">{{ $message }}</p> @enderror
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Rencana Tindakan</label>
-                    <textarea wire:model="actionPlan" class="form-textarea" placeholder="Deskripsikan rencana tindakan..."></textarea>
-                    @error('actionPlan') <p class="form-error">{{ $message }}</p> @enderror
+                <div class="pm-form-group">
+                    <label class="pm-label">Rencana Tindakan</label>
+                    <textarea wire:model="actionPlan" class="pm-textarea" rows="3" placeholder="Deskripsikan rencana..."></textarea>
+                    @error('actionPlan') <p class="pm-form-error">{{ $message }}</p> @enderror
                 </div>
-                <div class="form-group" style="max-width:240px;">
-                    <label class="form-label">Target Selesai</label>
-                    <input type="date" wire:model="targetDate" class="form-input">
-                    @error('targetDate') <p class="form-error">{{ $message }}</p> @enderror
+                <div class="pm-form-group">
+                    <label class="pm-label">Target Selesai</label>
+                    <input type="date" wire:model="targetDate" class="pm-input" min="{{ now()->format('Y-m-d') }}">
+                    @error('targetDate') <p class="pm-form-error">{{ $message }}</p> @enderror
                 </div>
-                <div class="flex gap-3">
-                    <button type="submit" class="btn btn-primary">Simpan</button>
-                    <button type="button" wire:click="closeForm" class="btn btn-outline">Batal</button>
+                <div style="display:flex;gap:0.6rem;">
+                    <button type="submit" class="pm-btn pm-btn-primary" wire:loading.attr="disabled">
+                        <span wire:loading.remove>Simpan</span>
+                        <span wire:loading>Menyimpan...</span>
+                    </button>
+                    <button type="button" wire:click="closeForm" class="pm-btn pm-btn-ghost">Batal</button>
                 </div>
             </form>
         </div>
     </div>
     @endif
 
-    <div class="card">
-        <div class="card-body" style="padding:0;">
-            <div class="table-wrapper">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Laporan</th>
-                            <th>Ditugaskan</th>
-                            <th>Rencana</th>
-                            <th>Target</th>
-                            <th>Status</th>
-                            <th class="text-right">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($followUps as $fu)
-                        <tr>
-                            <td class="font-medium">{{ $fu->report->code }}</td>
-                            <td>{{ $fu->assigned_to_name }}</td>
-                            <td>{{ substr($fu->action_plan, 0, 40) }}</td>
-                            <td class="text-sm">{{ $fu->target_date->format('d M Y') }}</td>
-                            <td>
-                                <span class="badge {{ $fu->status === 'completed' ? 'badge-success' : ($fu->status === 'in_progress' ? 'badge-info' : 'badge-warning') }}">
-                                    {{ $fu->status_label }}
-                                </span>
-                            </td>
-                            <td class="text-right">
-                                @if(Auth::check() && Auth::user()->role !== 'pimpinan' && $fu->status !== 'completed')
-                                <button wire:click="complete({{ $fu->id }})" class="btn btn-success btn-sm" wire:confirm="Tandai selesai?">
-                                    <i data-lucide="check" style="width:14px;height:14px;"></i> Selesai
-                                </button>
-                                @else
-                                -
-                                @endif
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="6">
-                                <div class="empty-state">
-                                    <i data-lucide="list-checks" style="width:40px;height:40px;"></i>
-                                    <p>Belum ada tindak lanjut.</p>
-                                </div>
-                            </td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
+    <div class="pm-card">
+        <div class="pm-table-wrap">
+            <table class="pm-table">
+                <thead>
+                    <tr>
+                        <th>Laporan</th>
+                        <th>Ditugaskan</th>
+                        <th>Rencana</th>
+                        <th>Target</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($followUps as $fu)
+                    <tr>
+                        <td>{{ $fu->report->code }}</td>
+                        <td>{{ $fu->assigned_to_name }}</td>
+                        <td>{{ Str::limit($fu->action_plan, 50) }}</td>
+                        <td>{{ $fu->target_date->format('d M Y') }}</td>
+                        <td>
+                            <span class="pm-badge {{ $fu->status == 'completed' ? 'pm-badge-success' : 'pm-badge-warning' }}">
+                                {{ ucfirst($fu->status) }}
+                            </span>
+                        </td>
+                        <td>
+                            @if($fu->status !== 'completed')
+                            <button wire:click="complete({{ $fu->id }})" class="pm-btn pm-btn-success pm-btn-sm" onclick="return confirm('Tandai selesai?')">
+                                Selesai
+                            </button>
+                            @endif
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="6" class="text-center p-8">
+                            Belum ada tindak lanjut
+                        </td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+            {{ $followUps->links() }}
         </div>
-        @if($followUps->hasPages())
-        <div class="card-footer">{{ $followUps->links() }}</div>
-        @endif
     </div>
 </div>
+
+@push('scripts')
+<script>
+function fuAnim() {
+    return {
+        init() {},
+        animRows() {}
+    };
+}
+</script>
+@endpush>

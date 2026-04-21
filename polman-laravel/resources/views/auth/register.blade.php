@@ -6,11 +6,11 @@
     <div class="auth-card animate-in">
         <div class="auth-logo">
             <img src="{{ asset('images/polman.png') }}" alt="Polman">
-            <span>Polman Report</span>
+            <span>POLMAN 375</span>
         </div>
 
-        <h2 class="auth-title">Daftar Akun Baru</h2>
-        <p class="auth-subtitle">Buat akun untuk melaporkan temuan improvement</p>
+        <h2 class="auth-title" style="font-size: 2rem; font-weight: 800; line-height: 1.1;">Daftar Akun Baru</h2>
+        <p class="auth-subtitle" style="font-size: 1.1rem; font-weight: 500; opacity: 0.95; ">Buat akun untuk melaporkan temuan improvement</p>
 
         <form method="POST" action="{{ route('register') }}">
             @csrf
@@ -148,6 +148,23 @@
 
 @push('styles')
 <style>
+    .input-wrapper {
+        position: relative;
+    }
+    .input-wrapper .input-icon {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        pointer-events: none;
+        z-index: 1;
+        color: rgba(85,136,163,0.65);
+        width: 20px;
+        height: 20px;
+    }
+    .form-input {
+        padding-left: 3.6rem !important;
+    }
     .auth-shell {
         min-height: 100vh;
         display: flex;
@@ -191,10 +208,50 @@
         border-radius: 1.75rem;
         box-shadow: 0 45px 90px rgba(0, 0, 0, 0.35);
         backdrop-filter: blur(24px);
-        padding: 2.25rem 2rem;
+        padding: 3rem 2.5rem;
         overflow: hidden;
         color: #E8E8E8;
         transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+    }
+    .form-group {
+        margin-bottom: 1rem;
+    }
+    .auth-logo {
+        margin-bottom: 2rem;
+    }
+    .auth-subtitle {
+        margin-bottom: 2rem;
+        position: relative;
+    }
+    .auth-subtitle::after {
+        content: '';
+        position: absolute;
+        bottom: -1rem;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 2px;
+        background: linear-gradient(90deg, #5588A3, rgba(85,136,163,0.5));
+        border-radius: 1px;
+    }
+    .auth-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), rgba(255,255,255,0.6), rgba(255,255,255,0.4), transparent);
+        box-shadow: 0 2px 6px rgba(255,255,255,0.25);
+    }
+    .auth-subtitle {
+        margin-bottom: 2rem;
+    }
+    .auth-title {
+        margin-bottom: 0.75rem;
+    }
+    .auth-back, .auth-footer {
+        margin-top: 2rem;
     }
     .auth-card::after {
         content: '';
@@ -254,8 +311,13 @@
         color: #E8E8E8;
     }
     .auth-logo img {
-        width: 46px;
-        filter: drop-shadow(0 0 22px rgba(85, 136, 163, 0.35));
+        width: 56px;
+        filter: drop-shadow(0 0 28px rgba(85, 136, 163, 0.45));
+    }
+    .auth-logo span {
+        font-size: 1.6rem;
+        font-weight: 800;
+        letter-spacing: 1px;
     }
     .animate-in {
         animation: fade-in-up 0.8s ease-out;
