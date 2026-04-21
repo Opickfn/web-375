@@ -69,11 +69,16 @@ class Leaderboard extends Component
     {
         $hasCol = Schema::hasColumn('users', 'show_name_on_landing');
 
-        $q = DB::table('points')
-            ->join('reports', 'reports.id', '=', 'points.report_id')
-            ->join('users', 'users.id', '=', 'points.user_id')
-            ->where('reports.status', 'approved');
+        // $q = DB::table('points')
+        //     ->join('reports', 'reports.id', '=', 'points.report_id')
+        //     ->join('users', 'users.id', '=', 'points.user_id');
+        //     //->where('reports.status', 'approved');
 
+        $q = DB::table('points')
+            ->join('users', 'users.id', '=', 'points.user_id')
+            ->leftJoin('reports', 'reports.id', '=', 'points.report_id');
+            // Hapus where status di sini agar poin submit masuk
+            
         if ($this->selectedPeriod) {
             $period = RewardPeriod::find($this->selectedPeriod);
             if ($period) {
