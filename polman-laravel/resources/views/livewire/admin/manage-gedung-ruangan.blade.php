@@ -3,7 +3,7 @@
     <div class="pm-header" data-anim="slide-down">
         <div>
             <h1 class="pm-h1">
-                <i data-lucide="building-2" style="width:22px;height:22px;display:inline;vertical-align:middle;margin-right:8px;color:#5588A3;"></i>
+                <i data-lucide="building-2" style="width:22px;height:22px;display:inline;vertical-align:middle;margin-right:8px;color:#00334E;"></i>
                 Kelola Lokasi
             </h1>
             <p class="pm-sub">Hirarki: Kampus → Gedung / Infrastruktur → Lantai → Ruangan / Area</p>
@@ -122,8 +122,8 @@
                             <i data-lucide="map-pin" style="width:16px;height:16px;"></i>
                         </div>
                         <div class="pm-tree-label">
-                            <div style="font-size:0.65rem;font-weight:700;color:rgba(232,232,232,0.3);text-transform:uppercase;letter-spacing:0.1em;">Kampus</div>
-                            <div style="font-weight:700;font-size:0.9rem;color:#E8E8E8;">
+                            <div style="font-size:0.65rem;font-weight:700;color:rgba(0,51,78,0.35);text-transform:uppercase;letter-spacing:0.1em;">Kampus</div>
+                            <div style="font-weight:700;font-size:0.9rem;color:#00334E;">
                                 @if($campus->code)<span class="pm-code" style="font-size:0.7rem;margin-right:6px;">{{ $campus->code }}</span>@endif
                                 {{ $campus->name }}
                             </div>
@@ -190,7 +190,7 @@
                                     <i data-lucide="{{ $branch->type==='gedung'?'building':'landmark' }}" style="width:14px;height:14px;"></i>
                                 </div>
                                 <div class="pm-tree-label">
-                                    <div style="font-weight:600;font-size:0.85rem;color:#E8E8E8;">
+                                    <div style="font-weight:600;font-size:0.85rem;color:#00334E;">
                                         @if($branch->code)<span class="pm-code" style="font-size:0.68rem;margin-right:5px;">{{ $branch->code }}</span>@endif
                                         {{ $branch->name }}
                                     </div>
@@ -238,7 +238,7 @@
                                             <i data-lucide="layers" style="width:13px;height:13px;"></i>
                                         </div>
                                         <div class="pm-tree-label">
-                                            <div style="font-weight:600;font-size:0.82rem;color:#E8E8E8;">
+                                            <div style="font-weight:600;font-size:0.82rem;color:#00334E;">
                                                 @if($floor->code)<span class="pm-code" style="font-size:0.65rem;margin-right:4px;">{{ $floor->code }}</span>@endif
                                                 {{ $floor->name }}
                                             </div>
@@ -286,7 +286,7 @@
                                                     <i data-lucide="{{ $space->type==='area'?'grid':'door-open' }}" style="width:12px;height:12px;"></i>
                                                 </div>
                                                 <div class="pm-tree-label">
-                                                    <div style="font-size:0.8rem;font-weight:600;color:#E8E8E8;">
+                                                    <div style="font-size:0.8rem;font-weight:600;color:#00334E;">
                                                         @if($space->code)<span class="pm-code" style="font-size:0.63rem;margin-right:4px;">{{ $space->code }}</span>@endif
                                                         {{ $space->name }}
                                                     </div>
@@ -344,47 +344,47 @@
 
 @push('styles')
 <style>
-/* Tree node styles */
+/* Tree node styles — Light Mode */
 .pm-tree-root { margin-bottom: 0.85rem; }
 .pm-tree-node {
-    background: rgba(0,40,65,0.5);
-    border: 1px solid rgba(20,83,116,0.4);
+    background: rgba(0,51,78,0.04);
+    border: 1px solid rgba(0,51,78,0.15);
     border-radius: 12px;
     margin-bottom: 0.4rem;
     transition: background 0.2s ease, border-color 0.2s ease;
 }
-.pm-tree-node:hover { background: rgba(85,136,163,0.07); border-color: rgba(85,136,163,0.3); }
-.pm-tree-campus { border-left: 3px solid rgba(85,136,163,0.6); }
-.pm-tree-branch { border-left: 3px solid rgba(245,158,11,0.4); }
-.pm-tree-floor  { border-left: 3px solid rgba(74,222,128,0.3); }
-.pm-tree-space  { border-left: 2px solid rgba(56,189,248,0.2); }
+.pm-tree-node:hover { background: rgba(0,51,78,0.07); border-color: rgba(0,51,78,0.25); }
+.pm-tree-campus { border-left: 3px solid rgba(0,51,78,0.35); }
+.pm-tree-branch { border-left: 3px solid rgba(245,158,11,0.45); }
+.pm-tree-floor  { border-left: 3px solid rgba(74,222,128,0.35); }
+.pm-tree-space  { border-left: 2px solid rgba(56,189,248,0.25); }
 
 .pm-tree-head { display:flex; align-items:center; gap:0.6rem; padding:0.8rem 1rem; cursor:pointer; }
 .pm-tree-toggle {
     display:flex; align-items:center; justify-content:center;
     width:22px; height:22px; border-radius:6px;
-    background: rgba(85,136,163,0.12); border: 1px solid rgba(20,83,116,0.4);
+    background: rgba(0,51,78,0.06); border: 1px solid rgba(0,51,78,0.2);
     color: var(--pm-text-d); cursor:pointer;
     transition: transform 0.2s ease, background 0.2s ease;
 }
-.pm-tree-toggle-open { transform: rotate(90deg); background: rgba(85,136,163,0.2); color: #5588A3; }
-.pm-tree-toggle:hover { background: rgba(85,136,163,0.2); }
+.pm-tree-toggle-open { transform: rotate(90deg); background: rgba(0,51,78,0.1); color: #00334E; }
+.pm-tree-toggle:hover { background: rgba(0,51,78,0.1); }
 
 .pm-tree-icon { width:32px; height:32px; flex-shrink:0; border-radius:8px; display:flex; align-items:center; justify-content:center; }
-.pm-tree-icon-campus { background:rgba(85,136,163,0.15); color:#5588A3; }
+.pm-tree-icon-campus { background:rgba(0,51,78,0.08); color:#00334E; }
 .pm-tree-icon-branch { background:rgba(245,158,11,0.12); color:#f59e0b; }
 .pm-tree-icon-floor  { background:rgba(74,222,128,0.1); color:#4ade80; }
 .pm-tree-icon-space  { background:rgba(56,189,248,0.1); color:#38bdf8; }
 
 .pm-tree-label { flex:1; min-width:0; }
 .pm-tree-actions { display:flex; gap:0.3rem; margin-left:auto; }
-.pm-tree-children { border-left:2px solid rgba(20,83,116,0.3); margin-left:1.6rem; padding-left:0.75rem; padding-top:0.3rem; padding-bottom:0.3rem; }
+.pm-tree-children { border-left:2px solid rgba(0,51,78,0.15); margin-left:1.6rem; padding-left:0.75rem; padding-top:0.3rem; padding-bottom:0.3rem; }
 
 .pm-tree-inline-form {
     margin:0.4rem 1rem 0.6rem;
     padding:0.85rem 1rem;
-    background: rgba(85,136,163,0.07);
-    border: 1px dashed rgba(85,136,163,0.35);
+    background: rgba(0,51,78,0.04);
+    border: 1px dashed rgba(0,51,78,0.2);
     border-radius:10px;
 }
 [x-transition\:enter] { transition: all 0.25s ease; }

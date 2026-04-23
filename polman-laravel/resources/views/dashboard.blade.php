@@ -139,7 +139,7 @@
                 <tr>
                     <td style="font-weight:700;font-family:monospace;color:#5588A3;">{{ $report->code }}</td>
                     <td><span class="pm-badge pm-badge-info">{{ $report->kategori }}</span></td>
-                    <td style="color:rgba(232,232,232,0.75);max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ $report->lokasi }}</td>
+                    <td style="color:rgba(8,8,6,0.95);max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ $report->lokasi }}</td>
                     <td>
                         <span class="pm-badge {{ $report->prioritas==='tinggi' ? 'pm-badge-danger' : ($report->prioritas==='sedang' ? 'pm-badge-warning' : 'pm-badge-neutral') }}">
                             {{ ucfirst($report->prioritas) }}
