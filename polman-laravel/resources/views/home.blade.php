@@ -225,11 +225,11 @@ use Illuminate\Support\Str;
                 <div id="h3-panel-5r" class="h3-panel hidden grid lg:grid-cols-2 gap-8 items-start">
                     <div class="space-y-6">
                         <div class="flex items-center gap-4">
-                            <div class="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0" style="background-color: rgba(85,136,163,0.15); border: 1px solid rgba(85,136,163,0.3);">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#5588A3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                            <div class="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0" style="background-color: rgba(0,191,255,0.15); border: 1px solid rgba(0,191,255,0.3);">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00BFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
                             </div>
                             <div>
-                                <p class="text-xs uppercase tracking-widest mb-1" style="color: #5588A3;">Ringkas · Rapi · Resik · Rawat · Rajin</p>
+                                <p class="text-xs uppercase tracking-widest mb-1" style="color: #00BFFF;">Ringkas · Rapi · Resik · Rawat · Rajin</p>
                                 <h3 class="text-3xl font-black" style="color: #E8E8E8;">5R</h3>
                             </div>
                         </div>
@@ -238,10 +238,10 @@ use Illuminate\Support\Str;
                         </p>
                         <div class="grid grid-cols-1 gap-3 pt-2">
                             @foreach([['R','Ringkas','Pisahkan barang yang perlu dan tidak perlu'],['R','Rapi','Tempatkan barang pada tempat yang semestinya'],['R','Resik','Bersihkan area kerja secara rutin'],['R','Rawat','Pertahankan kondisi yang sudah baik'],['R','Rajin','Jadikan 5R sebagai kebiasaan sehari-hari']] as $i => $r)
-                            <div class="flex items-center gap-3 p-3 rounded-xl" style="background-color: rgba(20,83,116,0.2); border: 1px solid rgba(20,83,116,0.4);">
-                                <span class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-black flex-shrink-0" style="background-color: #5588A3; color: #00334E;">{{ $i+1 }}</span>
+                            <div class="flex items-center gap-3 p-3 rounded-xl" style="background-color: rgba(0,191,255,0.1); border: 1px solid rgba(0,191,255,0.2);">
+                                <span class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-black flex-shrink-0" style="background-color: #00BFFF; color: #FFFFFF;">{{ $i+1 }}</span>
                                 <div>
-                                    <span class="font-bold text-sm mr-2" style="color: #5588A3;">{{ $r[1] }}</span>
+                                    <span class="font-bold text-sm mr-2" style="color: #00BFFF;">{{ $r[1] }}</span>
                                     <span class="text-xs" style="color: rgba(232,232,232,0.55);">— {{ $r[2] }}</span>
                                 </div>
                             </div>
@@ -250,36 +250,36 @@ use Illuminate\Support\Str;
                     </div>
                     <div class="space-y-4">
                         <p class="text-xs uppercase tracking-widest mb-4" style="color: rgba(232,232,232,0.4);">Contoh Kasus yang Dapat Dilaporkan</p>
-                        <div class="h3-case-card p-5 rounded-2xl" style="background-color: rgba(20,83,116,0.25); border: 1px solid rgba(85,136,163,0.25);">
+                        <div class="h3-case-card p-5 rounded-2xl" style="background-color: rgba(20,83,116,0.25); border: 1px solid rgba(0,191,255,0.25);">
                             <div class="flex items-start gap-3">
-                                <span class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color: #5588A3;"></span>
+                                <span class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color: #00BFFF;"></span>
                                 <div>
                                     <p class="font-semibold text-sm mb-1" style="color: #E8E8E8;">Area Kerja Berantakan</p>
                                     <p class="text-sm" style="color: rgba(232,232,232,0.55);">Perkakas, material, atau sisa produksi berserakan di lantai workshop atau meja kerja tanpa pengelompokan yang jelas.</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="h3-case-card p-5 rounded-2xl" style="background-color: rgba(20,83,116,0.25); border: 1px solid rgba(85,136,163,0.25);">
+                       <div class="h3-case-card p-5 rounded-2xl" style="background-color: rgba(20,83,116,0.25); border: 1px solid rgba(0,191,255,0.25);">
                             <div class="flex items-start gap-3">
-                                <span class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color: #5588A3;"></span>
+                                <span class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color: #00BFFF;"></span>
                                 <div>
                                     <p class="font-semibold text-sm mb-1" style="color: #E8E8E8;">Label / Penanda Tidak Terpasang</p>
                                     <p class="text-sm" style="color: rgba(232,232,232,0.55);">Rak penyimpanan alat, laci, atau area khusus tidak memiliki label identifikasi yang jelas sehingga menyulitkan pencarian.</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="h3-case-card p-5 rounded-2xl" style="background-color: rgba(20,83,116,0.25); border: 1px solid rgba(85,136,163,0.25);">
+                        <div class="h3-case-card p-5 rounded-2xl" style="background-color: rgba(20,83,116,0.25); border: 1px solid rgba(0,191,255,0.25);">
                             <div class="flex items-start gap-3">
-                                <span class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color: #5588A3;"></span>
+                                <span class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color: #00BFFF;"></span>
                                 <div>
                                     <p class="font-semibold text-sm mb-1" style="color: #E8E8E8;">Barang Usang Menumpuk</p>
                                     <p class="text-sm" style="color: rgba(232,232,232,0.55);">Peralatan rusak, barang tidak terpakai, atau dokumen lama yang memenuhi ruang dan mengganggu alur kerja.</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="h3-case-card p-5 rounded-2xl" style="background-color: rgba(20,83,116,0.25); border: 1px solid rgba(85,136,163,0.25);">
+                        <div class="h3-case-card p-5 rounded-2xl" style="background-color: rgba(20,83,116,0.25); border: 1px solid rgba(0,191,255,0.25);">
                             <div class="flex items-start gap-3">
-                                <span class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color: #5588A3;"></span>
+                                <span class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color: #00BFFF;"></span>
                                 <div>
                                     <p class="font-semibold text-sm mb-1" style="color: #E8E8E8;">Toilet / Pantry Tidak Bersih</p>
                                     <p class="text-sm" style="color: rgba(232,232,232,0.55);">Fasilitas umum yang tidak terawat dan tidak ada jadwal pembersihan rutin yang terstruktur.</p>
@@ -569,6 +569,16 @@ use Illuminate\Support\Str;
     /* Hero3 tabs */
     .h3-tab { transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease; }
     .h3-tab:hover { filter: brightness(1.1); }
+    .h3-tab.active {
+        background-color: #5588A3 !important;
+        color: #00334E !important;
+        border: none !important;
+    }
+    .h3-tab:not(.active) {
+        background-color: rgba(20,83,116,0.3) !important;
+        color: rgba(232,232,232,0.6) !important;
+        border: 1px solid rgba(20,83,116,0.5) !important;
+    }
     .h3-panel { transition: opacity 0.3s ease; }
     .h3-case-card { transition: transform 0.25s ease, border-color 0.25s ease; }
     .h3-case-card:hover { transform: translateX(4px); border-color: rgba(85,136,163,0.5) !important; }
@@ -597,5 +607,40 @@ use Illuminate\Support\Str;
 
 @push('scripts')
 <script src="{{ asset('js/hero-slider.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const tabs = document.querySelectorAll('.h3-tab');
+        const panels = document.querySelectorAll('.h3-panel');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const target = tab.getAttribute('data-tab');
+
+                // 1. Reset semua tombol ke style tidak aktif
+                tabs.forEach(t => {
+                    t.classList.remove('active');
+                    t.style.backgroundColor = 'rgba(20,83,116,0.3)';
+                    t.style.color = 'rgba(232,232,232,0.6)';
+                    t.style.border = '1px solid rgba(20,83,116,0.5)';
+                });
+
+                // 2. Set tombol yang diklik menjadi aktif
+                // Sesuaikan warna background aktif berdasarkan data-tab jika ingin warna berbeda
+                tab.classList.add('active');
+                tab.style.backgroundColor = '#5588A3';
+                tab.style.color = '#00334E';
+                tab.style.border = 'none';
+
+                // 3. Sembunyikan semua panel dan tampilkan yang sesuai
+                panels.forEach(panel => {
+                    panel.classList.add('hidden');
+                    if (panel.id === `h3-panel-${target}`) {
+                        panel.classList.remove('hidden');
+                    }
+                });
+            });
+        });
+    });
+</script>
 @endpush
 @endsection
