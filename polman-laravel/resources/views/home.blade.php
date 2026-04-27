@@ -37,7 +37,7 @@ use Illuminate\Support\Str;
                 <div class="space-y-8 relative z-10">
                     <p class="text-sm uppercase tracking-[0.35em]" style="color: #00334E;">Platform Pelaporan Terintegrasi</p>
                     <h1 class="text-[clamp(2rem,10vw,5rem)] font-black leading-tight tracking-tight font-sans" style="color: #00334E;">
-                        Sistem Pelaporan <span style="color: #4ade80;">K3,</span> <span style="color: #f87171;">7S,</span> <span style="color: #00334E;">dan</span> <span style="color: #00334E;">5R</span>
+                        Sistem Pelaporan <span style="color: #4ade80;">K3,</span> <span style="color: #f87171;">7S,</span> <span style="color: #00334E;">dan</span> <span style="color: navy;">5R</span>
                     </h1>
                     <p class="max-w-xl text-lg leading-relaxed hero-copy" style="color: rgba(0,51,78,0.6);">Sistem pelaporan modern untuk mengumpulkan, memverifikasi, dan menindaklanjuti temuan K3, 7S, dan 5R dengan visualisasi yang jelas dan responsif.</p>
                     <div class="grid gap-4 sm:grid-cols-3 relative z-20">
