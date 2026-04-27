@@ -119,7 +119,16 @@ class CreateReport extends Component
         $rules = [
             'kategori' => 'required|in:5R,7S,K3',
             'campus_id' => 'required|exists:locations,id',
-            'branch_id' => 'required|exists:locations,id',
+            'branch_id' => [
+                'required',
+                'exists:locations,id',
+                function ($attribute, $value, $fail) {
+                    $loc = Location::find($value);
+                    if ($loc && !\App\Models\Gedung::where('nama', $loc->name)->exists()) {
+                        $fail('Gedung ini belum terdaftar di referensi data Gedung utama.');
+                    }
+                },
+            ],
             'detail_lokasi' => 'required|string|max:255',
             'deskripsi' => 'required|string|min:10',
             'prioritas' => 'required|in:rendah,sedang,tinggi',
@@ -135,7 +144,9 @@ class CreateReport extends Component
 
         if ($this->branchType === 'gedung') {
             $location = Location::findOrFail($this->space_id);
-            $gedungId = $this->branch_id;
+            $branchLocation = Location::findOrFail($this->branch_id);
+            $gedungMatch = \App\Models\Gedung::where('nama', $branchLocation->name)->first();
+            $gedungId = $gedungMatch ? $gedungMatch->id : null;
         } else {
             $location = Location::findOrFail($this->branch_id);
             $gedungId = null;

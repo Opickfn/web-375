@@ -4,7 +4,7 @@
             <div class="public-report-inner">
                 <div class="public-report-header mb-10">
                     <h1>Buat Laporan Internal</h1>
-                    <p class="text-slate-300 leading-relaxed">
+                    <p class="text-[#475569] leading-relaxed">
                         Laporkan temuan perbaikan 5R, 7S, atau K3 dengan detail lengkap untuk diproses oleh tim internal.
                     </p>
                 </div>
@@ -12,27 +12,27 @@
                 @if($showSuccess && $successReport)
                     <div class="success-card">
                         <div class="success-panel">
-                            <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-cyan-500/15 text-cyan-300 mb-6 shadow-[0_20px_60px_rgba(6,182,212,0.18)]">
+                            <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-[#E6F4E8] text-[#00334E] mb-6 shadow-[0_20px_60px_rgba(0,51,78,0.12)]">
                                 <i data-lucide="check-circle" class="w-10 h-10"></i>
                             </div>
                             <h2 class="success-title">Laporan Berhasil Dikirim!</h2>
-                            <p class="text-slate-300 max-w-2xl mx-auto mb-8">Terima kasih atas kontribusi Anda. Laporan telah terkirim dan akan ditinjau oleh tim manajemen.</p>
+                            <p class="text-[#475569] max-w-2xl mx-auto mb-8">Terima kasih atas kontribusi Anda. Laporan telah terkirim dan akan ditinjau oleh tim manajemen.</p>
 
-                            <div class="grid gap-4 sm:grid-cols-2 mb-8 text-left text-slate-200">
-                                <div class="rounded-3xl border border-white/10 bg-white/5 p-5">
-                                    <span class="text-xs uppercase tracking-[0.18em] text-slate-400">Kode Laporan</span>
+                            <div class="grid gap-4 sm:grid-cols-2 mb-8 text-left text-[#00334E]">
+                                <div class="rounded-3xl border border-[#A0AEC0]/30 bg-white/80 p-5">
+                                    <span class="text-xs uppercase tracking-[0.18em] text-[#475569]">Kode Laporan</span>
                                     <p class="mt-3 text-xl font-semibold">{{ $successReport->code }}</p>
                                 </div>
-                                <div class="rounded-3xl border border-white/10 bg-white/5 p-5">
-                                    <span class="text-xs uppercase tracking-[0.18em] text-slate-400">Kategori</span>
+                                <div class="rounded-3xl border border-[#A0AEC0]/30 bg-white/80 p-5">
+                                    <span class="text-xs uppercase tracking-[0.18em] text-[#475569]">Kategori</span>
                                     <p class="mt-3 text-xl font-semibold">{{ $successReport->kategori }}</p>
                                 </div>
-                                <div class="rounded-3xl border border-white/10 bg-white/5 p-5">
-                                    <span class="text-xs uppercase tracking-[0.18em] text-slate-400">Prioritas</span>
+                                <div class="rounded-3xl border border-[#A0AEC0]/30 bg-white/80 p-5">
+                                    <span class="text-xs uppercase tracking-[0.18em] text-[#475569]">Prioritas</span>
                                     <p class="mt-3 text-xl font-semibold capitalize">{{ $successReport->prioritas }}</p>
                                 </div>
-                                <div class="rounded-3xl border border-white/10 bg-white/5 p-5">
-                                    <span class="text-xs uppercase tracking-[0.18em] text-slate-400">Lokasi</span>
+                                <div class="rounded-3xl border border-[#A0AEC0]/30 bg-white/80 p-5">
+                                    <span class="text-xs uppercase tracking-[0.18em] text-[#475569]">Lokasi</span>
                                     <p class="mt-3 text-xl font-semibold">{{ $successReport->location_breadcrumb ?? $successReport->detail_lokasi }}</p>
                                 </div>
                             </div>
@@ -46,18 +46,18 @@
                 @else
                     <div class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] items-start">
                         <div class="glass-card p-8">
-                            <div class="mb-6 rounded-3xl bg-slate-900/70 border border-cyan-500/10 p-5">
-                                <p class="text-cyan-300 font-medium">Form Laporan Internal</p>
-                                <p class="mt-2 text-slate-400 text-sm leading-relaxed">Laporan lengkap dengan lokasi, kategori, prioritas dan bukti akan diproses oleh tim manajemen internal.</p>
+                            <div class="mb-6 rounded-3xl bg-[#E6F4E8]/70 border border-[#00334E]/10 p-5">
+                                <p class="text-[#00334E] font-medium">Form Laporan Internal</p>
+                                <p class="mt-2 text-[#475569] text-sm leading-relaxed">Laporan lengkap dengan lokasi, kategori, prioritas dan bukti akan diproses oleh tim manajemen internal.</p>
                             </div>
 
                             <form wire:submit="submit" class="space-y-5">
                                 <div class="form-group input-group">
                                     <label class="form-label" for="kategori">Kategori Pelanggaran</label>
-                                    <select wire:model="kategori" id="kategori" class="input-field-custom appearance-none bg-slate-950 text-white">
+                                    <select wire:model="kategori" id="kategori" class="input-field-custom appearance-none bg-white text-[#00334E]">
                                         <option value="">Pilih kategori</option>
                                         <option value="5R">5R (Ringkas, Rapi, Resik, Rawat, Rajin)</option>
-                                        <option value="7S">7S (Seiri, Seiton, Seiso, Seiketsu, Shitsuke, Safety, Semangat)</option>
+                                        <option value="7S">7S (Seiri, Seiton, Seiso, Seiketsu, Shitsuke, Safety, Security/Spirit)</option>
                                         <option value="K3">K3 (Keselamatan dan Kesehatan Kerja)</option>
                                     </select>
                                     @error('kategori') <p class="form-error">{{ $message }}</p> @enderror
@@ -65,7 +65,7 @@
 
                                 <div class="form-group input-group">
                                     <label class="form-label" for="prioritas">Prioritas</label>
-                                    <select wire:model="prioritas" id="prioritas" class="input-field-custom appearance-none bg-slate-950 text-white">
+                                    <select wire:model="prioritas" id="prioritas" class="input-field-custom appearance-none bg-white text-[#00334E]">
                                         <option value="rendah">Rendah</option>
                                         <option value="sedang">Sedang</option>
                                         <option value="tinggi">Tinggi</option>
@@ -75,7 +75,7 @@
 
                                 <div class="form-group input-group">
 <label class="form-label" for="campus_id">Kampus</label>
-                                    <select wire:model="campus_id" id="campus_id" wire:change="$refresh" class="input-field-custom appearance-none bg-slate-950 text-white">
+                                    <select wire:model="campus_id" id="campus_id" wire:change="$refresh" class="input-field-custom appearance-none bg-white text-[#00334E]">
                                         <option value="">Pilih Kampus</option>
                                         @foreach($campuses as $campus)
                                             <option value="{{ $campus->id }}">{{ $campus->name }}</option>
@@ -85,20 +85,25 @@
                                 </div>
 
                                 <div class="form-group input-group">
-<label class="form-label" for="branch_id">Gedung/Infrastruktur</label>
-                                    <select wire:model="branch_id" id="branch_id" wire:change="$refresh" class="input-field-custom appearance-none bg-slate-950 text-white" {{ !$campus_id ? 'disabled' : '' }}>
+                                    <label class="form-label" for="branch_id">Gedung/Infrastruktur</label>
+                                    <select wire:model="branch_id" id="branch_id" wire:change="$refresh" class="input-field-custom appearance-none bg-white text-[#00334E]" {{ !$campus_id ? 'disabled' : '' }}>
                                         <option value="">Pilih Gedung/Infrastruktur</option>
                                         @foreach($branches as $branch)
                                             <option value="{{ $branch->id }}">{{ ucwords($branch->type) }} - {{ $branch->name }}</option>
                                         @endforeach
                                     </select>
                                     @error('branch_id') <p class="form-error">{{ $message }}</p> @enderror
+                                    @if($branchType === 'gedung')
+                                        <p class="text-sm text-[#475569] mt-2">Pilih gedung terlebih dahulu, lalu lanjutkan ke lantai dan ruang.</p>
+                                    @elseif($branchType === 'infrastruktur')
+                                        <p class="text-sm text-[#475569] mt-2">Infrastruktur umum dipilih langsung sebagai lokasi akhir.</p>
+                                    @endif    
                                 </div>
 
                                 @if($branchType === 'gedung' && $branch_id)
                                     <div class="form-group input-group">
-<label class="form-label" for="floor_id">Lantai</label>
-                                    <select wire:model="floor_id" id="floor_id" wire:change="$refresh" class="input-field-custom appearance-none bg-slate-950 text-white">
+                                        <label class="form-label" for="floor_id">Lantai</label>
+                                        <select wire:model="floor_id" id="floor_id" wire:change="$refresh" class="input-field-custom appearance-none bg-white text-[#00334E]">
                                         <option value="">Pilih Lantai</option>
                                             @foreach($floors as $floor)
                                                 <option value="{{ $floor->id }}">{{ $floor->name }}</option>
@@ -110,7 +115,7 @@
                                     @if($floor_id)
                                         <div class="form-group input-group">
                                             <label class="form-label" for="space_id">Ruang/Area</label>
-                                            <select wire:model="space_id" id="space_id" class="input-field-custom appearance-none bg-slate-950 text-white">
+                                            <select wire:model="space_id" id="space_id" class="input-field-custom appearance-none bg-white text-[#00334E]">
                                                 <option value="">Pilih Ruang/Area</option>
                                                 @foreach($spaces as $space)
                                                     <option value="{{ $space->id }}">{{ ucfirst($space->type) }} - {{ $space->name }}</option>
@@ -139,8 +144,17 @@
                                     @error('bukti') <p class="form-error">{{ $message }}</p> @enderror
 
                                     @if($bukti)
+                                        @php
+                                            $previewBorder = $kategori === 'K3'
+                                                ? 'border-cyan-400 shadow-[0_0_25px_rgba(34,211,238,0.25)]'
+                                                : ($kategori === '7S'
+                                                    ? 'border-rose-400 shadow-[0_0_25px_rgba(244,63,94,0.25)]'
+                                                    : ($kategori === '5R'
+                                                        ? 'border-emerald-400 shadow-[0_0_25px_rgba(34,197,94,0.25)]'
+                                                        : 'border-[#A0AEC0]/10 shadow-[0_0_15px_rgba(255,255,255,0.08)]'));
+                                        @endphp
                                         <img src="{{ $bukti->temporaryUrl() }}" alt="Preview"
-                                             class="report-preview mt-4 rounded-3xl border border-white/10 shadow-[0_0_15px_rgba(255,255,255,0.08)]" />
+                                             class="report-preview mt-4 rounded-3xl border {{ $previewBorder }}" />
                                     @endif
                                 </div>
 
@@ -151,22 +165,22 @@
                             </form>
                         </div>
 
-                        <div class="glass-card p-8 border border-white/10 bg-slate-950/70 shadow-[0_30px_90px_rgba(15,23,42,0.3)]">
-                            <div class="rounded-[2rem] border border-cyan-500/10 bg-cyan-500/5 p-6 mb-6">
-                                <h3 class="text-xl font-semibold text-cyan-200">Ringkasan Internal</h3>
-                                <p class="mt-3 text-slate-300 leading-relaxed">Laporan internal diproses prioritas tinggi oleh tim manajemen. Lengkapi lokasi dan prioritas dengan akurat.</p>
+                        <div class="glass-card p-8 border border-[#A0AEC0]/30 bg-white/85 shadow-[0_30px_90px_rgba(0,51,78,0.08)]">
+                            <div class="rounded-[2rem] border border-[#00334E]/10 bg-[#E6F4E8]/50 p-6 mb-6">
+                                <h3 class="text-xl font-semibold text-[#00334E]">Ringkasan Internal</h3>
+                                <p class="mt-3 text-[#475569] leading-relaxed">Laporan internal diproses prioritas tinggi oleh tim manajemen. Lengkapi lokasi dan prioritas dengan akurat.</p>
                             </div>
-                            <div class="space-y-4 text-slate-300 text-sm leading-7">
+                            <div class="space-y-4 text-[#475569] text-sm leading-7">
                                 <div>
-                                    <span class="inline-flex rounded-full bg-cyan-500/10 px-3 py-1 text-cyan-200 text-xs uppercase tracking-[0.2em]">Pro tip</span>
+                                    <span class="inline-flex rounded-full bg-[#E6F4E8] px-3 py-1 text-[#00334E] text-xs uppercase tracking-[0.2em]">Pro tip</span>
                                     <p class="mt-3">Prioritas tinggi akan langsung masuk queue manajer. Gunakan dengan tepat.</p>
                                 </div>
                                 <div>
-                                    <span class="inline-flex rounded-full bg-slate-700/80 px-3 py-1 text-slate-200 text-xs uppercase tracking-[0.18em]">Fokus</span>
+                                    <span class="inline-flex rounded-full bg-[#E6F4E8] px-3 py-1 text-[#00334E] text-xs uppercase tracking-[0.18em]">Fokus</span>
                                     <p class="mt-3">Lokasi lengkap (lantai/ruang) memastikan respons tim tepat sasaran.</p>
                                 </div>
                                 <div>
-                                    <span class="inline-flex rounded-full bg-slate-700/80 px-3 py-1 text-slate-200 text-xs uppercase tracking-[0.18em]">Keamanan</span>
+                                    <span class="inline-flex rounded-full bg-[#E6F4E8] px-3 py-1 text-[#00334E] text-xs uppercase tracking-[0.18em]">Keamanan</span>
                                     <p class="mt-3">Laporan dienkripsi dan hanya terlihat oleh tim berwenang.</p>
                                 </div>
                             </div>
@@ -183,9 +197,9 @@
     .public-report-shell {
         min-height: 100vh;
         position: relative;
-        background: radial-gradient(circle at top right, rgba(6, 182, 212, 0.18), transparent 28%),
-                    radial-gradient(circle at bottom left, rgba(148, 163, 184, 0.12), transparent 22%),
-                    linear-gradient(180deg, #020617 0%, #0b1220 100%);
+        background: radial-gradient(circle at top right, rgba(0, 51, 78, 0.06), transparent 28%),
+                    radial-gradient(circle at bottom left, rgba(160, 174, 192, 0.08), transparent 22%),
+                    linear-gradient(180deg, #F0F9F4 0%, #E6F4E8 100%);
         overflow: hidden;
     }
     .public-report-shell::before,
@@ -201,20 +215,20 @@
         height: 540px;
         top: -150px;
         right: -120px;
-        background: rgba(14, 165, 233, 0.2);
+        background: rgba(0, 51, 78, 0.08);
     }
     .public-report-shell::after {
         width: 420px;
         height: 420px;
         bottom: -140px;
         left: -120px;
-        background: rgba(15, 23, 42, 0.35);
+        background: rgba(230, 244, 232, 0.5);
     }
     .public-report-card {
         border-radius: 2rem;
-        background: rgba(10, 20, 34, 0.82);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        box-shadow: 0 60px 120px rgba(5, 10, 20, 0.55);
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(160, 174, 192, 0.35);
+        box-shadow: 0 60px 120px rgba(0, 51, 78, 0.1);
         backdrop-filter: blur(22px);
     }
     .public-report-inner {
@@ -224,36 +238,33 @@
         font-size: clamp(2.5rem, 4vw, 3.6rem);
         line-height: 1;
         font-weight: 800;
-        background: linear-gradient(90deg, #f8fafc, #94a3b8);
-        -webkit-background-clip: text;
-        color: transparent;
+        color: #00334E;
     }
     .public-report-header p {
         margin-top: 0.9rem;
         max-width: 44rem;
-        color: #cbd5e1;
+        color: #475569;
     }
     .glass-card {
         border-radius: 2rem;
-        background: rgba(15, 23, 42, 0.72);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        box-shadow: 0 30px 90px rgba(15, 23, 42, 0.3);
+        background: rgba(255, 255, 255, 0.85);
+        border: 1px solid rgba(160, 174, 192, 0.3);
+        box-shadow: 0 30px 90px rgba(0, 51, 78, 0.08);
         backdrop-filter: blur(18px);
     }
     .input-field-custom {
         width: 100%;
         min-height: 3rem;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: #FFFFFF;
+        border: 1px solid #A0AEC0;
         border-radius: 1.2rem;
         padding: 1rem 1.2rem;
-        color: #f8fafc;
+        color: #00334E;
         transition: all 0.28s ease;
-        backdrop-filter: blur(14px);
     }
     select.input-field-custom {
-        background: #0f172a;
-        color: #ffffff;
+        background: #FFFFFF;
+        color: #00334E;
         appearance: none;
         -webkit-appearance: none;
         -moz-appearance: none;
@@ -264,13 +275,13 @@
         padding-right: 2.8rem;
     }
     select.input-field-custom option {
-        background-color: #0f172a;
-        color: #ffffff;
+        background-color: #FFFFFF;
+        color: #00334E;
         padding: 10px;
     }
     .input-field-custom:focus {
-        border-color: rgba(34, 211, 238, 0.95);
-        box-shadow: 0 0 24px rgba(34, 211, 238, 0.18);
+        border-color: #00334E;
+        box-shadow: 0 0 24px rgba(0, 51, 78, 0.12);
         outline: none;
         transform: translateY(-1px);
     }
@@ -279,11 +290,11 @@
         margin-bottom: 0.65rem;
         font-size: 0.95rem;
         font-weight: 600;
-        color: #94a3b8;
+        color: #00334E;
         transition: color 0.25s ease;
     }
     .form-group:focus-within .form-label {
-        color: #38bdf8;
+        color: #00334E;
     }
     .report-preview {
         display: block;
@@ -291,7 +302,7 @@
         max-height: 260px;
         border-radius: 1.5rem;
         object-fit: cover;
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(160, 174, 192, 0.3);
     }
     .submit-button {
         display: inline-flex;
@@ -302,20 +313,21 @@
         border-radius: 1.25rem;
         border: none;
         color: #ffffff;
-        background: linear-gradient(135deg, #06b6d4, #0ea5e9);
+        background: #00334E;
         transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
         box-shadow: 0 22px 50px rgba(6, 182, 212, 0.18);
     }
     .submit-button:hover {
         transform: translateY(-1px);
         box-shadow: 0 28px 60px rgba(6, 182, 212, 0.22);
+        background: #001f35;
     }
     .submit-button:active {
         transform: translateY(0px);
     }
     .btn-outline {
-        border: 1px solid rgba(148, 163, 184, 0.2);
-        color: #cbd5e1;
+        border: 1px solid #A0AEC0;
+        color: #00334E;
         background: transparent;
         transition: all 0.25s ease;
         border-radius: 1.25rem;
@@ -323,9 +335,9 @@
         font-weight: 600;
     }
     .btn-outline:hover {
-        border-color: rgba(34, 211, 238, 0.4);
-        color: #ffffff;
-        background: rgba(14, 165, 233, 0.08);
+        border-color: #00334E;
+        color: #00334E;
+        background: rgba(0, 51, 78, 0.06);
     }
     .form-error {
         margin-top: 0.5rem;
@@ -334,7 +346,7 @@
     }
     .success-card {
         border-radius: 2rem;
-        background: rgba(10, 20, 34, 0.82);
+        background: rgba(255, 255, 255, 0.9);
         border: 1px solid rgba(255, 255, 255, 0.08);
         box-shadow: 0 60px 120px rgba(5, 10, 20, 0.55);
         backdrop-filter: blur(22px);
@@ -391,8 +403,8 @@
                 if (window.anime) {
                     anime({
                         targets: input,
-                        borderColor: '#22d3ee',
-                        boxShadow: '0 0 24px rgba(34, 211, 238, 0.2)',
+                         borderColor: '#00334E',
+                        boxShadow: '0 0 24px rgba(0, 51, 78, 0.15)',
                         duration: 220,
                         easing: 'easeOutQuad'
                     });
@@ -402,8 +414,8 @@
                 if (window.anime) {
                     anime({
                         targets: input,
-                        borderColor: 'rgba(255, 255, 255, 0.12)',
-                        boxShadow: '0 0 0 rgba(34, 211, 238, 0)',
+                        borderColor: '#A0AEC0',
+                        boxShadow: '0 0 0 rgba(0, 51, 78, 0)',
                         duration: 220,
                         easing: 'easeOutQuad'
                     });

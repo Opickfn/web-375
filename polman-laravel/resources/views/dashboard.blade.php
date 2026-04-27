@@ -9,7 +9,7 @@
         <h1>Selamat Datang, {{ explode(' ', Auth::user()->full_name)[0] }} 👋</h1>
         <p>Ikhtisar sistem pelaporan K3, 5R, dan 7S — {{ now()->translatedFormat('l, d F Y') }}</p>
     </div>
-    <div style="display:flex;gap:0.6rem;">
+    <div style="display:flex;gap:0.6rem;margin-bottom:0.5rem;">
         @if(Auth::user()->canCreateReport())
         <a href="{{ route('reports.create') }}" class="pm-btn pm-btn-primary">
             <i data-lucide="plus" style="width:15px;height:15px;"></i> Buat Laporan

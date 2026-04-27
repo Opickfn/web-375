@@ -50,15 +50,15 @@ use Illuminate\Support\Str;
                 <div class="slider-container relative overflow-hidden rounded-[28px] p-5 backdrop-blur-xl" style="border: 1px solid rgba(0,51,78,0.15); background-color: rgba(255,255,255,0.85); box-shadow: 0 40px 90px rgba(0,51,78,0.08);">
 @forelse($activeWarnings as $index => $warning)
                         <div class="slider-card relative min-h-[420px] overflow-hidden rounded-[24px] bg-cover bg-center shadow-2xl {{ $index === 0 ? '' : 'hidden' }}" style="background-image: url('{{ $warning->image_url }}'); box-shadow: 0 20px 60px rgba(0,51,78,0.15);">
-                            <div class="absolute inset-0 backdrop-blur-xl" style="background-color: rgba(0,51,78,0.45);"></div>
-                            <div class="slider-content relative z-10 flex h-full flex-col justify-between p-8" style="color: #FFFFFF;">
+                            <div class="absolute inset-0" style="backdrop-filter: blur(8px) saturate(150%); background-color: rgba(255,255,255,0.4);"></div>
+                            <div class="slider-content relative z-10 flex h-[420px] flex-col justify-between p-8" style="color: #00334E;">
                                 <div class="space-y-4">
-                                    <p class="slider-label text-sm uppercase tracking-[0.28em]" style="color: #A0AEC0;">{{ strtoupper($warning->severity_label ?? 'PERINGATAN UMUM') }}</p>
-                                    <h2 class="slider-title text-3xl font-bold leading-tight" style="color: #FFFFFF;">{{ $warning->title }}</h2>
-                                    <p class="slider-description max-w-xl" style="color: rgba(255,255,255,0.8);">{{ Str::limit($warning->description, 150) }}</p>
+                                    <p class="slider-label text-sm uppercase tracking-[0.28em] pm-badge pm-badge-danger" style="color: red;">{{ strtoupper($warning->severity_label ?? 'PERINGATAN UMUM') }}</p>
+                                    <h2 class="slider-title text-3xl font-bold" style="color: #00334E; text-shadow: 0 2px 4px rgba(255,255,255,0.8);">{{ $warning->title }}</h2>
+                                    <p class="slider-description" style="color: #00334E; font-weight: 500;">{{ Str::limit($warning->description, 150) }}</p>
                                 </div>
-                                <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                                    <div class="slider-meta text-sm" style="color: rgba(255,255,255,0.6);">Slide <span class="slider-index">{{ $index + 1 }}</span> dari <span class="slider-total">{{ $activeWarnings->count() }}</span></div>
+                                <div class="mt-auto flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pt-6">
+                                    <div class="slider-meta text-sm" style="color: #00334E;">Slide <span class="slider-index">{{ $index + 1 }}</span> dari <span class="slider-total">{{ $activeWarnings->count() }}</span></div>
                                     <div class="flex gap-2">
                                         <button type="button" data-action="prev" class="slider-nav rounded-[12px] px-4 py-2 text-sm transition-all" style="border: 1px solid rgba(255,255,255,0.4); background-color: rgba(0,51,78,0.5); color: #FFFFFF;">Prev</button>
                                         <button type="button" data-action="next" class="slider-nav rounded-[12px] px-4 py-2 text-sm transition-all" style="border: 1px solid rgba(255,255,255,0.4); background-color: rgba(0,51,78,0.5); color: #FFFFFF;">Next</button>
@@ -68,14 +68,14 @@ use Illuminate\Support\Str;
                         </div>
                     @empty
                         <div class="slider-card relative min-h-[420px] overflow-hidden rounded-[24px] bg-cover bg-center shadow-2xl" style="background-image: url('https://images.unsplash.com/photo-1519337265831-281ec6cc8514?auto=format&fit=crop&w=1200&q=80'); box-shadow: 0 20px 60px rgba(0,51,78,0.15);">
-                            <div class="absolute inset-0 backdrop-blur-xl" style="background-color: rgba(0,51,78,0.45);"></div>
-                            <div class="slider-content relative z-10 flex h-full flex-col justify-between p-8" style="color: #FFFFFF;">
+                           <div class="absolute inset-0" style="backdrop-filter: blur(8px) saturate(150%); background-color: rgba(255,255,255,0.4);"></div>
+                            <div class="slider-content relative z-10 flex h-[420px] flex-col justify-between p-8" style="color: #00334E;">
                                 <div class="space-y-4">
                                     <p class="slider-label text-sm uppercase tracking-[0.28em]" style="color: #A0AEC0;">Sistem Pelaporan K3, 7S, dan 5R</p>
-                                    <h2 class="slider-title text-3xl font-bold leading-tight" style="color: #FFFFFF;">Sistem Pelaporan K3, 7S, dan 5R</h2>
-                                    <p class="slider-description max-w-xl" style="color: rgba(255,255,255,0.8);">Lapor temuan lapangan dengan mudah, pantau tindak lanjut, dan bangun budaya keselamatan kampus.</p>
+                                    <h2 class="slider-title text-3xl font-bold" style="color: #00334E; text-shadow: 0 2px 4px rgba(255,255,255,0.8);">Sistem Pelaporan K3, 7S, dan 5R</h2>
+                                    <p class="slider-description" style="color: #00334E; font-weight: 500;">Lapor temuan lapangan dengan mudah, pantau tindak lanjut, dan bangun budaya keselamatan kampus.</p>
                                 </div>
-                                <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                                <div class="mt-auto flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pt-6">
                                     <div class="slider-meta text-sm" style="color: rgba(255,255,255,0.6);">Slide <span class="slider-index">1</span> dari <span class="slider-total">1</span></div>
                                     <div class="flex gap-2">
                                         <button type="button" data-action="prev" class="slider-nav rounded-[12px] px-4 py-2 text-sm transition-all" style="border: 1px solid rgba(255,255,255,0.4); background-color: rgba(0,51,78,0.5); color: #FFFFFF;">Prev</button>
@@ -302,10 +302,10 @@ use Illuminate\Support\Str;
                             </div>
                         </div>
                         <p class="text-base leading-relaxed" style="color: rgba(0,51,78,0.7);">
-                            7S merupakan pengembangan dari 5S/5R dengan menambahkan dimensi Safety (Keselamatan) dan Spirit (Semangat). Pendekatan ini membangun budaya organisasi yang tidak hanya rapi, tetapi juga aman dan penuh motivasi.
+                            7S merupakan pengembangan dari 5S dengan menambahkan dimensi Safety (Keselamatan) dan Elemen tambahan seperti Spirit (Semangat) / Security (Keamanan). Pendekatan ini membangun budaya organisasi yang tidak hanya rapi, tetapi juga aman dan penuh motivasi.
                         </p>
                         <div class="grid grid-cols-2 gap-2 pt-2">
-                            @foreach([['Sort','Pilah'],['Set in Order','Tata'],['Shine','Bersihkan'],['Standardize','Standarisasi'],['Sustain','Pertahankan'],['Safety','Keselamatan'],['Spirit','Semangat']] as $i => $s)
+                            @foreach([['Sort/Seiri (整理) ','Pilah'],['Set in Order/Seiton (整頓)','Tata'],['Shine/Seiso (清掃)','Bersihkan'],['Standardize/Seiketsu (清潔)','Standarisasi'],['Sustain/ Shitsuke (躾)','Pertahankan'],['Safety','Keselamatan'],['Spirit/Security','Semangat/Keamanan']] as $i => $s)
                             <div class="flex items-center gap-2 p-2.5 rounded-xl" style="background-color: rgba(20,83,116,0.2); border: 1px solid rgba(0,51,78,0.12);">
                                 <span class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-black flex-shrink-0" style="background-color: rgba(248,113,113,0.2); color: #f87171;">{{ $i+1 }}</span>
                                 <div>

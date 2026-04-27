@@ -28,6 +28,7 @@ class ManageWarnings extends Component
     public ?int    $formReportId    = null;
     public $formImage;
     public string $image_source = 'manual';
+    public bool $formIsDefault = false;
 
     // Filters + sort + pagination
     public string $search         = '';
@@ -91,7 +92,10 @@ class ManageWarnings extends Component
             $this->formIsPublic    = $w->is_public;
             $this->formExpiresAt   = $w->expires_at?->format('Y-m-d');
             $this->formReportId    = $w->report_id;
-            $this->image_source = $w->image_source ?? 'manual';
+            $this->image_source    = $w->image_source ?? 'manual';
+
+            // Note: For simplicity, we're not pre-filling the file input with the existing image.
+            $this->formIsDefault   = (bool) $w->is_default;
         } else {
             $this->resetForm();
         }
@@ -109,6 +113,10 @@ class ManageWarnings extends Component
         $this->formReportId  = null;
         $this->image_source = 'manual';
         $this->formImage = null;
+
+        // Default to false when creating a new warning, but keep existing value when editing
+        $this->formIsDefault = false;
+
         $this->resetValidation();
     }
 
@@ -152,6 +160,9 @@ class ManageWarnings extends Component
                 'report_id'   => $this->formReportId,
                 'image_source' => $this->image_source,
                 'image_path' => $imagePath,
+
+                // If this warning is marked as default, we need to unset the default flag from all other warnings
+                'is_default' => $this->formIsDefault,
             ]
         );
 

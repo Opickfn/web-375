@@ -57,7 +57,7 @@
                                     <select wire:model="kategori" id="kategori" class="input-field-custom appearance-none bg-white text-[#00334E]">
                                         <option value="">Pilih kategori</option>
                                         <option value="5R">5R (Ringkas, Rapi, Resik, Rawat, Rajin)</option>
-                                        <option value="7S">7S (Seiri, Seiton, Seiso, Seiketsu, Shitsuke, Safety, Semangat)</option>
+                                        <option value="7S">7S (Seiri, Seiton, Seiso, Seiketsu, Shitsuke, Safety, Spirit/Security)</option>
                                         <option value="K3">K3 (Keselamatan dan Kesehatan Kerja)</option>
                                     </select>
                                     @error('kategori') <p class="form-error">{{ $message }}</p> @enderror
@@ -75,9 +75,9 @@
                                 </div>
 
                                 <div class="form-group input-group">
-                                    <label class="form-label" for="branch_id">Cabang Lokasi</label>
+                                    <label class="form-label" for="branch_id">Gedung/Infrastruktur</label>
                                     <select id="branch_id" wire:key="public-branch-{{ $campus_id ?: 'none' }}" wire:model="branch_id" wire:change="$refresh" class="input-field-custom appearance-none bg-white text-[#00334E]" @disabled(!$campus_id)>
-                                        <option value="">Pilih Gedung atau Infrastruktur</option>
+                                        <option value="">Pilih Gedung/Infrastruktur</option>
                                         @foreach($branches as $branch)
                                             <option value="{{ $branch->id }}" data-type="{{ $branch->type }}">{{ ucfirst($branch->type) }} - {{ $branch->name }}</option>
                                         @endforeach
@@ -330,6 +330,9 @@
         color: #00334E;
         background: transparent;
         transition: all 0.25s ease;
+        border-radius: 1.25rem;
+        padding: 1rem 1.5rem;
+        font-weight: 600;
     }
     .btn-outline:hover {
         border-color: #00334E;

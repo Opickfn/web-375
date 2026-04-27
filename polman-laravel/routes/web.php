@@ -55,7 +55,23 @@ Route::get('/', function () {
         ->limit(5)
         ->get();
 
-    $activeWarnings = \App\Models\Warning::public()->active()->orderByDesc('created_at')->get();
+    // $activeWarnings = \App\Models\Warning::public()->active()->orderByDesc('created_at')->get();
+
+    // Ambil peringatan yang statusnya AKTIF
+    $activeWarnings = \App\Models\Warning::with('report')
+        ->where('status', 'active')
+        ->where(function ($q) {
+            $q->whereNull('expires_at')->orWhere('expires_at', '>', now());
+        })
+        ->orderBy('severity', 'desc') // Urutkan berdasarkan severity (tinggi ke rendah)
+        ->get();
+
+    // JIKA TIDAK ADA peringatan aktif, ambil gambar yang ditandai sebagai DEFAULT
+    if ($activeWarnings->isEmpty()) {
+        $activeWarnings = \App\Models\Warning::where('is_default', true)
+            ->where('status', 'active')
+            ->get();
+    }
 
     return view('home', compact('topUsers', 'activeWarnings'));
 })->name('home');

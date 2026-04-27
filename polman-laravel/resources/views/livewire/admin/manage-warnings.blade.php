@@ -206,6 +206,19 @@
                     </label>
                 </div>
 
+                <!-- The "default hero image" option is only relevant when creating a new warning or if the existing warning is already set as default. -->
+                <div class="pm-form-group" style="margin-top: 1rem; padding: 1rem; background: rgba(0,51,78,0.05); border-radius: 8px; border: 1px dashed rgba(0,51,78,0.2);">
+                    <label class="pm-label" style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer; margin-bottom: 0;">
+                        <input type="checkbox" wire:model="formIsDefault" class="pm-checkbox" style="width: 18px; height: 18px;">
+                        <div>
+                            <span style="font-weight: bold; color: #00334E;">Jadikan Gambar Default Hero</span>
+                            <p style="font-size: 0.75rem; color: #64748b; margin: 0; line-height: 1.2;">
+                                Jika dicentang, gambar ini akan tampil sebagai background utama di halaman depan saat tidak ada peringatan (warnings) aktif.
+                            </p>
+                        </div>
+                    </label>
+                </div>
+
                 <div style="display:flex;gap:0.65rem;margin-top:0.5rem;">
                     <button type="submit" class="pm-btn pm-btn-primary" wire:loading.attr="disabled">
                         <i data-lucide="save" style="width:14px;height:14px;"></i>
@@ -249,6 +262,14 @@
                     <tr class="pm-row {{ $warning->severity==='high'?'pm-row-high':'' }}" wire:key="w-{{ $warning->id }}">
                         <td>
                             <div style="font-weight:600;font-size:0.875rem;color:var(--pm-text);">{{ $warning->title }}</div>
+                            
+                            <!-- If this warning is marked as the default hero, show a badge next to the title -->
+                            @if($warning->is_default)
+                                <span style="display: inline-flex; align-items: center; gap: 4px; font-size: 10px; background: #00334E; color: white; padding: 1px 8px; border-radius: 4px; margin-top: 4px; font-weight: bold;">
+                                    <i data-lucide="image" style="width: 10px; height: 10px;"></i> DEFAULT HERO
+                                </span>
+                            @endif
+
                             <div style="font-size:0.73rem;color:var(--pm-text-d);margin-top:2px;max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
                                 {{ $warning->description }}
                             </div>
