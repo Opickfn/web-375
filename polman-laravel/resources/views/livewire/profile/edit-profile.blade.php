@@ -27,8 +27,8 @@
 
                 {{-- Info --}}
                 <div style="padding:2.8rem 1.4rem 1.4rem;text-align:center;">
-                    <div style="font-size:1.05rem;font-weight:800;color:#E8E8E8;margin-bottom:4px;">{{ Auth::user()->full_name }}</div>
-                    <div style="font-size:0.78rem;color:rgba(232,232,232,0.5);margin-bottom:1rem;">{{ Auth::user()->email }}</div>
+                    <div style="font-size:1.05rem;font-weight:800;color:--pm-text;margin-bottom:4px;">{{ Auth::user()->full_name }}</div>
+                    <div style="font-size:0.78rem;color:--pm-color-text-secondary;margin-bottom:1rem;">{{ Auth::user()->email }}</div>
 
                     <div style="display:flex;justify-content:center;gap:0.45rem;flex-wrap:wrap;margin-bottom:1.2rem;">
                         <span class="pm-badge {{ match(Auth::user()->role){'admin'=>'pm-badge-danger','pimpinan'=>'pm-badge-info','spmi'=>'pm-badge-warning','pj_area'=>'pm-badge-success',default=>'pm-badge-accent'} }}">
@@ -228,7 +228,7 @@
 
                         {{-- Password strength hint --}}
                         <div style="padding:0.7rem 0.9rem;background:rgba(20,83,116,0.15);border-radius:8px;margin-bottom:1rem;">
-                            <div style="font-size:0.72rem;color:rgba(232,232,232,0.45);display:flex;gap:1rem;flex-wrap:wrap;">
+                            <div style="font-size:0.72rem;color:--pm-color-text-secondary;display:flex;gap:1rem;flex-wrap:wrap;">
                                 <span>✓ Min. 8 karakter</span>
                                 <span>✓ Kombinasi huruf & angka</span>
                                 <span>✓ Jangan gunakan info pribadi</span>

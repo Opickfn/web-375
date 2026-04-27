@@ -8,11 +8,11 @@
 
     <div class="pm-card" style="margin-bottom:1.25rem;" data-anim="fade-up" data-delay="80">
         <div class="pm-card-body" style="display:flex;gap:0.75rem;align-items:center;flex-wrap:wrap;">
-            <div class="pm-tabs">
-                <button type="button" wire:click="$set('activeTab','reports')" class="pm-tab {{ $activeTab === 'reports' ? 'active' : '' }}">
+            <div class="pm-tabs" style="display: flex; align-items: center; gap: 8px; margin: 0 !important;">
+                <button type="button" wire:click="$set('activeTab','reports')" class="pm-tab {{ $activeTab === 'reports' ? 'active' : '' }}" style="display: flex; align-items: center; gap: 8px;">
                     <i data-lucide="clipboard-check" style="width:14px;height:14px;"></i> Approval / Rejected
                 </button>
-                <button type="button" wire:click="$set('activeTab','warnings')" class="pm-tab {{ $activeTab === 'warnings' ? 'active' : '' }}">
+                <button type="button" wire:click="$set('activeTab','warnings')" class="pm-tab {{ $activeTab === 'warnings' ? 'active' : '' }}" style="display: flex; align-items: center; gap: 8px;">
                     <i data-lucide="alert-triangle" style="width:14px;height:14px;"></i> Peringatan
                 </button>
             </div>

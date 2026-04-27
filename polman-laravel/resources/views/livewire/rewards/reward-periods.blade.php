@@ -120,4 +120,4 @@ function rewardAnim() {
     };
 }
 </script>
-@endpush>
+@endpush
