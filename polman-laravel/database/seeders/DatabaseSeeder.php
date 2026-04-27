@@ -16,27 +16,27 @@ class DatabaseSeeder extends Seeder
 
         $kampus = Location::create([
             'code' => 'KP1',
-            'name' => 'Kampus Politeknik Negeri Malang',
+            'name' => 'Kampus Politeknik Manufaktur Negeri Bandung',
             'type' => 'campus',
         ]);
 
-        $gedungUtama = Location::create([
+        $gedung1 = Location::create([
             'parent_id' => $kampus->id,
             'code' => 'G1',
-            'name' => 'Gedung Utama',
+            'name' => 'Gedung ISmart',
             'type' => 'gedung',
             'category' => 'Gedung',
         ]);
 
-        $gedungUtamaGedung = Gedung::create([
+        $gedung1Gedung = Gedung::create([
             'kode' => 'G1',
-            'nama' => 'Gedung Utama',
-            'nama_en' => 'Main Building',
+            'nama' => 'Gedung ISmart',
+            'nama_en' => 'ISmart Building',
             'is_active' => true,
         ]);
 
         $lantai1 = Location::create([
-            'parent_id' => $gedungUtama->id,
+            'parent_id' => $gedung1->id,
             'code' => 'L1',
             'name' => 'Lantai 1',
             'type' => 'lantai',
@@ -44,14 +44,35 @@ class DatabaseSeeder extends Seeder
         Location::create([
             'parent_id' => $lantai1->id,
             'code' => 'R101',
-            'name' => 'Ruang Kelas A',
+            'name' => 'Ruang Project Based Learning',
             'type' => 'ruangan',
             'category' => 'Ruangan',
         ]);
         Location::create([
             'parent_id' => $lantai1->id,
             'code' => 'R102',
-            'name' => 'Ruang Kelas B',
+            'name' => 'Ruang Diskusi 1',
+            'type' => 'ruangan',
+            'category' => 'Ruangan',
+        ]);
+        Location::create([
+            'parent_id' => $lantai1->id,
+            'code' => 'R103',
+            'name' => 'Ruang Diskusi 2',
+            'type' => 'ruangan',
+            'category' => 'Ruangan',
+        ]);
+        Location::create([
+            'parent_id' => $lantai1->id,
+            'code' => 'R104',
+            'name' => 'Ruang IMaschine',
+            'type' => 'ruangan',
+            'category' => 'Ruangan',
+        ]);
+        Location::create([
+            'parent_id' => $lantai1->id,
+            'code' => 'R105',
+            'name' => 'Ruang Dosen dan Staff',
             'type' => 'ruangan',
             'category' => 'Ruangan',
         ]);
@@ -61,9 +82,39 @@ class DatabaseSeeder extends Seeder
             'type' => 'area',
             'category' => 'Area Lainnya',
         ]);
+        Location::create([
+            'parent_id' => $lantai1->id,
+            'name' => 'Mushola',
+            'type' => 'area',
+            'category' => 'Area Lainnya',
+        ]);
+        Location::create([
+            'parent_id' => $lantai1->id,
+            'name' => 'Teras Depan',
+            'type' => 'area',
+            'category' => 'Area Lainnya',
+        ]);
+        Location::create([
+            'parent_id' => $lantai1->id,
+            'name' => 'Teras Belakang',
+            'type' => 'area',
+            'category' => 'Area Lainnya',
+        ]);
+        Location::create([
+            'parent_id' => $lantai1->id,
+            'name' => 'Toilet Ruang PBL',
+            'type' => 'area',
+            'category' => 'Area Lainnya',
+        ]);
+        Location::create([
+            'parent_id' => $lantai1->id,
+            'name' => 'Toilet Ruang IMaschine',
+            'type' => 'area',
+            'category' => 'Area Lainnya',
+        ]);
 
         $lantai2 = Location::create([
-            'parent_id' => $gedungUtama->id,
+            'parent_id' => $gedung1->id,
             'code' => 'L2',
             'name' => 'Lantai 2',
             'type' => 'lantai',
@@ -71,45 +122,212 @@ class DatabaseSeeder extends Seeder
         Location::create([
             'parent_id' => $lantai2->id,
             'code' => 'R201',
-            'name' => 'Lab Mesin',
+            'name' => 'Ruang Kelas 1',
             'type' => 'ruangan',
             'category' => 'Ruangan',
         ]);
+        Location::create([
+            'parent_id' => $lantai2->id,
+            'code' => 'R202',
+            'name' => 'Ruang Kelas 2',
+            'type' => 'ruangan',
+            'category' => 'Ruangan',
+        ]);
+        Location::create([
+            'parent_id' => $lantai2->id,
+            'code' => 'R203',
+            'name' => 'Ruang Kelas 3',
+            'type' => 'ruangan',
+            'category' => 'Ruangan',
+        ]);
+        Location::create([
+            'parent_id' => $lantai2->id,
+            'code' => 'R204',
+            'name' => 'Ruang Kelas 4',
+            'type' => 'ruangan',
+            'category' => 'Ruangan',
+        ]);
+        Location::create([
+            'parent_id' => $lantai2->id,
+            'code' => 'R205',
+            'name' => 'Ruang Kelas 5',
+            'type' => 'ruangan',
+            'category' => 'Ruangan',
+        ]);
+        Location::create([
+            'parent_id' => $lantai2->id,
+            'code' => 'R206',
+            'name' => 'Ruang Kelas 6',
+            'type' => 'ruangan',
+            'category' => 'Ruangan',
+        ]);
+        Location::create([
+            'parent_id' => $lantai2->id,
+            'code' => 'R207',
+            'name' => 'Ruang Komputer',
+            'type' => 'ruangan',
+            'category' => 'Ruangan',
+        ]);
+        Location::create([
+            'parent_id' => $lantai2->id,
+            'code' => 'R208',
+            'name' => 'Ruang Kelas 7',
+            'type' => 'ruangan',
+            'category' => 'Ruangan',
+        ]);
+        Location::create([
+            'parent_id' => $lantai2->id,
+            'code' => 'R209',
+            'name' => 'Ruang Diskusi Atas',
+            'type' => 'ruangan',
+            'category' => 'Ruangan',
+        ]);
+        Location::create([
+            'parent_id' => $lantai2->id,
+            'name' => 'Toilet dekat Kelas 1',
+            'type' => 'area',
+            'category' => 'Area Lainnya',
+        ]);
+        Location::create([
+            'parent_id' => $lantai2->id,
+            'name' => 'Toilet dekat Kelas 8',
+            'type' => 'area',
+            'category' => 'Area Lainnya',
+        ]);
 
-        $gedungBengkel = Location::create([
+        $gedungTechnopole1 = Location::create([
             'parent_id' => $kampus->id,
             'code' => 'G2',
-            'name' => 'Gedung Bengkel',
+            'name' => 'Gedung Technopole 1',
             'type' => 'gedung',
             'category' => 'Gedung',
         ]);
 
-        $gedungBengkelGedung = Gedung::create([
+        $gedungTechnopole1Gedung = Gedung::create([
             'kode' => 'G2',
-            'nama' => 'Gedung Bengkel',
-            'nama_en' => 'Workshop Building',
+            'nama' => 'Gedung Technopole 1',
+            'nama_en' => 'Technopole 1 Building',
             'is_active' => true,
         ]);
 
-        $lantaiBengkel = Location::create([
-            'parent_id' => $gedungBengkel->id,
+        $lantaiTechnopole1 = Location::create([
+            'parent_id' => $gedungTechnopole1->id,
             'code' => 'L1',
             'name' => 'Lantai 1',
             'type' => 'lantai',
         ]);
-        $bengkelMesin = Location::create([
-            'parent_id' => $lantaiBengkel->id,
+        Location::create([
+            'parent_id' => $lantaiTechnopole1->id,
             'code' => 'B001',
-            'name' => 'Bengkel Mesin',
+            'name' => 'Technopole 1 Mesin',
             'type' => 'ruangan',
             'category' => 'Ruangan',
         ]);
-        $bengkelOtomasi = Location::create([
-            'parent_id' => $lantaiBengkel->id,
+        Location::create([
+            'parent_id' => $lantaiTechnopole1->id,
             'code' => 'B002',
-            'name' => 'Bengkel Otomasi',
+            'name' => 'Technopole 1 Otomasi',
             'type' => 'ruangan',
             'category' => 'Ruangan',
+        ]);
+        Location::create([
+            'parent_id' => $lantaiTechnopole1->id,
+            'name' => 'Area Sirkulasi Utama',
+            'type' => 'area',
+            'category' => 'Area Lainnya',
+        ]);
+        $lantai2Technopole1 = Location::create([
+            'parent_id' => $gedungTechnopole1->id,
+            'code' => 'L2',
+            'name' => 'Lantai 2',
+            'type' => 'lantai',
+        ]);
+        $lantai3Technopole1 = Location::create([
+            'parent_id' => $gedungTechnopole1->id,
+            'code' => 'L3',
+            'name' => 'Lantai 3',
+            'type' => 'lantai',
+        ]);
+
+
+        $gedungTechnopole2 = Location::create([
+            'parent_id' => $kampus->id,
+            'code' => 'G3',
+            'name' => 'Gedung Technopole 2',
+            'type' => 'gedung',
+            'category' => 'Gedung',
+        ]);
+
+        $gedungTechnopole2Gedung = Gedung::create([
+            'kode' => 'G3',
+            'nama' => 'Gedung Technopole 2',
+            'nama_en' => 'Technopole 2 Building',
+            'is_active' => true,
+        ]);
+        $lantaiTechnopole2 = Location::create([
+            'parent_id' => $gedungTechnopole2->id,
+            'code' => 'L1',
+            'name' => 'Lantai 1',
+            'type' => 'lantai',
+        ]);
+        
+        $lantai2Technopole2 = Location::create([
+            'parent_id' => $gedungTechnopole2->id,
+            'code' => 'L2',
+            'name' => 'Lantai 2',
+            'type' => 'lantai',
+        ]);
+        Location::create([
+            'parent_id' => $lantai2Technopole2->id,
+            'code' => 'C201',
+            'name' => 'Lab Field Automation',
+            'type' => 'ruangan',
+            'category' => 'Ruangan',
+        ]);
+        Location::create([
+            'parent_id' => $lantai2Technopole2->id,
+            'code' => 'B202',
+            'name' => 'Lab Edge Computing',
+            'type' => 'ruangan',
+            'category' => 'Ruangan',
+        ]);
+        Location::create([
+            'parent_id' => $lantai2Technopole2->id,
+            'code' => 'B203',
+            'name' => 'Lab PLC',
+            'type' => 'ruangan',
+            'category' => 'Ruangan',
+        ]);
+        Location::create([
+            'parent_id' => $lantai2Technopole2->id,
+            'code' => 'B203',
+            'name' => 'Lab Mikrokontroler',
+            'type' => 'ruangan',
+            'category' => 'Ruangan',
+        ]);
+        Location::create([
+            'parent_id' => $lantai2Technopole2->id,
+            'name' => 'Mushola Lantai 2',
+            'type' => 'area',
+            'category' => 'Area Lainnya',
+        ]);
+        Location::create([
+            'parent_id' => $lantai2Technopole2->id,
+            'name' => 'Toilet Lantai 2',
+            'type' => 'area',
+            'category' => 'Area Lainnya',
+        ]);
+        Location::create([
+            'parent_id' => $lantai2Technopole2->id,
+            'name' => 'Tempat Wudhu Lantai 2',
+            'type' => 'area',
+            'category' => 'Area Lainnya',
+        ]);
+        $lantai3Technopole2 = Location::create([
+            'parent_id' => $gedungTechnopole2->id,
+            'code' => 'L3', 
+            'name' => 'Lantai 3',
+            'type' => 'lantai',
         ]);
 
         $jalanUtama = Location::create([
@@ -119,17 +337,10 @@ class DatabaseSeeder extends Seeder
             'type' => 'infrastruktur',
             'category' => 'Infrastruktur Umum',
         ]);
-        $kantin = Location::create([
+        $tamanTechno = Location::create([
             'parent_id' => $kampus->id,
             'code' => 'INF02',
-            'name' => 'Kantin Polman',
-            'type' => 'infrastruktur',
-            'category' => 'Infrastruktur Umum',
-        ]);
-        $masjid = Location::create([
-            'parent_id' => $kampus->id,
-            'code' => 'INF03',
-            'name' => 'Masjid Kampus',
+            'name' => 'Taman Gedung Technopole',
             'type' => 'infrastruktur',
             'category' => 'Infrastruktur Umum',
         ]);
@@ -153,7 +364,7 @@ class DatabaseSeeder extends Seeder
             'nomor_dosen' => '0012093405',
             'jabatan' => 'Wakil Direktur Bidang Kemahasiswaan',
         ]);
-        $pimpinan->assignedLocations()->sync([$gedungUtama->id, $gedungBengkel->id]);
+        $pimpinan->assignedLocations()->sync([$gedung1->id, $gedungTechnopole1->id]);
 
         $spmi = User::create([
             'full_name' => 'Dr. Rendra Fadhil, S.T.',
@@ -164,7 +375,7 @@ class DatabaseSeeder extends Seeder
             'nomor_dosen' => '0011072207',
             'jabatan' => 'Auditor Internal SPMI',
         ]);
-        $spmi->assignedLocations()->sync([$masjid->id, $jalanUtama->id, $kantin->id]);
+        $spmi->assignedLocations()->sync([$gedung1->id, $jalanUtama->id, $tamanTechno->id]);
 
         $pjArea = User::create([
             'full_name' => 'Ir. Yanto Susanto',
@@ -175,7 +386,7 @@ class DatabaseSeeder extends Seeder
             'nomor_dosen' => '0016045603',
             'jabatan' => 'Penanggung Jawab Area',
         ]);
-        $pjArea->assignedLocations()->sync([$gedungBengkel->id]);
+        $pjArea->assignedLocations()->sync([$gedungTechnopole1->id, $jalanUtama->id, $tamanTechno->id]);
 
         User::create([
             'full_name' => 'Andi Pratama',
@@ -198,8 +409,8 @@ class DatabaseSeeder extends Seeder
             'user_type' => 'mahasiswa',
             'nim' => '221512015',
             'kelas' => '2B',
-            'gedung' => 'Gedung Bengkel',
-            'ruangan' => 'Bengkel Mesin',
+            'gedung' => 'Gedung Technopole1',
+            'ruangan' => 'Technopole1 Mesin',
             'tahun_angkatan' => '2022',
         ]);
 
