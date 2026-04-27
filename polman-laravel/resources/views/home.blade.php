@@ -15,9 +15,10 @@ use Illuminate\Support\Str;
             </div>
             <div class="hidden md:flex items-center gap-8">
                 <a href="#hero1" class="text-sm transition-colors nav-link" style="color: rgba(0,51,78,0.7);">HOME</a>
-                <a href="#hero2" class="text-sm transition-colors nav-link" style="color: rgba(0,51,78,0.7);">DETAIL</a>
+                <!-- <a href="#hero2" class="text-sm transition-colors nav-link" style="color: rgba(0,51,78,0.7);">DETAIL</a> -->
                 <a href="#hero3" class="text-sm transition-colors nav-link" style="color: rgba(0,51,78,0.7);">STANDAR</a>
                 <a href="#hero4" class="text-sm transition-colors nav-link" style="color: rgba(0,51,78,0.7);">ALUR & REWARD</a>
+                <a href="#leaderboard" class="text-sm transition-colors nav-link" style="color: rgba(0,51,78,0.7);">LEADERBOARD</a>
             </div>
             <div class="flex items-center gap-4">
                 <a href="{{ route('login') }}" class="text-sm transition-colors nav-link" style="color: #00334E;">Masuk</a>
@@ -459,7 +460,7 @@ use Illuminate\Support\Str;
                 </div> -->
 
                 {{-- Leaderboard --}}
-                <div class="mt-16">
+                <div id="leaderboard" class="mt-16">
                     <div class="mb-8 text-center">
                         <p class="text-sm uppercase tracking-[0.4em]" style="color: #00334E;">Leaderboard Dinamis</p>
                         <h3 class="mt-2 text-3xl font-black" style="color: #00334E;">LEADERBOARD PER PERIODE</h3>

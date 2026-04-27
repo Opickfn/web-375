@@ -40,8 +40,7 @@
     </a>
   </div>
 
-  @if(Auth::user()->isPjArea() || Auth::user()->isAdmin())
-  <!-- Manajemen -->
+  <!-- @if(Auth::user()->isPjArea() || Auth::user()->isAdmin())
   <div class="sidebar-section">
     <div class="sidebar-label">Manajemen</div>
 <a wire:navigate href="{{ route('reports.review') }}" class="sidebar-link {{ request()->routeIs('reports.review') ? 'active' : '' }}">
@@ -60,7 +59,31 @@
       <span>Peringatan</span>
     </a>
   </div>
-  @endif
+  @endif -->
+
+  @if(Auth::user()->isPjArea() || Auth::user()->isAdmin() || Auth::user()->isPimpinan())
+<div class="sidebar-section">
+    <div class="sidebar-label">Operasional & Review</div>
+    
+    {{-- Menu Review Laporan --}}
+    <a wire:navigate href="{{ route('reports.review') }}" class="sidebar-link {{ request()->routeIs('reports.review') ? 'active' : '' }}">
+      <i data-lucide="clipboard-check" class="w-5 h-5"></i>
+      <span>Review Laporan</span>
+    </a>
+
+    {{-- Menu Tindak Lanjut --}}
+    <a wire:navigate href="{{ route('followups.index') }}" class="sidebar-link {{ request()->routeIs('followups.index') ? 'active' : '' }}">
+      <i data-lucide="check-square" class="w-5 h-5"></i>
+      <span>Tindak Lanjut</span>
+    </a>
+
+    {{-- Menu Peringatan (Sekarang Pimpinan bisa akses) --}}
+    <a wire:navigate href="{{ route('warnings.index') }}" class="sidebar-link {{ request()->routeIs('warnings.*') ? 'active' : '' }}">
+      <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+      <span>Peringatan</span>
+    </a>
+</div>
+@endif
 
   @if(Auth::user()->isPjAreaOrAbove())
   <!-- Audit & Log -->

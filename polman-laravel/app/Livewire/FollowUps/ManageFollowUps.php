@@ -25,6 +25,12 @@ class ManageFollowUps extends Component
 
     public function save()
     {
+        // Hanya Admin dan PJ Area yang boleh membuat tindak lanjut
+        if (Auth::user()->isPimpinan()) {
+            session()->flash('error', 'Pimpinan hanya memiliki akses baca.');
+            return;
+        }
+
         $this->validate([
             'reportId' => 'required|exists:reports,id',
             'assignedTo' => 'required|string|max:100',
@@ -48,6 +54,11 @@ class ManageFollowUps extends Component
 
     public function complete(int $id)
     {
+        if (Auth::user()->isPimpinan()) {
+        session()->flash('error', 'Akses ditolak.');
+        return;
+        }
+        
         $followUp = FollowUp::findOrFail($id);
         $followUp->update(['status' => 'completed', 'completed_at' => now()]);
 

@@ -97,10 +97,14 @@ Route::middleware('auth')->group(function () {
         Route::get('/my-points', MyPoints::class)->name('points.my');
     });
 
-    // PJ Area routes
-    Route::middleware('role:pj_area,admin')->group(function () {
+    // Group: Akses Review & Follow Up (Sekarang Pimpinan bisa melihat)
+    Route::middleware('role:pj_area,admin,pimpinan')->group(function () {
         Route::get('/reports/review', ReviewReports::class)->name('reports.review');
         Route::get('/follow-ups', ManageFollowUps::class)->name('followups.index');
+    });
+
+    // Group: Khusus Peringatan (Pimpinan + Admin + PJ Area)
+    Route::middleware('role:pj_area,admin,pimpinan')->group(function () {
         Route::get('/warnings', ManageWarnings::class)->name('warnings.index');
     });
 

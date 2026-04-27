@@ -35,6 +35,12 @@ class ReviewReports extends Component
 
     public function approve(int $id, string $notes = ''): void
     {
+        // Cegah Pimpinan melakukan approval
+        if (Auth::user()->isPimpinan()) {
+            session()->flash('error', 'Pimpinan tidak memiliki otoritas untuk menyetujui laporan.');
+            return;
+        }
+
         $report = Report::findOrFail($id);
         $report->update([
             'status'       => 'approved',
@@ -56,6 +62,12 @@ class ReviewReports extends Component
 
     public function reject(int $id, string $notes = ''): void
     {
+        // Cegah Pimpinan melakukan penolakan
+        if (Auth::user()->isPimpinan()) {
+            session()->flash('error', 'Pimpinan tidak memiliki otoritas untuk menolak laporan.');
+            return;
+        }
+
         $report = Report::findOrFail($id);
         $report->update([
             'status'       => 'rejected',

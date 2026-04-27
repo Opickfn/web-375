@@ -8,9 +8,13 @@
             <button wire:click="exportAudit" class="pm-btn pm-btn-ghost">
                 <i data-lucide="download" style="width:15px;height:15px;"></i> Export
             </button>
+            
+            {{-- HANYA ADMIN & SPMI --}}
+            @if(in_array(Auth::user()->role, ['admin', 'spmi']))
             <button wire:click="openForm" class="pm-btn pm-btn-primary">
                 <i data-lucide="file-plus" style="width:15px;height:15px;"></i> Buat Audit
             </button>
+            @endif
         </div>
     </div>
 
@@ -163,12 +167,18 @@
                             </span>
                         </td>
                         <td>
-                            <button wire:click="openEdit({{ $a->id }})" class="pm-btn pm-btn-outline pm-btn-sm">
-                                Edit
-                            </button>
-                            <button wire:click="deleteReport({{ $a->id }})" onclick="return confirm('Hapus?')" class="pm-btn pm-btn-danger pm-btn-sm">
-                                Hapus
-                            </button>
+                            {{-- HANYA ADMIN & SPMI --}}
+                            @if(in_array(Auth::user()->role, ['admin', 'spmi']))
+                                <button wire:click="openEdit({{ $a->id }})" class="pm-btn pm-btn-outline pm-btn-sm">
+                                    Edit
+                                </button>
+                                <button wire:click="deleteReport({{ $a->id }})" onclick="return confirm('Hapus?')" class="pm-btn pm-btn-danger pm-btn-sm">
+                                    Hapus
+                                </button>
+                            @else
+                                {{-- Tampilan untuk PJ Area / Pimpinan (Hanya bisa lihat PDF) --}}
+                                <span class="text-muted" style="font-size: 0.8rem;">Read Only</span>
+                            @endif
                         </td>
                     </tr>
                     @empty
@@ -190,5 +200,5 @@ function auditAnim() {
     };
 }
 </script>
-@endpush>
+@endpush
 

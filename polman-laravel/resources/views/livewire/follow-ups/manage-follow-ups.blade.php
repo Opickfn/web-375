@@ -1,10 +1,19 @@
 <div x-data="fuAnim()" x-init="init()">
     <div class="pm-header" data-anim="slide-down">
-        <div><h1 class="pm-h1">Tindak Lanjut</h1><p class="pm-sub">Rencana aksi dan status penyelesaian temuan</p></div>
+        <div>
+            <h1 class="pm-h1">Tindak Lanjut</h1>
+            <p class="pm-sub">Rencana aksi dan status penyelesaian temuan</p>
+        </div>
         <div style="display:flex;gap:0.6rem;">
-            <button wire:click="exportFU" class="pm-btn pm-btn-ghost"><i data-lucide="download"></i> Export</button>
-            @if(Auth::user()->role !== 'pimpinan')
-            <button wire:click="openForm" class="pm-btn pm-btn-primary"><i data-lucide="plus"></i> Buat Tindak Lanjut</button>
+            <button wire:click="exportFU" class="pm-btn pm-btn-ghost">
+                <i data-lucide="download"></i> Export
+            </button>
+
+            {{-- HANYA ADMIN & PJ AREA --}}
+            @if(!Auth::user()->isPimpinan())
+            <button wire:click="openForm" class="pm-btn pm-btn-primary">
+                <i data-lucide="plus"></i> Buat Tindak Lanjut
+            </button>
             @endif
         </div>
     </div>
@@ -83,9 +92,16 @@
                         </td>
                         <td>
                             @if($fu->status !== 'completed')
-                            <button wire:click="complete({{ $fu->id }})" class="pm-btn pm-btn-success pm-btn-sm" onclick="return confirm('Tandai selesai?')">
-                                Selesai
-                            </button>
+                                {{-- HANYA ADMIN & PJ AREA --}}
+                                @if(!Auth::user()->isPimpinan())
+                                <button wire:click="complete({{ $fu->id }})" class="pm-btn pm-btn-success pm-btn-sm" onclick="return confirm('Tandai selesai?')">
+                                    Selesai
+                                </button>
+                                @else
+                                <span class="pm-badge pm-badge-warning" style="font-size: 0.8rem;">Menunggu Eksekusi</span>
+                                @endif
+                            @else
+                                <span class="pm-badge pm-badge-success" style="font-size: 0.8rem;">Selesai</span>
                             @endif
                         </td>
                     </tr>

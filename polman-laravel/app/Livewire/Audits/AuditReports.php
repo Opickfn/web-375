@@ -37,6 +37,11 @@ class AuditReports extends Component
 
     public function openEdit(int $id): void
     {
+        if (!in_array(Auth::user()->role, ['admin', 'spmi'])) {
+        session()->flash('error', 'Akses ditolak.');
+        return;
+        }
+
         $audit = AuditReport::with('location.parent.parent')->findOrFail($id);
 
         $this->resetFormState();
@@ -115,6 +120,12 @@ class AuditReports extends Component
 
     public function save(): void
     {
+        // Cek otorisasi: Hanya Admin dan SPMI yang boleh eksekusi CRUD
+        if (!in_array(Auth::user()->role, ['admin', 'spmi'])) {
+            session()->flash('error', 'Anda tidak memiliki akses untuk membuat atau mengubah audit.');
+            return;
+        }
+
         $rules = [
             'auditTarget' => 'required|in:pj_area,lokasi',
             'branchId' => 'required|exists:locations,id',
@@ -194,6 +205,11 @@ class AuditReports extends Component
 
     public function deleteReport(int $id): void
     {
+        if (!in_array(Auth::user()->role, ['admin', 'spmi'])) {
+        session()->flash('error', 'Anda tidak memiliki akses untuk menghapus audit.');
+        return;
+        }
+        
         $audit = AuditReport::findOrFail($id);
 
         if ($audit->pdf_path && Storage::disk('public')->exists('audits/' . $audit->pdf_path)) {
