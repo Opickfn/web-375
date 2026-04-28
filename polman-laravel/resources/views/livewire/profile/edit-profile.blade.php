@@ -79,10 +79,10 @@
                 </div>
                 @elseif(Auth::user()->isDosen())
                 <div style="border-top:1px solid rgba(20,83,116,0.4);padding:1rem 1.4rem;">
-                    <div style="font-size:0.65rem;font-weight:700;color:rgba(232,232,232,0.3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem;">Data Dosen</div>
+                    <div style="font-size:0.65rem;font-weight:700;color:--pm-color-text-secondary;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem;">Data Dosen</div>
                     @foreach([['NIDN/NIP',$user->nomor_dosen??'—'],['Jabatan',$user->jabatan??'—']] as [$label,$val])
                     <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(20,83,116,0.2);">
-                        <span style="font-size:0.73rem;color:rgba(232,232,232,0.4);">{{ $label }}</span>
+                        <span style="font-size:0.73rem;color:--pm-color-text-secondary;">{{ $label }}</span>
                         <span style="font-size:0.78rem;font-weight:600;">{{ $val }}</span>
                     </div>
                     @endforeach
