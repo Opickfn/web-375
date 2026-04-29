@@ -12,12 +12,12 @@
 <a wire:navigate href="{{ route('reports.create') }}" class="sidebar-link {{ request()->routeIs('reports.create') ? 'active' : '' }}">
 
       <i data-lucide="plus-circle" class="w-5 h-5"></i>
-      <span>Buat Laporan</span>
+      <span>Sampaikan Temuan</span>
     </a>
 <a wire:navigate href="{{ route('reports.my') }}" class="sidebar-link {{ request()->routeIs('reports.my') ? 'active' : '' }}">
 
       <i data-lucide="file-text" class="w-5 h-5"></i>
-      <span>Laporan Saya</span>
+      <span>Temuan Saya</span>
     </a>
     @endif
   </div>
@@ -68,7 +68,7 @@
     {{-- Menu Review Laporan --}}
     <a wire:navigate href="{{ route('reports.review') }}" class="sidebar-link {{ request()->routeIs('reports.review') ? 'active' : '' }}">
       <i data-lucide="clipboard-check" class="w-5 h-5"></i>
-      <span>Review Laporan</span>
+      <span>Review Temuan</span>
     </a>
 
     {{-- Menu Tindak Lanjut --}}

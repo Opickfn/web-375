@@ -18,6 +18,9 @@ class ActionHistory extends Component
     public string $search = '';
     public string $activeTab = 'reports';
 
+    public bool $showDetailModal = false;
+    public ?Report $selectedReport = null;
+
     public function updatingSearch(): void
     {
         $this->resetPage();
@@ -26,6 +29,28 @@ class ActionHistory extends Component
     public function updatedActiveTab(): void
     {
         $this->resetPage();
+    }
+
+    public function showDetail(int $reportId)
+    {
+        $this->selectedReport = Report::with([
+            'reporter', 
+            'location', 
+            'reviewer', 
+            'points'
+        ])->find($reportId);
+
+        if ($this->selectedReport) {
+            $this->showDetailModal = true;
+            
+            $this->dispatch('report-detail-opened'); 
+        }
+    }
+
+    public function closeDetail()
+    {
+        $this->showDetailModal = false;
+        $this->selectedReport = null;
     }
 
     private function getPjAreaLocationIds(): array
@@ -57,41 +82,39 @@ class ActionHistory extends Component
             ->whereIn('status', ['approved', 'rejected'])
             ->orderByDesc('reviewed_at');
 
-        $warningQuery = Warning::with(['creator', 'report.location'])
+        $warningQuery = Warning::with(['creator', 'report'])
             ->orderByDesc('created_at');
 
-        if (Auth::user()->isPjArea()) {
-            $locationIds = $this->getPjAreaLocationIds();
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
 
-            if (empty($locationIds)) {
-                $reportQuery->whereRaw('0=1');
-                $warningQuery->whereRaw('0=1');
-            } else {
-                $reportQuery->where(function ($query) use ($locationIds) {
-                    $query->whereIn('location_id', $locationIds)
-                          ->orWhereIn('gedung_id', $locationIds);
-                });
+        // FILTER BERDASARKAN TAG AREA TUGAS
+        if ($user && !$user->isAdmin()) {
+            $locationIds = $user->getManagedLocationIds();
 
-                $warningQuery->whereHas('report', function ($query) use ($locationIds) {
-                    $query->whereIn('location_id', $locationIds)
-                          ->orWhereIn('gedung_id', $locationIds);
-                });
-            }
+            // Filter untuk Tab Laporan
+            $reportQuery->whereIn('location_id', $locationIds);
+
+            // Filter untuk Tab Peringatan
+            $warningQuery->whereHas('report', function ($query) use ($locationIds) {
+                $query->whereIn('location_id', $locationIds);
+            });
         }
+
+        // ... (Bagian filter search tetap sama) ...
 
         if ($this->search) {
             $searchTerm = '%' . $this->search . '%';
-
             $reportQuery->where(function ($query) use ($searchTerm) {
-                $query->where('title', 'ILIKE', $searchTerm)
-                      ->orWhereHas('reviewer', fn ($q) => $q->where('full_name', 'ILIKE', $searchTerm))
-                      ->orWhereHas('reporter', fn ($q) => $q->where('full_name', 'ILIKE', $searchTerm));
+                $query->where('deskripsi', 'ILIKE', $searchTerm) // Sesuaikan kolom pencarian
+                    ->orWhereHas('reviewer', fn ($q) => $q->where('full_name', 'ILIKE', $searchTerm))
+                    ->orWhereHas('reporter', fn ($q) => $q->where('full_name', 'ILIKE', $searchTerm));
             });
 
             $warningQuery->where(function ($query) use ($searchTerm) {
                 $query->where('title', 'ILIKE', $searchTerm)
-                      ->orWhereHas('creator', fn ($q) => $q->where('full_name', 'ILIKE', $searchTerm))
-                      ->orWhereHas('report', fn ($q) => $q->where('lokasi', 'ILIKE', $searchTerm));
+                    ->orWhereHas('creator', fn ($q) => $q->where('full_name', 'ILIKE', $searchTerm))
+                    ->orWhereHas('report', fn ($q) => $q->where('lokasi', 'ILIKE', $searchTerm));
             });
         }
 
@@ -99,6 +122,6 @@ class ActionHistory extends Component
         $warningLogs = $warningQuery->paginate(10, ['*'], 'warningsPage');
 
         return view('livewire.logs.action-history', compact('reportLogs', 'warningLogs'))
-            ->title('Log History');
+            ->title('Riwayat Log');
     }
 }

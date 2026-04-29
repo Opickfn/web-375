@@ -71,7 +71,7 @@ class User extends Authenticatable
     {
         return $this->role === 'spmi';
     }
-
+    
     public function isPjArea(): bool
     {
         return $this->role === 'pj_area';
@@ -95,6 +95,31 @@ class User extends Authenticatable
     public function getAssignedLocationLabelsAttribute(): string
     {
         return $this->assignedLocations->pluck('full_path')->join(', ');
+    }
+
+    public function getManagedLocationIds(): array
+    {
+        if ($this->isAdmin()) {
+            return [];
+        }
+
+        $assignedIds = $this->assignedLocations()->pluck('locations.id')->all();
+
+        if (empty($assignedIds)) {
+            return [-1]; 
+        }
+
+        $allIds = $assignedIds;
+        $currentIds = $assignedIds;
+
+        while (!empty($currentIds)) {
+            $childIds = \App\Models\Location::whereIn('parent_id', $currentIds)->pluck('id')->all();
+            $currentIds = array_diff($childIds, $allIds);
+            if (empty($currentIds)) break;
+            $allIds = array_merge($allIds, $currentIds);
+        }
+
+        return array_values(array_unique($allIds));
     }
 
     // --- Type Helpers ---

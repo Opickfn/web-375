@@ -28,7 +28,11 @@
     <div class="user-profile" id="pm-user-trigger">
       <div class="user-info">
         <h4>{{ Auth::user()->full_name }}</h4>
+        @if (Auth::user()->role === 'reporter')
+        <div class="user-role">Kontributor</div>
+        @else
         <div class="user-role">{{ Auth::user()->role }}</div>
+        @endif
       </div>
       <div class="user-avatar">
         {{ strtoupper(substr(Auth::user()->full_name, 0, 2)) }}

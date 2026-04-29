@@ -4,6 +4,7 @@ namespace App\Livewire\Reports;
 
 use App\Models\Point;
 use App\Models\Report;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -114,19 +115,32 @@ class ReviewReports extends Component
     {
         $q = Report::with(['reporter', 'location'])->where('status', 'pending');
 
-        if (Auth::user()?->isPjArea() && Auth::user()?->gedung_id) {
-            $q->where('gedung_id', Auth::user()->gedung_id);
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        // JIKA BUKAN ADMIN (Pimpinan, SPMI, PJ Area), FILTER BERDASARKAN AREA TUGAS
+        if ($user && !$user->isAdmin()) {
+            // Kita gunakan method getManagedLocationIds yang ada di User.php
+            // Jika method ini belum ada di User.php, sistem akan error (kita akan cek setelah ini)
+            $managedIds = $user->getManagedLocationIds();
+            
+            $q->whereIn('location_id', $managedIds);
         }
+
+        // Filter Search (Cari pengusul, lokasi, deskripsi)
         if ($this->search) {
             $q->where(function ($s) {
-                $s->where('lokasi',    'ILIKE', "%{$this->search}%")
-                  ->orWhere('deskripsi', 'ILIKE', "%{$this->search}%")
-                  ->orWhereHas('reporter', fn ($r) => $r->where('full_name', 'ILIKE', "%{$this->search}%"));
+                $s->where('deskripsi', 'ILIKE', "%{$this->search}%")
+                ->orWhereHas('reporter', fn ($r) => $r->where('full_name', 'ILIKE', "%{$this->search}%"))
+                ->orWhereHas('location', fn ($l) => $l->where('name', 'ILIKE', "%{$this->search}%"));
             });
         }
+
+        // Filter Kategori & Prioritas
         if ($this->filterKategori)  $q->where('kategori',  $this->filterKategori);
         if ($this->filterPrioritas) $q->where('prioritas', $this->filterPrioritas);
 
+        // Sorting
         $allowed = ['created_at', 'kategori', 'prioritas'];
         $col = in_array($this->sortBy, $allowed) ? $this->sortBy : 'created_at';
         $q->orderBy($col, $this->sortDir);

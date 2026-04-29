@@ -365,16 +365,20 @@ class AuditReports extends Component
 
         $query = AuditReport::with(['auditor', 'pjArea', 'location'])->latest();
 
-        if (Auth::user()->isPjArea() || Auth::user()->isPimpinan()) {
-            $locationIds = $this->getUserAuditLocationIds();
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
 
-            $query->where(function ($subQuery) use ($locationIds) {
-                if (! empty($locationIds)) {
-                    $subQuery->whereIn('location_id', $locationIds);
-                }
+        // FILTER BERDASARKAN TAG AREA TUGAS (Untuk Pimpinan, SPMI, dan PJ Area)
+        if ($user && !$user->isAdmin()) {
+            $locationIds = $user->getManagedLocationIds();
 
-                if (Auth::user()->isPjArea()) {
-                    $subQuery->orWhere('pj_area_id', Auth::id());
+            $query->where(function ($subQuery) use ($locationIds, $user) {
+                // Tampilkan audit yang lokasinya masuk dalam area tugas
+                $subQuery->whereIn('location_id', $locationIds);
+
+                // Khusus PJ Area, tampilkan juga audit jika dia adalah orang yang diaudit
+                if ($user->isPjArea()) {
+                    $subQuery->orWhere('pj_area_id', $user->id);
                 }
             });
         }

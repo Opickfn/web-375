@@ -4,6 +4,7 @@ namespace App\Livewire\FollowUps;
 
 use App\Models\FollowUp;
 use App\Models\Report;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -19,6 +20,12 @@ class ManageFollowUps extends Component
     public string $assignedTo = '';
     public string $actionPlan = '';
     public string $targetDate = '';
+
+    // TAMBAHKAN PROPERTI FILTER & SEARCH BERIKUT INI:
+    public string $search = '';
+    public string $filterStatus = '';
+    public string $sortBy = 'created_at';
+    public string $sortDir = 'desc';
 
     public function openForm(): void { $this->showForm = true; }
     public function closeForm(): void { $this->showForm = false; $this->reset(['reportId','assignedTo','actionPlan','targetDate']); }
@@ -72,13 +79,28 @@ class ManageFollowUps extends Component
         session()->flash('success', 'Tindak lanjut ditandai selesai.');
     }
 
-    public function render()
+   public function render()
     {
-        $followUps = FollowUp::with(['report', 'creator'])->latest()->paginate(10);
-        $approvedReports = Report::whereIn('status', ['approved', 'in_progress'])->get();
+        $followUps = $this->buildFUQuery()->paginate(10);
 
-        return view('livewire.follow-ups.manage-follow-ups', compact('followUps', 'approvedReports'))
-            ->title('Tindak Lanjut');
+        // Filter dropdown laporan agar hanya muncul yang sesuai area tugas
+        $reportsQuery = Report::whereIn('status', ['approved', 'in_progress']);
+
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        if ($user && !$user->isAdmin()) {
+            $managedIds = $user->getManagedLocationIds();
+            $reportsQuery->whereIn('location_id', $managedIds);
+        }
+
+        // Gunakan nama 'approvedReports' agar cocok dengan @foreach di Blade Anda
+        $approvedReports = $reportsQuery->latest()->get();
+
+        return view('livewire.follow-ups.manage-follow-ups', [
+            'followUps' => $followUps,
+            'approvedReports' => $approvedReports 
+        ])->title('Tindak Lanjut');
     }
 
     // ==========================================
@@ -113,11 +135,40 @@ class ManageFollowUps extends Component
 
     private function buildFUQuery()
     {
-        $q = \App\Models\FollowUp::with(['report','creator']);
-        if ($this->search) $q->where(fn($s) => $s->where('assigned_to_name','ILIKE',"%{$this->search}%")->orWhereHas('report',fn($r)=>$r->where('lokasi','ILIKE',"%{$this->search}%")));
-        if ($this->filterStatus) $q->where('status', $this->filterStatus);
-        $allowed = ['created_at','target_date','status'];
-        $q->orderBy(in_array($this->sortBy,$allowed)?$this->sortBy:'created_at', $this->sortDir);
+        // Ambil query dasar dengan relasi report
+        $q = \App\Models\FollowUp::with(['report', 'creator']);
+
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        // FILTER BERDASARKAN TAG AREA TUGAS
+        if ($user && !$user->isAdmin()) {
+            $managedIds = $user->getManagedLocationIds();
+            
+            // Kita filter follow_up yang laporannya berada di lokasi tugas user
+            $q->whereHas('report', function($query) use ($managedIds) {
+                $query->whereIn('location_id', $managedIds);
+            });
+        }
+
+        // Filter Search
+        if ($this->search) {
+            $q->where(fn($s) => $s
+                ->where('assigned_to_name', 'ILIKE', "%{$this->search}%")
+                ->orWhereHas('report', fn($r) => $r->where('lokasi', 'ILIKE', "%{$this->search}%"))
+            );
+        }
+
+        // Filter Status
+        if ($this->filterStatus) {
+            $q->where('status', $this->filterStatus);
+        }
+
+        // Sorting
+        $allowed = ['created_at', 'target_date', 'status'];
+        $col = in_array($this->sortBy, $allowed) ? $this->sortBy : 'created_at';
+        $q->orderBy($col, $this->sortDir);
+
         return $q;
     }
     // In render() replace: $followUps = FollowUp::with(['report','creator'])->latest()->paginate(10);

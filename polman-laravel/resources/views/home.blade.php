@@ -222,90 +222,26 @@ use Illuminate\Support\Str;
                         </div>
                     </div>
                 </div>
-
                 <div id="h3-panel-5r" class="h3-panel hidden grid lg:grid-cols-2 gap-8 items-start">
-                    <div class="space-y-6">
-                        <div class="flex items-center gap-4">
-                            <div class="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0" style="background-color: rgba(0,191,255,0.15); border: 1px solid rgba(0,191,255,0.3);">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00BFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-                            </div>
-                            <div>
-                                <p class="text-xs uppercase tracking-widest mb-1" style="color: #00BFFF;">Ringkas · Rapi · Resik · Rawat · Rajin</p>
-                                <h3 class="text-3xl font-black" style="color: #00334E;">5R</h3>
-                            </div>
-                        </div>
-                        <p class="text-base leading-relaxed" style="color: rgba(0,51,78,0.7);">
-                            5R adalah metodologi manajemen tempat kerja yang bertujuan menciptakan lingkungan yang terorganisir, bersih, dan efisien. Diterapkan secara konsisten, 5R meningkatkan produktivitas dan keselamatan secara bersamaan.
-                        </p>
-                        <div class="grid grid-cols-1 gap-3 pt-2">
-                            @foreach([['R','Ringkas','Pisahkan barang yang perlu dan tidak perlu'],['R','Rapi','Tempatkan barang pada tempat yang semestinya'],['R','Resik','Bersihkan area kerja secara rutin'],['R','Rawat','Pertahankan kondisi yang sudah baik'],['R','Rajin','Jadikan 5R sebagai kebiasaan sehari-hari']] as $i => $r)
-                            <div class="flex items-center gap-3 p-3 rounded-xl" style="background-color: rgba(0,191,255,0.1); border: 1px solid rgba(0,191,255,0.2);">
-                                <span class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-black flex-shrink-0" style="background-color: #00BFFF; color: #FFFFFF;">{{ $i+1 }}</span>
-                                <div>
-                                    <span class="font-bold text-sm mr-2" style="color: #00BFFF;">{{ $r[1] }}</span>
-                                    <span class="text-xs" style="color: rgba(0,51,78,0.55);">— {{ $r[2] }}</span>
-                                </div>
-                            </div>
-                            @endforeach
-                        </div>
-                    </div>
-                    <div class="space-y-4">
-                        <p class="text-xs uppercase tracking-widest mb-4" style="color: rgba(0,51,78,0.4);">Contoh Kasus yang perlu Improvement</p>
-                        <div class="h3-case-card p-5 rounded-2xl" style="background-color: rgba(0,51,78,0.06); border: 1px solid rgba(0,191,255,0.25);">
-                            <div class="flex items-start gap-3">
-                                <span class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color: #00BFFF;"></span>
-                                <div>
-                                    <p class="font-semibold text-sm mb-1" style="color: #00334E;">Area Kerja Berantakan</p>
-                                    <p class="text-sm" style="color: rgba(0,51,78,0.55);">Perkakas, material, atau sisa produksi berserakan di lantai workshop atau meja kerja tanpa pengelompokan yang jelas.</p>
-                                </div>
-                            </div>
-                        </div>
-                       <div class="h3-case-card p-5 rounded-2xl" style="background-color: rgba(0,51,78,0.06); border: 1px solid rgba(0,191,255,0.25);">
-                            <div class="flex items-start gap-3">
-                                <span class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color: #00BFFF;"></span>
-                                <div>
-                                    <p class="font-semibold text-sm mb-1" style="color: #00334E;">Label / Penanda Tidak Terpasang</p>
-                                    <p class="text-sm" style="color: rgba(0,51,78,0.55);">Rak penyimpanan alat, laci, atau area khusus tidak memiliki label identifikasi yang jelas sehingga menyulitkan pencarian.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="h3-case-card p-5 rounded-2xl" style="background-color: rgba(0,51,78,0.06); border: 1px solid rgba(0,191,255,0.25);">
-                            <div class="flex items-start gap-3">
-                                <span class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color: #00BFFF;"></span>
-                                <div>
-                                    <p class="font-semibold text-sm mb-1" style="color: #00334E;">Barang Usang Menumpuk</p>
-                                    <p class="text-sm" style="color: rgba(0,51,78,0.55);">Peralatan rusak, barang tidak terpakai, atau dokumen lama yang memenuhi ruang dan mengganggu alur kerja.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="h3-case-card p-5 rounded-2xl" style="background-color: rgba(0,51,78,0.06); border: 1px solid rgba(0,191,255,0.25);">
-                            <div class="flex items-start gap-3">
-                                <span class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color: #00BFFF;"></span>
-                                <div>
-                                    <p class="font-semibold text-sm mb-1" style="color: #00334E;">Toilet / Pantry Tidak Bersih</p>
-                                    <p class="text-sm" style="color: rgba(0,51,78,0.55);">Fasilitas umum yang tidak terawat dan tidak ada jadwal pembersihan rutin yang terstruktur.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="h3-panel-7s" class="h3-panel hidden grid lg:grid-cols-2 gap-8 items-start">
                     <div class="space-y-6">
                         <div class="flex items-center gap-4">
                             <div class="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0" style="background-color: rgba(248,113,113,0.15); border: 1px solid rgba(248,113,113,0.3);">
                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
                             </div>
                             <div>
-                                <p class="text-xs uppercase tracking-widest mb-1" style="color: #f87171;">Sort · Set · Shine · Standardize · Sustain · Safety · Spirit</p>
-                                <h3 class="text-3xl font-black" style="color: #00334E;">7S</h3>
+                                <p class="text-xs uppercase tracking-widest mb-1" style="color: #f87171;">Ringkas · Rapi · Resik · Rawat · Rajin</p>
+                                <h3 class="text-3xl font-black" style="color: #00334E;">5R</h3>
                             </div>
                         </div>
                         <p class="text-base leading-relaxed" style="color: rgba(0,51,78,0.7);">
-                            7S merupakan pengembangan dari 5S dengan menambahkan dimensi Safety (Keselamatan) dan Elemen tambahan seperti Spirit (Semangat) / Security (Keamanan). Pendekatan ini membangun budaya organisasi yang tidak hanya rapi, tetapi juga aman dan penuh motivasi.
+                            5R adalah metodologi manajemen tempat kerja yang bertujuan menciptakan lingkungan yang terorganisir, bersih, dan efisien. Diterapkan secara konsisten, 5R meningkatkan produktivitas dan keselamatan secara bersamaan.
                         </p>
                         <div class="grid grid-cols-2 gap-2 pt-2">
-                            @foreach([['Sort/Seiri (整理) ','Pilah'],['Set in Order/Seiton (整頓)','Tata'],['Shine/Seiso (清掃)','Bersihkan'],['Standardize/Seiketsu (清潔)','Standarisasi'],['Sustain/ Shitsuke (躾)','Pertahankan'],['Safety','Keselamatan'],['Spirit/Security','Semangat/Keamanan']] as $i => $s)
+                            @foreach([['Ringkas/Seiri (整理) ','Memilah barang yang diperlukan dan tidak diperlukan, lalu membuang atau memindahkan barang yang tidak perlu.'],
+                            ['Rapi/Seiton (整頓)','Mengatur dan menata barang yang diperlukan agar mudah ditemukan, digunakan, dan dikembalikan ke tempatnya.'],
+                            ['Resik/Seiso (清掃)','Membersihkan lingkungan kerja dari kotoran dan debu, serta merawat peralatan agar tidak rusak.'],
+                            ['Rawat/Seiketsu (清潔)','Mempertahankan kondisi yang sudah bersih dan teratur dengan membuat standar atau prosedur (SOP).'],
+                            ['Rajin/Shitsuke (躾)',' Membiasakan diri dan mendisiplinkan diri untuk melakukan 4S sebelumnya secara konsisten sebagai bagian dari budaya kerja.']] as $i => $s)
                             <div class="flex items-center gap-2 p-2.5 rounded-xl" style="background-color: rgba(20,83,116,0.2); border: 1px solid rgba(0,51,78,0.12);">
                                 <span class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-black flex-shrink-0" style="background-color: rgba(248,113,113,0.2); color: #f87171;">{{ $i+1 }}</span>
                                 <div>
@@ -356,7 +292,77 @@ use Illuminate\Support\Str;
                         </div>
                     </div>
                 </div>
-
+                 <div id="h3-panel-7s" class="h3-panel hidden grid lg:grid-cols-2 gap-8 items-start">
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0" style="background-color: rgba(0,191,255,0.15); border: 1px solid rgba(0,191,255,0.3);">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00BFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                            </div>
+                            <div>
+                                <p class="text-xs uppercase tracking-widest mb-1" style="color: #00BFFF;">T · I · M · W · O · O · D </p>
+                                <h3 class="text-3xl font-black" style="color: #00334E;">7S</h3>
+                            </div>
+                        </div>
+                        <p class="text-base leading-relaxed" style="color: rgba(0,51,78,0.7);">
+                           Seven Wastes (7 Pemborosan/Muda) adalah konsep inti dalam Lean Manufacturing yang dicetuskan oleh Taiichi Ohno dari Toyota, merujuk pada aktivitas yang tidak menambah nilai produk dan harus dihilangkan. 
+                        </p>
+                        <div class="grid grid-cols-1 gap-3 pt-2">
+                            @foreach([['T','Transportation/Transportasi',' Pemindahan barang yang tidak perlu, yang meningkatkan risiko kerusakan dan biaya.'],
+                            ['I','Inventory/Inventaris','Barang yang tertumpuk di gudang atau area produksi tanpa kebutuhan yang jelas'],
+                            ['M','Motion/Pindahan','Pindahan tubuh yang tidak perlu atau tidak efisien'],
+                            ['W','Waiting/Pengangguran','Waktu menunggu/menganggur untuk proses berikutnya'],
+                            ['O','Overproduction/Pembuatan Berlebih','Membuat produk lebih banyak dari yang dibutuhkan'],
+                            ['O','Overprocessing/Pengolahan Berlebih','Melakukan pekerjaan yang tidak diperlukan atau melebihi kebutuhan'],
+                            ['D','Defects/Kerusakan','Produk yang tidak memenuhi standar kualitas']] as $i => $r)
+                            <div class="flex items-center gap-3 p-3 rounded-xl" style="background-color: rgba(0,191,255,0.1); border: 1px solid rgba(0,191,255,0.2);">
+                                <span class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-black flex-shrink-0" style="background-color: #00BFFF; color: #FFFFFF;">{{ $i+1 }}</span>
+                                <div>
+                                    <span class="font-bold text-sm mr-2" style="color: #00BFFF;">{{ $r[1] }}</span>
+                                    <span class="text-xs" style="color: rgba(0,51,78,0.55);">— {{ $r[2] }}</span>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <p class="text-xs uppercase tracking-widest mb-4" style="color: rgba(0,51,78,0.4);">Contoh Kasus yang perlu Improvement</p>
+                        <div class="h3-case-card p-5 rounded-2xl" style="background-color: rgba(0,51,78,0.06); border: 1px solid rgba(0,191,255,0.25);">
+                            <div class="flex items-start gap-3">
+                                <span class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color: #00BFFF;"></span>
+                                <div>
+                                    <p class="font-semibold text-sm mb-1" style="color: #00334E;">Penumpukan Bahan Baku Besi dan Logam di Lab Pengecoran</p>
+                                    <p class="text-sm" style="color: rgba(0,51,78,0.55);">Di laboratorium atau bengkel pengecoran logam, terdapat tumpukan balok besi cor dan pasir cetak yang tidak teratur, sehingga memakan tempat dan menyulitkan mobilitas.</p>
+                                </div>
+                            </div>
+                        </div>
+                       <div class="h3-case-card p-5 rounded-2xl" style="background-color: rgba(0,51,78,0.06); border: 1px solid rgba(0,191,255,0.25);">
+                            <div class="flex items-start gap-3">
+                                <span class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color: #00BFFF;"></span>
+                                <div>
+                                    <p class="font-semibold text-sm mb-1" style="color: #00334E;">Antrean Penggunaan Mesin CNC di Bengkel Kampus</p>
+                                    <p class="text-sm" style="color: rgba(0,51,78,0.55);">Mahasiswa sering mengantre sangat lama untuk menggunakan mesin CNC (Computer Numerical Control) saat mengerjakan tugas praktik pemesinan. Akibatnya, jam praktik selesai tidak tepat waktu.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="h3-case-card p-5 rounded-2xl" style="background-color: rgba(0,51,78,0.06); border: 1px solid rgba(0,191,255,0.25);">
+                            <div class="flex items-start gap-3">
+                                <span class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color: #00BFFF;"></span>
+                                <div>
+                                    <p class="font-semibold text-sm mb-1" style="color: #00334E;"> Tingginya Kerusakan Pahat Potong pada Praktik Bubut</p>
+                                    <p class="text-sm" style="color: rgba(0,51,78,0.55);">Banyak mahasiswa baru yang mematahkan pahat potong atau merusak benda kerja saat melakukan praktik bubut manual karena kesalahan parameter kecepatan atau kedalaman potong.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="h3-case-card p-5 rounded-2xl" style="background-color: rgba(0,51,78,0.06); border: 1px solid rgba(0,191,255,0.25);">
+                            <div class="flex items-start gap-3">
+                                <span class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color: #00BFFF;"></span>
+                                <div>
+                                    <p class="font-semibold text-sm mb-1" style="color: #00334E;">Jarak Pemindahan Cetakan yang Jauh di Lab Perancangan</p>
+                                    <p class="text-sm" style="color: rgba(0,51,78,0.55);">Dalam proses pembuatan mould (cetakan plastik) atau dies (cetakan logam), mahasiswa harus bolak-balik berjalan jauh membawa material dari gudang penyimpanan menuju mesin ukur koordinat (CMM), lalu ke mesin pengerjaan.
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 

@@ -117,12 +117,15 @@
                         </td>
                     </tr>
                     @empty
-                    <tr><td colspan="7">
-                        <div class="pm-empty">
-                            <div class="pm-empty-icon"><i data-lucide="check-circle" style="width:32px;height:32px;"></i></div>
-                            <p>Tidak ada temuan yang perlu direview.</p>
-                        </div>
-                    </td></tr>
+                    <tr>
+                        <td colspan="7" class="text-center">
+                            <div class="p-8">
+                                <i data-lucide="inbox" style="width:40px;height:40px;color:#cbd5e1;margin:0 auto 1rem;"></i>
+                                <p class="text-slate-500">Tidak ada laporan di area tugas Anda.</p>
+                                <p class="text-xs text-slate-400">Hubungi Admin jika area tugas belum di-set.</p>
+                            </div>
+                        </td>
+                    </tr>
                     @endforelse
                 </tbody>
             </table>

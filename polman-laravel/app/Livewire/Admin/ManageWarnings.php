@@ -196,6 +196,19 @@ class ManageWarnings extends Component
     {
         $q = Warning::with(['creator', 'report']);
 
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        // FILTER BERDASARKAN TAG AREA TUGAS
+        if ($user && !$user->isAdmin()) {
+            $managedIds = $user->getManagedLocationIds();
+            
+            // Filter peringatan yang laporannya berada di lokasi tugas user
+            $q->whereHas('report', function($query) use ($managedIds) {
+                $query->whereIn('location_id', $managedIds);
+            });
+        }
+
         if ($this->search) {
             $q->where(fn ($s) => $s
                 ->where('title',       'ILIKE', "%{$this->search}%")
@@ -215,9 +228,20 @@ class ManageWarnings extends Component
 
     public function render()
     {
-        $warnings        = $this->buildQuery()->paginate($this->perPage);
-        $approvedReports = Report::whereIn('status', ['approved', 'in_progress'])
-                                 ->orderByDesc('created_at')->limit(30)->get();
+        $warnings = $this->buildQuery()->paginate($this->perPage);
+
+        // Filter dropdown laporan di halaman Warnings
+        $reportsQuery = Report::whereIn('status', ['approved', 'in_progress']);
+
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        if ($user && !$user->isAdmin()) {
+            $managedIds = $user->getManagedLocationIds();
+            $reportsQuery->whereIn('location_id', $managedIds);
+        }
+
+        $approvedReports = $reportsQuery->orderByDesc('created_at')->limit(30)->get();
 
         return view('livewire.admin.manage-warnings', compact('warnings', 'approvedReports'))
             ->title('Kelola Peringatan');

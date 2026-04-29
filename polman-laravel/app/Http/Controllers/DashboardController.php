@@ -17,7 +17,24 @@ class DashboardController extends Controller
         $isAdmin = $user->isPjAreaOrAbove();
 
         // --- Stat Cards ---
-        $baseQuery = fn () => $isAdmin ? Report::query() : Report::where('reporter_id', $user->id);
+        $baseQuery = function () use ($user, $isAdmin) {
+            $query = Report::query();
+
+            if ($isAdmin) {
+                // Jika dia Admin/Pimpinan/PJ Area
+                if (!$user->isAdmin()) {
+                    // Khusus PJ Area: Filter hanya lokasi yang ditugaskan (dan turunannya)
+                    $managedIds = $user->getManagedLocationIds();
+                    $query->whereIn('location_id', $managedIds);
+                }
+                // Jika Admin murni, tampilkan semua (tidak masuk ke if di atas)
+            } else {
+                // Jika Reporter/Kontributor: Hanya lihat milik sendiri
+                $query->where('reporter_id', $user->id);
+            }
+            
+            return $query;
+        };
 
         $totalReports    = $baseQuery()->count();
         $pendingReports  = $baseQuery()->where('status', 'pending')->count();
@@ -25,10 +42,13 @@ class DashboardController extends Controller
         $myPoints        = $user->totalPoints();
         $totalUsers      = User::count();
 
-        // Recent reports
-        $recentReports = $user->canCreateReport()
-            ? Report::where('reporter_id', $user->id)->latest()->take(10)->get()
-            : Report::with('reporter')->latest()->take(10)->get();
+        // Recent reports (10 teratas, filter sesuai peran)
+        $recentReports = $baseQuery()
+            ->when($user->canCreateReport(), fn($q) => $q->where('reporter_id', $user->id))
+            ->with(['reporter', 'location']) // Pastikan eager load location
+            ->latest()
+            ->take(10)
+            ->get();
 
         // --- Chart: Reports by Status (Doughnut) ---
         $statusCounts = $baseQuery()
