@@ -1,7 +1,7 @@
 <div>
     <div class="page-header">
-        <h1>Laporan Publik</h1>
-        <p>Lihat laporan improvement yang telah disetujui dan sedang ditindaklanjuti</p>
+        <h1>Temuan Publik</h1>
+        <p>Lihat temuan improvement yang telah disetujui dan sedang ditindaklanjuti</p>
     </div>
 
     {{-- Statistics Cards --}}
@@ -10,7 +10,7 @@
             <div class="stat-icon primary"><i data-lucide="file-text" style="width:24px;height:24px;"></i></div>
             <div>
                 <div class="stat-value">{{ number_format($totalReports) }}</div>
-                <div class="stat-label">Total Laporan</div>
+                <div class="stat-label">Total Temuan</div>
             </div>
         </div>
         <div class="stat-card animate-in">
@@ -91,7 +91,7 @@
                             <td colspan="6">
                                 <div class="empty-state">
                                     <i data-lucide="inbox" style="width:40px;height:40px;"></i>
-                                    <p>Belum ada laporan dengan filter ini.</p>
+                                    <p>Belum ada temuan dengan filter ini.</p>
                                 </div>
                             </td>
                         </tr>
@@ -112,9 +112,9 @@
             <div>
                 <h4 style="margin:0 0 8px 0;color:var(--text-dark);">Ingin Berkontribusi?</h4>
                 <p style="margin:0;color:var(--text-muted);font-size:0.95rem;">
-                    Laporan Anda akan membantu meningkatkan kualitas lingkungan kampus.
+                    Temuan Anda akan membantu meningkatkan kualitas lingkungan kampus.
                     <a href="{{ route('register') }}" style="color:var(--primary);font-weight:500;text-decoration:none;">Daftar sekarang</a>
-                    untuk mengirim laporan dan dapatkan poin!
+                    untuk mengirim temuan dan dapatkan poin!
                 </p>
             </div>
         </div>

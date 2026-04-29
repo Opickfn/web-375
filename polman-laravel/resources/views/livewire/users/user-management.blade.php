@@ -34,7 +34,7 @@
         <div class="pm-filters">
             <select wire:model.live="filterRole" class="pm-select">
                 <option value="">Semua Role</option>
-                <option value="reporter">Pelapor</option>
+                <option value="reporter">Pengusul</option>
                 <option value="admin">Admin</option>
                 <option value="pimpinan">Pimpinan</option>
                 <option value="spmi">SPMI</option>
@@ -104,7 +104,7 @@
                     <div class="pm-form-group">
                         <label class="pm-label">Role</label>
                         <select wire:model.live="{{ $roleField }}" class="pm-select-full">
-                            <option value="reporter">Pelapor</option>
+                            <option value="reporter">Pengusul</option>
                             <option value="admin">Admin</option>
                             <option value="pimpinan">Pimpinan</option>
                             <option value="spmi">SPMI / Auditor</option>

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->enum('status', ['active', 'inactive', 'expired'])->default('active');
             $table->boolean('is_public')->default(true);
             $table->timestamp('expires_at')->nullable();
+            $table->string('image_path')->nullable();
             $table->timestamps();
         });
     }

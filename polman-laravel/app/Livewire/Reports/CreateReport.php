@@ -21,6 +21,7 @@ class CreateReport extends Component
     public string $detail_lokasi = '';
     public string $deskripsi = '';
     public string $prioritas = 'sedang';
+    public string $solusi = '';
     public $bukti;
 
     // Success state
@@ -166,6 +167,7 @@ class CreateReport extends Component
             'status' => 'pending',
             'gedung_id' => $gedungId,
             'location_id' => $location->id,
+            'solusi' => $this->solusi,
         ];
 
         if ($this->bukti) {
@@ -176,12 +178,16 @@ class CreateReport extends Component
 
         $report = Report::create($data);
 
+        // LOGIKA POIN BARU: 10 poin dasar + 5 poin jika ada solusi
+        $bonusPoin = !empty(trim($this->solusi)) ? 5 : 0;
+        $totalPoin = 10 + $bonusPoin;
+
         Point::create([
             'user_id' => Auth::id(),
             'report_id' => $report->id,
-            'amount' => 10,
+            'amount' => $totalPoin,
             'type' => 'submit',
-            'description' => 'Poin submit laporan ' . $report->code,
+            'description' => 'Poin submit laporan ' . $report->code . ($bonusPoin > 0 ? ' (Termasuk bonus solusi)' : ''),
         ]);
 
         $this->successReport = $report;
@@ -196,6 +202,7 @@ class CreateReport extends Component
         $this->deskripsi = '';
         $this->prioritas = 'sedang';
         $this->bukti = null;
+        $this->solusi = '';
     }
 
     public function resetForm()

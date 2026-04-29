@@ -10,7 +10,7 @@
         </div>
 
         <h2 class="auth-title" style="font-size: 2rem; font-weight: 800; line-height: 1.1;">Masuk ke Sistem</h2>
-        <p class="auth-subtitle" style="font-size: 1.1rem; font-weight: 500; opacity: 0.95;">Sistem Pelaporan 5R, 7S & K3</p>
+        <p class="auth-subtitle" style="font-size: 1.1rem; font-weight: 500; opacity: 0.95;">Sistem Improvement K3, 7S, dan 5R</p>
 
         @if(session('status'))
             <div class="alert alert-success">

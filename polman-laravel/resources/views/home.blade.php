@@ -35,14 +35,14 @@ use Illuminate\Support\Str;
             <div class="pointer-events-none absolute left-0 top-0 h-[420px] w-[420px] rounded-full blur-3xl" style="background-color: rgba(0,51,78,0.08);"></div>
             <div class="w-full max-w-[1920px] mx-auto grid gap-10 lg:grid-cols-2 items-center">
                 <div class="space-y-8 relative z-10">
-                    <p class="text-sm uppercase tracking-[0.35em]" style="color: #00334E;">Platform Pelaporan Terintegrasi</p>
+                    <p class="text-sm uppercase tracking-[0.35em]" style="color: #00334E;">Platform Improvement Terintegrasi</p>
                     <h1 class="text-[clamp(2rem,10vw,5rem)] font-black leading-tight tracking-tight font-sans" style="color: #00334E;">
-                        Sistem Pelaporan <span style="color: #4ade80;">K3,</span> <span style="color: #f87171;">7S,</span> <span style="color: #00334E;">dan</span> <span style="color: navy;">5R</span>
+                        Sistem Improvement <span style="color: #4ade80;">K3,</span> <span style="color: #f87171;">7S,</span> <span style="color: #00334E;">dan</span> <span style="color: navy;">5R</span>
                     </h1>
-                    <p class="max-w-xl text-lg leading-relaxed hero-copy" style="color: rgba(0,51,78,0.6);">Sistem pelaporan modern untuk mengumpulkan, memverifikasi, dan menindaklanjuti temuan K3, 7S, dan 5R dengan visualisasi yang jelas dan responsif.</p>
+                    <p class="max-w-xl text-lg leading-relaxed hero-copy" style="color: rgba(0,51,78,0.6);">Sistem Improvement modern untuk mengumpulkan, memverifikasi, dan menindaklanjuti temuan K3, 7S, dan 5R dengan visualisasi yang jelas dan responsif.</p>
                     <div class="grid gap-4 sm:grid-cols-3 relative z-20">
                         <a href="{{ route('register') }}" class="btn-hero rounded-[12px] px-6 py-3 text-sm font-black uppercase tracking-[0.18em] transition-all" style="background-color: #00334E; color: #FFFFFF; box-shadow: 0 8px 24px rgba(0,51,78,0.25);">Mulai Dari Sini</a>
-                        <a href="/create/publik/reports" class="btn-hero rounded-[12px] px-6 py-3 text-sm font-semibold uppercase tracking-[0.18em] transition-all btn-outline" style="border: 1px solid rgba(0,51,78,0.3); color: #00334E; background: transparent;">Lapor sebagai Publik</a>
+                        <a href="/create/publik/reports" class="btn-hero rounded-[12px] px-6 py-3 text-sm font-semibold uppercase tracking-[0.18em] transition-all btn-outline" style="border: 1px solid rgba(0,51,78,0.3); color: #00334E; background: transparent;">Berkontribusi tanpa Login</a>
                         <a href="#hero3" class="btn-hero rounded-[12px] px-6 py-3 text-sm font-semibold uppercase tracking-[0.18em] transition-all btn-outline" style="border: 1px solid rgba(0,51,78,0.3); color: #00334E; background: transparent;">Pelajari Lebih Lanjut</a>
                     </div>
                 </div>
@@ -71,9 +71,9 @@ use Illuminate\Support\Str;
                            <div class="absolute inset-0" style="backdrop-filter: blur(8px) saturate(150%); background-color: rgba(255,255,255,0.4);"></div>
                             <div class="slider-content relative z-10 flex h-[420px] flex-col justify-between p-8" style="color: #00334E;">
                                 <div class="space-y-4">
-                                    <p class="slider-label text-sm uppercase tracking-[0.28em]" style="color: #A0AEC0;">Sistem Pelaporan K3, 7S, dan 5R</p>
-                                    <h2 class="slider-title text-3xl font-bold" style="color: #00334E; text-shadow: 0 2px 4px rgba(255,255,255,0.8);">Sistem Pelaporan K3, 7S, dan 5R</h2>
-                                    <p class="slider-description" style="color: #00334E; font-weight: 500;">Lapor temuan lapangan dengan mudah, pantau tindak lanjut, dan bangun budaya keselamatan kampus.</p>
+                                    <p class="slider-label text-sm uppercase tracking-[0.28em]" style="color: #A0AEC0;">Sistem Improvement K3, 7S, dan 5R</p>
+                                    <h2 class="slider-title text-3xl font-bold" style="color: #00334E; text-shadow: 0 2px 4px rgba(255,255,255,0.8);">Sistem Improvement K3, 7S, dan 5R</h2>
+                                    <p class="slider-description" style="color: #00334E; font-weight: 500;">Suarakan temuan lapangan dengan mudah, pantau tindak lanjut, dan bangun budaya keselamatan kampus.</p>
                                 </div>
                                 <div class="mt-auto flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between pt-6">
                                     <div class="slider-meta text-sm" style="color: rgba(255,255,255,0.6);">Slide <span class="slider-index">1</span> dari <span class="slider-total">1</span></div>
@@ -95,7 +95,7 @@ use Illuminate\Support\Str;
                 <div id="hero-2-detail-panel" class="w-full max-w-5xl rounded-3xl p-10 min-h-[320px] flex flex-col justify-center backdrop-blur-xl" style="background-color: rgba(0,51,78,0.06); border: 1px solid rgba(0,51,78,0.15); box-shadow: 0 40px 80px rgba(0,51,78,0.3);">
                     <div id="hero2-panel" class="hero2-panel relative z-30">
                         <div id="hero2-drop-instruction" class="hero2-drop-instruction mb-8 rounded-[1.75rem] p-6 text-center" style="border: 1px dashed rgba(85,136,163,0.4); background-color: rgba(20,83,116,0.2); color: rgba(0,51,78,0.6);">
-                            Pilih salah satu kategori untuk melihat detail dan contoh laporan terkait.
+                            Pilih salah satu kategori untuk melihat detail dan contoh Improvement terkait.
                         </div>
                         <div id="hero2-detail" class="hero2-detail space-y-6 opacity-100" style="color: #00334E;">
                             <p id="hero2-category" class="text-sm uppercase tracking-[0.35em]" style="color: #00334E;">Eksplorasi Budaya Kerja</p>
@@ -121,10 +121,10 @@ use Illuminate\Support\Str;
                         <h3 class="text-xl font-bold mt-4" style="color: #00334E;">Budaya Teratur</h3>
                         <p class="mt-3 text-sm" style="color: rgba(0,51,78,0.6);">Disiplin dan standar kerja yang kuat membuat proses lebih konsisten.</p>
                     </button>
-                    <button data-color="#064e3b" data-title="KESEHATAN & KESELAMATAN KERJA (K3)" data-desc="Keselamatan kerja menjadi prioritas utama dengan pelaporan dan tindak lanjut cepat." class="kategori-card hero2-card flex-1 p-6 rounded-2xl cursor-pointer transition-all" style="border: 1px solid rgba(0,51,78,0.15); background-color: rgba(0,51,78,0.06);">
+                    <button data-color="#064e3b" data-title="KESEHATAN & KESELAMATAN KERJA (K3)" data-desc="Keselamatan kerja menjadi prioritas utama dengan Improvement dan tindak lanjut cepat." class="kategori-card hero2-card flex-1 p-6 rounded-2xl cursor-pointer transition-all" style="border: 1px solid rgba(0,51,78,0.15); background-color: rgba(0,51,78,0.06);">
                         <span class="text-xs font-bold" style="color: #4ade80;">K3</span>
                         <h3 class="text-xl font-bold mt-4" style="color: #00334E;">Keamanan Kerja</h3>
-                        <p class="mt-3 text-sm" style="color: rgba(0,51,78,0.6);">Keselamatan menjadi prioritas utama dengan pelaporan dan tindak lanjut cepat.</p>
+                        <p class="mt-3 text-sm" style="color: rgba(0,51,78,0.6);">Keselamatan menjadi prioritas utama dengan Improvement dan tindak lanjut cepat.</p>
                     </button>
                 </div>
             </div>
@@ -140,7 +140,7 @@ use Illuminate\Support\Str;
                 {{-- Header --}}
                 <div class="text-center mb-16 hero3-header">
                     <p class="text-sm uppercase tracking-[0.4em] mb-3" style="color: #00334E;">Standar Keselamatan Kampus</p>
-                    <h2 class="text-5xl font-black" style="color: #00334E;">Kenali Sistem Pelaporan Kami</h2>
+                    <h2 class="text-5xl font-black" style="color: #00334E;">Kenali Sistem Improvement Kami</h2>
                     <p class="mt-4 max-w-2xl mx-auto text-lg" style="color: rgba(0,51,78,0.6);">Tiga pilar utama yang menjadi landasan budaya keselamatan dan kerapian di POLMAN Bandung.</p>
                 </div>
 
@@ -149,11 +149,11 @@ use Illuminate\Support\Str;
                     <button class="h3-tab active px-6 py-3 rounded-full text-sm font-bold tracking-wide transition-all" data-tab="k3" style="background-color: #00334E; color: #FFFFFF;">
                         K3
                     </button>
-                    <button class="h3-tab px-6 py-3 rounded-full text-sm font-bold tracking-wide transition-all" data-tab="5r" style="background-color: rgba(0,51,78,0.06); color: rgba(0,51,78,0.6); border: 1px solid rgba(0,51,78,0.2);">
-                        5R
-                    </button>
                     <button class="h3-tab px-6 py-3 rounded-full text-sm font-bold tracking-wide transition-all" data-tab="7s" style="background-color: rgba(0,51,78,0.06); color: rgba(0,51,78,0.6); border: 1px solid rgba(0,51,78,0.2);">
                         7S
+                    </button>
+                    <button class="h3-tab px-6 py-3 rounded-full text-sm font-bold tracking-wide transition-all" data-tab="5r" style="background-color: rgba(0,51,78,0.06); color: rgba(0,51,78,0.6); border: 1px solid rgba(0,51,78,0.2);">
+                        5R
                     </button>
                 </div>
 
@@ -183,7 +183,7 @@ use Illuminate\Support\Str;
                         </div>
                     </div>
                     <div class="space-y-4">
-                        <p class="text-xs uppercase tracking-widest mb-4" style="color: rgba(0,51,78,0.4);">Contoh Kasus yang Dapat Dilaporkan</p>
+                        <p class="text-xs uppercase tracking-widest mb-4" style="color: rgba(0,51,78,0.4);">Contoh Kasus yang perlu improvement</p>
                         <div class="h3-case-card p-5 rounded-2xl" style="background-color: rgba(0,51,78,0.06); border: 1px solid rgba(74,222,128,0.2);">
                             <div class="flex items-start gap-3">
                                 <span class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color: #4ade80;"></span>
@@ -250,7 +250,7 @@ use Illuminate\Support\Str;
                         </div>
                     </div>
                     <div class="space-y-4">
-                        <p class="text-xs uppercase tracking-widest mb-4" style="color: rgba(0,51,78,0.4);">Contoh Kasus yang Dapat Dilaporkan</p>
+                        <p class="text-xs uppercase tracking-widest mb-4" style="color: rgba(0,51,78,0.4);">Contoh Kasus yang perlu Improvement</p>
                         <div class="h3-case-card p-5 rounded-2xl" style="background-color: rgba(0,51,78,0.06); border: 1px solid rgba(0,191,255,0.25);">
                             <div class="flex items-start gap-3">
                                 <span class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color: #00BFFF;"></span>
@@ -317,7 +317,7 @@ use Illuminate\Support\Str;
                         </div>
                     </div>
                     <div class="space-y-4">
-                        <p class="text-xs uppercase tracking-widest mb-4" style="color: rgba(0,51,78,0.4);">Contoh Kasus yang Dapat Dilaporkan</p>
+                        <p class="text-xs uppercase tracking-widest mb-4" style="color: rgba(0,51,78,0.4);">Contoh Kasus yang perlu Improvement</p>
                         <div class="h3-case-card p-5 rounded-2xl" style="background-color: rgba(0,51,78,0.06); border: 1px solid rgba(248,113,113,0.2);">
                             <div class="flex items-start gap-3">
                                 <span class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color: #f87171;"></span>
@@ -370,7 +370,7 @@ use Illuminate\Support\Str;
                 {{-- Header --}}
                 <div class="text-center mb-20 hero4-header">
                     <p class="text-sm uppercase tracking-[0.4em] mb-3" style="color: #00334E;">Cara Kerja Sistem</p>
-                    <h2 class="text-5xl font-black" style="color: #00334E;">Alur Pelaporan & Reward</h2>
+                    <h2 class="text-5xl font-black" style="color: #00334E;">Alur Improvement & Reward</h2>
                     <p class="mt-4 max-w-2xl mx-auto text-lg" style="color: rgba(0,51,78,0.6);">Dari temuan di lapangan hingga pencapaian poin — semua terekam dan terstruktur dalam satu sistem.</p>
                 </div>
 
@@ -391,9 +391,9 @@ use Illuminate\Support\Str;
                                 <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#00334E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
                                 <span class="absolute -top-2 -right-2 w-6 h-6 rounded-full text-xs font-black flex items-center justify-center" style="background-color: #00334E; color: #FFFFFF;">1</span>
                             </div>
-                            <h4 class="font-black text-lg mb-2" style="color: #00334E;">Buat Laporan</h4>
-                            <p class="text-sm leading-relaxed" style="color: rgba(0,51,78,0.55);">Pelapor mengisi formulir temuan K3, 5R, atau 7S lengkap dengan foto dan lokasi kejadian.</p>
-                            <div class="mt-4 flow-badge inline-block px-3 py-1 rounded-full text-xs font-semibold" style="background-color: rgba(85,136,163,0.15); border: 1px solid rgba(85,136,163,0.3); color: #00334E;">Pelapor</div>
+                            <h4 class="font-black text-lg mb-2" style="color: #00334E;">Sarankan Perbaikan</h4>
+                            <p class="text-sm leading-relaxed" style="color: rgba(0,51,78,0.55);">Pengusul mengisi formulir temuan K3, 7S, atau 5R lengkap dengan foto dan lokasi kejadian.</p>
+                            <div class="mt-4 flow-badge inline-block px-3 py-1 rounded-full text-xs font-semibold" style="background-color: rgba(85,136,163,0.15); border: 1px solid rgba(85,136,163,0.3); color: #00334E;">Pengusul</div>
                         </div>
 
                         {{-- Step 2 --}}
@@ -404,7 +404,7 @@ use Illuminate\Support\Str;
                                 <span class="absolute -top-2 -right-2 w-6 h-6 rounded-full text-xs font-black flex items-center justify-center" style="background-color: rgba(0,51,78,0.3); color: #00334E; border: 1px solid rgba(85,136,163,0.4);">2</span>
                             </div>
                             <h4 class="font-black text-lg mb-2" style="color: #00334E;">Verifikasi</h4>
-                            <p class="text-sm leading-relaxed" style="color: rgba(0,51,78,0.55);">Penanggung jawab area meninjau laporan, memvalidasi temuan, dan menetapkan prioritas tindakan.</p>
+                            <p class="text-sm leading-relaxed" style="color: rgba(0,51,78,0.55);">Penanggung jawab area meninjau usulan, memvalidasi temuan, dan menetapkan prioritas tindakan.</p>
                             <div class="mt-4 flow-badge inline-block px-3 py-1 rounded-full text-xs font-semibold" style="background-color: rgba(85,136,163,0.15); border: 1px solid rgba(85,136,163,0.3); color: #00334E;">Penanggung Jawab</div>
                         </div>
 
@@ -416,7 +416,7 @@ use Illuminate\Support\Str;
                                 <span class="absolute -top-2 -right-2 w-6 h-6 rounded-full text-xs font-black flex items-center justify-center" style="background-color: rgba(0,51,78,0.3); color: #00334E; border: 1px solid rgba(85,136,163,0.4);">3</span>
                             </div>
                             <h4 class="font-black text-lg mb-2" style="color: #00334E;">Tindak Lanjut</h4>
-                            <p class="text-sm leading-relaxed" style="color: rgba(0,51,78,0.55);">Tim teknis melaksanakan perbaikan, mendokumentasikan progress, dan memperbarui status laporan secara real-time.</p>
+                            <p class="text-sm leading-relaxed" style="color: rgba(0,51,78,0.55);">Tim teknis melaksanakan perbaikan, mendokumentasikan progress, dan memperbarui status usulan secara real-time.</p>
                             <div class="mt-4 flow-badge inline-block px-3 py-1 rounded-full text-xs font-semibold" style="background-color: rgba(85,136,163,0.15); border: 1px solid rgba(85,136,163,0.3); color: #00334E;">Tim Teknis</div>
                         </div>
 
@@ -428,7 +428,7 @@ use Illuminate\Support\Str;
                                 <span class="absolute -top-2 -right-2 w-6 h-6 rounded-full text-xs font-black flex items-center justify-center" style="background-color: #f59e0b; color: #00334E;">4</span>
                             </div>
                             <h4 class="font-black text-lg mb-2" style="color: #00334E;">Poin & Achievement</h4>
-                            <p class="text-sm leading-relaxed" style="color: rgba(0,51,78,0.55);">Pelapor mendapat poin otomatis, naik peringkat di leaderboard, dan membuka achievement eksklusif.</p>
+                            <p class="text-sm leading-relaxed" style="color: rgba(0,51,78,0.55);">Pengusul mendapat poin otomatis, naik peringkat di leaderboard, dan membuka achievement eksklusif.</p>
                             <div class="mt-4 flow-badge inline-block px-3 py-1 rounded-full text-xs font-semibold" style="background-color: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.3); color: #f59e0b;">Reward Otomatis</div>
                         </div>
 
@@ -439,18 +439,18 @@ use Illuminate\Support\Str;
                 <div class="mt-20 grid grid-cols-2 lg:grid-cols-4 gap-4 hero4-achievements">
                     <div class="achievement-card p-5 rounded-2xl text-center" style="background-color: rgba(20,83,116,0.2); border: 1px solid rgba(0,51,78,0.12);">
                         <div class="text-2xl mb-2">🥇</div>
-                        <p class="font-bold text-sm" style="color: #00334E;">Pelapor Perdana</p>
-                        <p class="text-xs mt-1" style="color: rgba(0,51,78,0.45);">Laporan pertama berhasil</p>
+                        <p class="font-bold text-sm" style="color: #00334E;">Pengusul Perdana</p>
+                        <p class="text-xs mt-1" style="color: rgba(0,51,78,0.45);">Usulan pertama berhasil</p>
                     </div>
                     <div class="achievement-card p-5 rounded-2xl text-center" style="background-color: rgba(20,83,116,0.2); border: 1px solid rgba(0,51,78,0.12);">
                         <div class="text-2xl mb-2">🔥</div>
                         <p class="font-bold text-sm" style="color: #00334E;">Konsisten 7 Hari</p>
-                        <p class="text-xs mt-1" style="color: rgba(0,51,78,0.45);">Laporan 7 hari berturut-turut</p>
+                        <p class="text-xs mt-1" style="color: rgba(0,51,78,0.45);">Usulan 7 hari berturut-turut</p>
                     </div>
                     <div class="achievement-card p-5 rounded-2xl text-center" style="background-color: rgba(20,83,116,0.2); border: 1px solid rgba(0,51,78,0.12);">
                         <div class="text-2xl mb-2">🛡️</div>
                         <p class="font-bold text-sm" style="color: #00334E;">Guardian K3</p>
-                        <p class="text-xs mt-1" style="color: rgba(0,51,78,0.45);">10 laporan K3 diverifikasi</p>
+                        <p class="text-xs mt-1" style="color: rgba(0,51,78,0.45);">10 usulan K3 diverifikasi</p>
                     </div>
                     <div class="achievement-card p-5 rounded-2xl text-center" style="background-color: rgba(20,83,116,0.2); border: 1px solid rgba(0,51,78,0.12);">
                         <div class="text-2xl mb-2">⭐</div>
@@ -475,7 +475,7 @@ use Illuminate\Support\Str;
             <div class="max-w-7xl mx-auto px-6 grid grid-cols-3 gap-12">
                 <div>
                     <h3 class="font-bold mb-4" style="color: #00334E;">POLMAN Safety System</h3>
-                    <p class="text-sm" style="color: rgba(0,51,78,0.55);">Sistem pelaporan terintegrasi untuk menciptakan lingkungan kampus yang rapi, resik, dan aman bagi seluruh civitas akademika.</p>
+                    <p class="text-sm" style="color: rgba(0,51,78,0.55);">Sistem Improvement terintegrasi untuk menciptakan lingkungan kampus yang rapi, resik, dan aman bagi seluruh civitas akademika.</p>
                 </div>
                 <div>
                     <h4 class="font-semibold mb-4" style="color: #00334E;">Navigasi</h4>
@@ -494,7 +494,7 @@ use Illuminate\Support\Str;
                 </div>
             </div>
             <div class="text-center mt-12 pt-8 text-xs" style="border-top: 1px solid rgba(0,51,78,0.12); color: rgba(0,51,78,0.35);">
-                &copy; 2026 TRIN POLMAN Bandung. Proyek Sistem Pelaporan Keselamatan.
+                &copy; 2026 TRIN POLMAN Bandung. Proyek Sistem Improvement Keselamatan.
             </div>
         </footer>
     </main>

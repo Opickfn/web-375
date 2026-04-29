@@ -170,11 +170,11 @@
                         <label class="pm-label">Sumber Gambar</label>
                         <select wire:model.live="image_source" class="pm-select-full">
                             <option value="manual">📁 Upload Manual</option>
-                            <option value="report">📄 Dari Laporan</option>
+                            <option value="report">📄 Dari Temuan</option>
                         </select>
                     </div>
                     <div class="pm-form-group">
-                        <label class="pm-label">Laporan Terkait <span x-show="$wire.image_source === 'report'" style="color:var(--pm-text-d);font-weight:400;">(wajib jika dari laporan)</span></label>
+                        <label class="pm-label">Temuan Terkait <span x-show="$wire.image_source === 'report'" style="color:var(--pm-text-d);font-weight:400;">(wajib jika dari temuan)</span></label>
                         <select wire:model="formReportId" class="pm-select-full">
                             <option value="">— Tidak ada —</option>
                             @foreach($approvedReports as $r)
@@ -194,7 +194,7 @@
                 @if($editingId && $image_source === 'report' && $formReportId)
                 <div class="pm-alert pm-alert-info">
                     <i data-lucide="image" style="width:16px;height:16px;color:#38bdf8;"></i>
-                    <span>Gambar akan diambil dari laporan yang dipilih. Preview: <strong>{{ Report::find($formReportId)?->bukti ? 'Tersedia' : 'Tidak ada gambar' }}</strong></span>
+                    <span>Gambar akan diambil dari temuan yang dipilih. Preview: <strong>{{ Report::find($formReportId)?->bukti ? 'Tersedia' : 'Tidak ada gambar' }}</strong></span>
                 </div>
                 @endif
 
@@ -253,7 +253,7 @@
                             Berlaku S/d @include('components.sort-icon',['col'=>'expires_at','sortBy'=>$sortBy,'sortDir'=>$sortDir])
                         </th>
                         <th>Publik</th>
-                        <th>Laporan</th>
+                        <th>Temuan</th>
                         <th style="text-align:right;">Aksi</th>
                     </tr>
                 </thead>

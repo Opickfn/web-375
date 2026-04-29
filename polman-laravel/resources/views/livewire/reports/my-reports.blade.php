@@ -3,8 +3,8 @@
     {{-- ── Page Header ── --}}
     <div class="pm-header" data-anim="slide-down">
         <div>
-            <h1 class="pm-h1">Laporan Saya</h1>
-            <p class="pm-sub">Semua laporan yang Anda kirimkan · {{ now()->translatedFormat('d F Y') }}</p>
+            <h1 class="pm-h1">Temuan Saya</h1>
+            <p class="pm-sub">Semua temuan yang Anda kirimkan · {{ now()->translatedFormat('d F Y') }}</p>
         </div>
         <div style="display:flex;gap:0.6rem;align-items:center;">
             <button wire:click="export" class="pm-btn pm-btn-ghost" title="Export CSV">
@@ -13,7 +13,7 @@
             </button>
             <a href="{{ route('reports.create') }}" class="pm-btn pm-btn-primary">
                 <i data-lucide="plus" style="width:15px;height:15px;"></i>
-                <span>Buat Laporan</span>
+                <span>Buat Temuan</span>
             </a>
         </div>
     </div>
@@ -138,7 +138,7 @@
                             <div class="pm-empty-icon">
                                 <i data-lucide="inbox" style="width:32px;height:32px;"></i>
                             </div>
-                            <p>Belum ada laporan ditemukan.</p>
+                            <p>Belum ada temuan ditemukan.</p>
                             @if($search || $filterKategori || $filterStatus)
                             <button wire:click="$set('search','');$set('filterKategori','');$set('filterStatus','')" class="pm-btn pm-btn-ghost pm-btn-sm" style="margin-top:0.6rem;">
                                 Hapus filter
@@ -155,7 +155,7 @@
         <div class="pm-table-footer">
             <span class="pm-count">
                 @if($reports->total() > 0)
-                    Menampilkan {{ $reports->firstItem() }}–{{ $reports->lastItem() }} dari <strong>{{ $reports->total() }}</strong> laporan
+                    Menampilkan {{ $reports->firstItem() }}–{{ $reports->lastItem() }} dari <strong>{{ $reports->total() }}</strong> temuan
                 @else
                     Tidak ada hasil
                 @endif

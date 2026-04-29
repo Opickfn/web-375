@@ -21,6 +21,8 @@ class ReviewReports extends Component
     public string $sortBy         = 'created_at';
     public string $sortDir        = 'desc';
     public int    $perPage        = 15;
+    public bool   $showModal       = false;
+    public ?Report $selectedReport = null;
 
     public function updatingSearch()         { $this->resetPage(); }
     public function updatingFilterKategori() { $this->resetPage(); }
@@ -138,5 +140,11 @@ class ReviewReports extends Component
 
         return view('livewire.reports.review-reports', compact('reports'))
             ->title('Review Laporan');
+    }
+
+    public function viewDetail($id)
+    {
+        $this->selectedReport = Report::with('user')->find($id);
+        $this->showModal = true;
     }
 }

@@ -7,12 +7,12 @@
 <div class="pm-page-header pm-fade-in">
     <div>
         <h1>Selamat Datang, {{ explode(' ', Auth::user()->full_name)[0] }} 👋</h1>
-        <p>Ikhtisar sistem pelaporan K3, 5R, dan 7S — {{ now()->translatedFormat('l, d F Y') }}</p>
+        <p>Ikhtisar sistem improvement K3, 7S, dan 5R — {{ now()->translatedFormat('l, d F Y') }}</p>
     </div>
     <div style="display:flex;gap:0.6rem;margin-bottom:0.5rem;">
         @if(Auth::user()->canCreateReport())
         <a href="{{ route('reports.create') }}" class="pm-btn pm-btn-primary">
-            <i data-lucide="plus" style="width:15px;height:15px;"></i> Buat Laporan
+            <i data-lucide="plus" style="width:15px;height:15px;"></i> Submit Temuan
         </a>
         @endif
     </div>
@@ -24,7 +24,7 @@
         <div class="pm-stat-icon"><i data-lucide="file-text" style="width:22px;height:22px;color:#5588A3;"></i></div>
         <div>
             <div class="pm-stat-value">{{ $totalReports }}</div>
-            <div class="pm-stat-label">Total Laporan</div>
+            <div class="pm-stat-label">Total Temuan</div>
         </div>
     </div>
     <div class="pm-stat pm-fade-in">
@@ -70,7 +70,7 @@
 <div class="pm-grid-2" style="margin-bottom:1.25rem;gap:1rem;">
     <div class="pm-card pm-fade-in">
         <div class="pm-card-header">
-            <h3><i data-lucide="trending-up" style="width:15px;height:15px;display:inline;vertical-align:middle;margin-right:6px;color:#5588A3;"></i>Tren Laporan 6 Bulan</h3>
+            <h3><i data-lucide="trending-up" style="width:15px;height:15px;display:inline;vertical-align:middle;margin-right:6px;color:#5588A3;"></i>Tren Temuan 6 Bulan</h3>
         </div>
         <div class="pm-card-body" style="padding-top:0.5rem;">
             <canvas id="chartMonthly" height="220"></canvas>
@@ -78,7 +78,7 @@
     </div>
     <div class="pm-card pm-fade-in">
         <div class="pm-card-header">
-            <h3><i data-lucide="pie-chart" style="width:15px;height:15px;display:inline;vertical-align:middle;margin-right:6px;color:#5588A3;"></i>Status Laporan</h3>
+            <h3><i data-lucide="pie-chart" style="width:15px;height:15px;display:inline;vertical-align:middle;margin-right:6px;color:#5588A3;"></i>Status Temuan</h3>
         </div>
         <div class="pm-card-body" style="display:flex;justify-content:center;padding-top:0.5rem;">
             <div style="max-width:280px;width:100%;"><canvas id="chartStatus" height="220"></canvas></div>
@@ -90,7 +90,7 @@
 <div class="pm-grid-2" style="margin-bottom:1.25rem;gap:1rem;">
     <div class="pm-card pm-fade-in">
         <div class="pm-card-header">
-            <h3><i data-lucide="bar-chart-2" style="width:15px;height:15px;display:inline;vertical-align:middle;margin-right:6px;color:#5588A3;"></i>Laporan per Kategori</h3>
+            <h3><i data-lucide="bar-chart-2" style="width:15px;height:15px;display:inline;vertical-align:middle;margin-right:6px;color:#5588A3;"></i>Temuan per Kategori</h3>
         </div>
         <div class="pm-card-body" style="padding-top:0.5rem;">
             <canvas id="chartCategory" height="220"></canvas>
@@ -117,7 +117,7 @@
 {{-- ─── Recent Reports Table ─── --}}
 <div class="pm-card pm-fade-in">
     <div class="pm-card-header">
-        <h3><i data-lucide="list" style="width:15px;height:15px;display:inline;vertical-align:middle;margin-right:6px;color:#5588A3;"></i>Laporan Terbaru</h3>
+        <h3><i data-lucide="list" style="width:15px;height:15px;display:inline;vertical-align:middle;margin-right:6px;color:#5588A3;"></i>Temuan Terbaru</h3>
         @if(Auth::user()->canCreateReport())
         <a href="{{ route('reports.my') }}" class="pm-btn pm-btn-outline pm-btn-sm">Lihat Semua</a>
         @endif
@@ -161,9 +161,9 @@
                 <tr><td colspan="6">
                     <div class="pm-empty">
                         <i data-lucide="inbox" style="width:36px;height:36px;"></i>
-                        <p>Belum ada laporan.<br>
+                        <p>Belum ada temuan.<br>
                             @if(Auth::user()->canCreateReport())
-                            <a href="{{ route('reports.create') }}" style="color:#5588A3;">Buat laporan pertama</a>
+                            <a href="{{ route('reports.create') }}" style="color:#5588A3;">Submit temuan pertama</a>
                             @endif
                         </p>
                     </div>
@@ -198,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
         data: {
             labels: @json($chartMonthly['labels']),
             datasets: [{
-                label: 'Laporan',
+                label: 'Temuan',
                 data: @json($chartMonthly['data']),
                 borderColor: accent,
                 backgroundColor: mGrad,

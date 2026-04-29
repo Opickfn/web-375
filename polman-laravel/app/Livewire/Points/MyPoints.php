@@ -24,7 +24,7 @@ class MyPoints extends Component
         $totalPoints = $user->totalPoints();
         $points = $this->buildQuery()->paginate($this->perPage);
 
-    return view('livewire.points.my-points-safe', compact('totalPoints', 'points'))
+    return view('livewire.points.my-points-fixed', compact('totalPoints', 'points'))
             ->title('Poin Saya');
     }
     

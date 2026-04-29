@@ -10,7 +10,7 @@
         </div>
 
         <h2 class="auth-title" style="font-size: 2rem; font-weight: 800; line-height: 1.1;">Daftar Akun Baru</h2>
-        <p class="auth-subtitle" style="font-size: 1.1rem; font-weight: 500; opacity: 0.95; ">Buat akun untuk melaporkan temuan improvement</p>
+        <p class="auth-subtitle" style="font-size: 1.1rem; font-weight: 500; opacity: 0.95; ">Buat akun untuk menyuarakan temuan improvement</p>
 
         <form method="POST" action="{{ route('register') }}">
             @csrf

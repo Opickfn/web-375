@@ -1,6 +1,6 @@
 <div x-data="logAnim()" x-init="init()">
     <div class="pm-header" data-anim="slide-down">
-        <div><h1 class="pm-h1">Riwayat Log</h1><p class="pm-sub">Catatan approval, penolakan laporan, dan peringatan aktif</p></div>
+        <div><h1 class="pm-h1">Riwayat Log</h1><p class="pm-sub">Catatan approval, penolakan temuan, dan peringatan aktif</p></div>
         <button wire:click="exportLog" class="pm-btn pm-btn-ghost">
             <i data-lucide="download" style="width:15px;height:15px;"></i> Export
         </button>
@@ -18,7 +18,7 @@
             </div>
             <div class="pm-search-wrap" style="flex:1;min-width:200px;">
                 <i data-lucide="search" class="pm-search-icon"></i>
-                <input type="text" wire:model.debounce.300ms="search" class="pm-search" placeholder="Cari laporan, reviewer...">
+                <input type="text" wire:model.debounce.300ms="search" class="pm-search" placeholder="Cari temuan, reviewer...">
                 @if($search)
                 <button wire:click="$set('search','')" class="pm-search-clear">
                     <i data-lucide="x" style="width:13px;height:13px;"></i>
@@ -36,7 +36,7 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Laporan</th>
+                        <th>Temuan</th>
                         <th>Status</th>
                         <th>Reviewer</th>
                         <th>Tanggal Review</th>
@@ -81,7 +81,7 @@
                     <tr>
                         <th>#</th>
                         <th>Judul Warning</th>
-                        <th>Laporan</th>
+                        <th>Temuan</th>
                         <th>Penginput</th>
                         <th>Level</th>
                         <th>Status</th>
@@ -130,4 +130,4 @@ function logAnim() {
     };
 }
 </script>
-@endpush>
+@endpush

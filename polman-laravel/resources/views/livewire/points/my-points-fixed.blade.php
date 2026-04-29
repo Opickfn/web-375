@@ -56,7 +56,7 @@
                 <thead>
                     <tr>
                         <th class="pm-th-sort" wire:click="sort('created_at')">Tanggal @include('components.sort-icon', ['col'=>'created_at', 'sortBy'=>$sortBy, 'sortDir'=>$sortDir])</th>
-                        <th>Kode Laporan</th>
+                        <th>Kode Temuan</th>
                         <th>Deskripsi</th>
                         <th>Tipe</th>
                         <th style="text-align:right;" class="pm-th-sort" wire:click="sort('amount')">Poin @include('components.sort-icon', ['col'=>'amount', 'sortBy'=>$sortBy, 'sortDir'=>$sortDir])</th>

@@ -8,7 +8,7 @@
             <p class="pm-sub">Kontributor terbaik periode ini</p>
             @else
             <h1 class="pm-h1">🏆 Leaderboard</h1>
-            <p class="pm-sub">Peringkat kontributor berdasarkan total poin laporan disetujui</p>
+            <p class="pm-sub">Peringkat kontributor berdasarkan total poin temuan disetujui</p>
             @endif
         </div>
         @if(!($limit ?? 0))
@@ -91,7 +91,7 @@ $dn = (($limit ?? 0) && $u->role==='reporter' && !$u->show_name_on_landing) ? 'A
                         <th>Tipe</th>
                         <th>Gedung / Jabatan</th>
                         <th class="pm-th-sort" wire:click="sort('total_reports')">
-                            Laporan @include('components.sort-icon',['col'=>'total_reports','sortBy'=>$sortBy,'sortDir'=>$sortDir])
+                            Temuan @include('components.sort-icon',['col'=>'total_reports','sortBy'=>$sortBy,'sortDir'=>$sortDir])
                         </th>
                         <th class="pm-th-sort" style="text-align:right;" wire:click="sort('total_points')">
                             Poin @include('components.sort-icon',['col'=>'total_points','sortBy'=>$sortBy,'sortDir'=>$sortDir])

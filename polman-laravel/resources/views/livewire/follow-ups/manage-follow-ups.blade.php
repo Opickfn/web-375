@@ -28,9 +28,9 @@
             <form wire:submit="save">
                 <div class="pm-grid-2" style="gap:1rem;">
                     <div class="pm-form-group">
-                        <label class="pm-label">Laporan</label>
+                        <label class="pm-label">Temuan</label>
                         <select wire:model="reportId" class="pm-select-full">
-                            <option value="">Pilih laporan...</option>
+                            <option value="">Pilih temuan...</option>
                             @foreach($approvedReports as $r)
                             <option value="{{ $r->id }}">{{ $r->code }} — {{ Str::limit($r->lokasi, 35) }}</option>
                             @endforeach
@@ -70,7 +70,7 @@
             <table class="pm-table">
                 <thead>
                     <tr>
-                        <th>Laporan</th>
+                        <th>Temuan</th>
                         <th>Ditugaskan</th>
                         <th>Rencana</th>
                         <th>Target</th>

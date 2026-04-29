@@ -44,7 +44,7 @@
                     <div style="display:flex;justify-content:center;gap:1.5rem;padding:1rem 0;border-top:1px solid rgba(20,83,116,0.4);border-bottom:1px solid rgba(20,83,116,0.4);margin-bottom:1rem;">
                         <div style="text-align:center;">
                             <div style="font-size:1.5rem;font-weight:800;color:#5588A3;" id="stat-reports">{{ Auth::user()->reports()->count() }}</div>
-                            <div style="font-size:0.7rem;color:rgba(232,232,232,0.4);margin-top:2px;text-transform:uppercase;letter-spacing:0.06em;">Laporan</div>
+                            <div style="font-size:0.7rem;color:rgba(232,232,232,0.4);margin-top:2px;text-transform:uppercase;letter-spacing:0.06em;">Temuan</div>
                         </div>
                         <div style="text-align:center;">
                             <div style="font-size:1.5rem;font-weight:800;color:#f59e0b;" id="stat-points">{{ Auth::user()->totalPoints() }}</div>

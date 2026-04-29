@@ -19,6 +19,7 @@ class CreatePublicReport extends Component
     public string $detail_lokasi = '';
     public string $deskripsi = '';
     public string $prioritas = 'sedang';
+    public string $solusi = '';
     public $bukti;
 
     // Success state
@@ -122,6 +123,7 @@ class CreatePublicReport extends Component
             'deskripsi' => 'required|string|min:10',
             'prioritas' => 'required|in:rendah,sedang,tinggi',
             'bukti' => 'nullable|image|max:5120',
+            'solusi' => 'nullable|string|max:255',
         ];
 
         if ($this->branchType === 'gedung') {
@@ -153,6 +155,7 @@ class CreatePublicReport extends Component
             'status' => 'pending',
             'gedung_id' => $gedungId,
             'location_id' => $location->id,
+            'solusi' => $this->solusi,
         ];
 
         if ($this->bukti) {
@@ -174,6 +177,7 @@ class CreatePublicReport extends Component
         $this->deskripsi = '';
         $this->prioritas = 'sedang';
         $this->bukti = null;
+        $this->solusi = '';
     }
 
     public function resetForm()

@@ -10,6 +10,7 @@ class Report extends Model
 {
     protected $fillable = [
         'reporter_id',
+        'user_id',
         'kategori',
         'lokasi',
         'deskripsi',
@@ -21,6 +22,7 @@ class Report extends Model
         'review_notes',
         'gedung_id',
         'location_id',
+        'solusi',
     ];
 
     protected function casts(): array
@@ -40,6 +42,12 @@ class Report extends Model
     public function reviewer(): BelongsTo
     {
         return $this->belongsTo(User::class, 'reviewed_by');
+    }
+
+    // Optional relation if report is linked to a user account
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function gedung(): BelongsTo

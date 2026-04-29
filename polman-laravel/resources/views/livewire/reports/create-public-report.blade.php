@@ -3,7 +3,7 @@
         <div class="public-report-card w-full max-w-5xl">
             <div class="public-report-inner">
                 <div class="public-report-header mb-10">
-                    <h1>Buat Laporan Publik</h1>
+                    <h1>Buat Temuan Publik</h1>
                         <p class="text-[#475569] leading-relaxed">
                             Tambahkan temuan lapangan Anda dengan detail, foto, dan prioritas agar tim kampus dapat menindaklanjuti lebih cepat.
                     </p>
@@ -15,12 +15,12 @@
                             <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-[#E6F4E8] text-[#00334E] mb-6 shadow-[0_20px_60px_rgba(0,51,78,0.12)]">
                                 <i data-lucide="check-circle" class="w-10 h-10"></i>
                             </div>
-                            <h2 class="success-title">Laporan Berhasil Dikirim!</h2>
-                            <p class="text-[#475569] max-w-2xl mx-auto mb-8">Terima kasih atas kontribusi Anda. Laporan telah terkirim dan akan ditinjau oleh tim manajemen kampus.</p>
+                            <h2 class="success-title" style="color:#001f35">Temuan Berhasil Dikirim!</h2>
+                            <p class="text-[#475569] max-w-2xl mx-auto mb-8">Terima kasih atas kontribusi Anda. Temuan telah terkirim dan akan ditinjau oleh tim manajemen kampus.</p>
 
                             <div class="grid gap-4 sm:grid-cols-2 mb-8 text-left text-[#00334E]">
                                 <div class="rounded-3xl border border-[#A0AEC0]/30 bg-white/80 p-5">
-                                    <span class="text-xs uppercase tracking-[0.18em] text-[#475569]">Kode Laporan</span>
+                                    <span class="text-xs uppercase tracking-[0.18em] text-[#475569]">Kode Temuan</span>
                                     <p class="mt-3 text-xl font-semibold">{{ $successReport->code }}</p>
                                 </div>
                                 <div class="rounded-3xl border border-[#A0AEC0]/30 bg-white/80 p-5">
@@ -38,7 +38,7 @@
                             </div>
 
                             <div class="flex flex-col gap-3 sm:flex-row sm:justify-center">
-                                <button wire:click="resetForm" class="submit-button px-6 py-4 w-full sm:w-auto">Buat Laporan Baru</button>
+                                <button wire:click="resetForm" class="submit-button px-6 py-4 w-full sm:w-auto">Buat Temuan Baru</button>
                                 <a href="{{ route('home') }}" class="btn btn-outline btn-lg px-6 py-4 text-center w-full sm:w-auto">Kembali ke Beranda</a>
                             </div>
                         </div>
@@ -47,8 +47,8 @@
                     <div class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] items-start">
                         <div class="glass-card p-8">
                             <div class="mb-6 rounded-3xl bg-[#E6F4E8]/70 border border-[#00334E]/10 p-5">
-                                <p class="text-[#00334E] font-medium">Form Laporan Publik</p>
-                                <p class="mt-2 text-[#475569] text-sm leading-relaxed">Cocok untuk temuan umum dan pelanggaran lingkungan kerja. Laporan ini akan diproses oleh tim manajemen kampus.</p>
+                                <p class="text-[#00334E] font-medium">Form Temuan Publik</p>
+                                <p class="mt-2 text-[#475569] text-sm leading-relaxed">Cocok untuk temuan umum dan pelanggaran lingkungan kerja. Temuan ini akan diproses oleh tim manajemen kampus.</p>
                             </div>
 
                             <form wire:submit.prevent="submit" class="space-y-5">
@@ -158,8 +158,24 @@
                                     @endif
                                 </div>
 
+                                <div class="form-group input-group">
+                                    <label class="form-label" for="solusi">
+                                        Solusi dari Anda <span class="text-xs text-gray-400">(Opsional)</span>
+                                    </label>
+                                    <textarea 
+                                        wire:model="solusi" 
+                                        class="input-field-custom min-h-[100px]" 
+                                        placeholder="Berikan saran perbaikan atau solusi teknis jika ada..."></textarea>
+                                    @if($solusi && Request::is('create-report'))
+                                        <p class="mt-2 text-xs text-green-600 flex items-center gap-1">
+                                            <i data-lucide="sparkles" class="w-3 h-3"></i> 
+                                            Keren! Kamu akan mendapatkan tambahan +5 poin untuk solusi ini.
+                                        </p>
+                                    @endif
+                                </div>
+
                                 <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between pt-2">
-                                    <button type="submit" class="submit-button w-full sm:w-auto py-4 font-semibold">Kirim Laporan Safety</button>
+                                    <button type="submit" class="submit-button w-full sm:w-auto py-4 font-semibold">Kirim Temuan Safety</button>
                                     <a href="{{ route('home') }}" class="btn btn-outline btn-lg w-full sm:w-auto text-center py-4">Kembali</a>
                                 </div>
                             </form>
@@ -168,7 +184,7 @@
                         <div class="glass-card p-8 border border-[#A0AEC0]/30 bg-white/85 shadow-[0_30px_90px_rgba(0,51,78,0.08)]">
                             <div class="rounded-[2rem] border border-[#00334E]/10 bg-[#E6F4E8]/50 p-6 mb-6">
                                 <h3 class="text-xl font-semibold text-[#00334E]">Ringkasan</h3>
-                                <p class="mt-3 text-[#475569] leading-relaxed">Isi laporan lengkap dengan lokasi, kategori, dan bukti akan membantu tim memproses lebih cepat. Semakin lengkap, semakin baik.</p>
+                                <p class="mt-3 text-[#475569] leading-relaxed">Isi temuan lengkap dengan lokasi, kategori, dan bukti akan membantu tim memproses lebih cepat. Semakin lengkap, semakin baik.</p>
                             </div>
                             <div class="space-y-4 text-[#475569] text-sm leading-7">
                                 <div>
@@ -181,7 +197,7 @@
                                 </div>
                                 <div>
                                     <span class="inline-flex rounded-full bg-[#E6F4E8] px-3 py-1 text-[#00334E] text-xs uppercase tracking-[0.18em]">Keamanan</span>
-                                    <p class="mt-3">Laporan ini akan diproses secara publik oleh tim internal. Pastikan informasi yang dikirim relevan dan sopan.</p>
+                                    <p class="mt-3">Temuan ini akan diproses secara publik oleh tim internal. Pastikan informasi yang dikirim relevan dan sopan.</p>
                                 </div>
                             </div>
                         </div>
