@@ -176,11 +176,11 @@
     /* ── Table ── */
     .pm-table-wrap { overflow-x: auto; }
     .pm-table { width: 100%; border-collapse: separate; border-spacing: 0; min-width: 640px; }
-    .pm-table thead tr { background: #E6F4E8; }
+    .pm-table thead tr { background: #00334E; }
     .pm-table th {
         padding: 0.8rem 1rem;
         font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
-        letter-spacing: 0.1em; color: #00334E;
+        letter-spacing: 0.1em; color: #FFFFFF;
         border-bottom: 1px solid var(--pm-border);
         white-space: nowrap;
         user-select: none;
@@ -196,8 +196,10 @@
     .pm-table tr:last-child td { border-bottom: none; }
     .pm-row { transition: background var(--trans); }
     .pm-row:hover { background: rgba(0,51,78,0.06); }
-    .pm-row-top { background: rgba(0,51,78,0.04); }
-    .pm-row-top:hover { background: rgba(0,51,78,0.06); }
+    .pm-table tbody tr:nth-child(even):not(.pm-row-top) { background-color: #f8fafc; }
+    .pm-row-top { background: linear-gradient(90deg, rgba(245,158,11,0.08) 0%, transparent 100%); }
+    .pm-row-top td:first-child { box-shadow: inset 3px 0 0 0 #f59e0b; }
+    .pm-row-top:hover { background: linear-gradient(90deg, rgba(245,158,11,0.12) 0%, transparent 100%); }
 
     .pm-code {
         font-family: 'JetBrains Mono', 'Fira Code', monospace;

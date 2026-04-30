@@ -32,13 +32,15 @@
         @foreach($top3 as $idx => $u)
         @php
 $dn = (($limit ?? 0) && $u->role==='reporter' && !$u->show_name_on_landing) ? 'Anonim' : $u->full_name;
-            $medals = ['🥇','🥈','🥉'];
+            $medals = ['<i data-lucide="award" style="color: #f59e0b; width: 32px; height: 32px; margin: 0 auto;"></i>',
+                       '<i data-lucide="award" style="color: #94a3b8; width: 26px; height: 26px; margin: 0 auto;"></i>',
+                       '<i data-lucide="award" style="color: #b45309; width: 26px; height: 26px; margin: 0 auto;"></i>'];
             $sizes  = ['1.2rem','1rem','1rem'];
-            $heights= ['120px','100px','100px'];
+            $heights= ['130px','110px','110px'];
             $order  = [2, 1, 3]; // center gold
         @endphp
         <div class="pm-podium-item" style="order:{{ $order[$idx] }};height:{{ $heights[$idx] }};" data-rank="{{ $idx+1 }}">
-            <div class="pm-podium-medal">{{ $medals[$idx] }}</div>
+            <div class="pm-podium-medal">{!! $medals[$idx] !!}</div>
             <div class="pm-podium-avatar" style="font-size:{{ $sizes[$idx] }};">{{ strtoupper(substr($dn,0,2)) }}</div>
             <div class="pm-podium-name">{{ Str::limit($dn,14) }}</div>
             <div class="pm-podium-pts">{{ number_format($u->total_points) }} pts</div>
@@ -106,15 +108,18 @@ $dn   = (($limit ?? 0) && $user->role==='reporter' && !$user->show_name_on_landi
     @endphp
                     <tr class="pm-row {{ $rank<=3?'pm-row-top':'' }}" wire:key="lb-{{ $user->id }}">
                         <td>
-                            @if($rank===1)<span class="pm-rank-medal pm-gold">🥇</span>
-                            @elseif($rank===2)<span class="pm-rank-medal pm-silver">🥈</span>
-                            @elseif($rank===3)<span class="pm-rank-medal pm-bronze">🥉</span>
-                            @else<span class="pm-rank-num">#{{ $rank }}</span>@endif
+                            @if($rank===1)<span class="pm-rank-num" style="color: #f59e0b; font-weight: 800; font-size: 1.1rem; text-shadow: 0 0 10px rgba(245,158,11,0.3);">#1</span>
+                            @elseif($rank===2)<span class="pm-rank-num" style="color: #94a3b8; font-weight: 800; font-size: 1rem;">#2</span>
+                            @elseif($rank===3)<span class="pm-rank-num" style="color: #b45309; font-weight: 800; font-size: 1rem;">#3</span>
+                            @else<span class="pm-rank-num" style="color: var(--pm-text-m); font-weight: 600;">#{{ $rank }}</span>@endif
                         </td>
                         <td>
                             <div style="display:flex;align-items:center;gap:0.6rem;">
                                 <div class="pm-mini-avatar">{{ strtoupper(substr($dn,0,2)) }}</div>
                                 <span style="font-weight:600;font-size:0.88rem;">{{ $dn }}</span>
+                                @if($rank===1)<i data-lucide="award" style="color: #f59e0b; width: 16px; height: 16px;"></i>
+                                @elseif($rank===2)<i data-lucide="award" style="color: #94a3b8; width: 16px; height: 16px;"></i>
+                                @elseif($rank===3)<i data-lucide="award" style="color: #b45309; width: 16px; height: 16px;"></i>@endif
                             </div>
                         </td>
                         <td><span class="pm-badge {{ $user->user_type==='mahasiswa'?'pm-badge-info':($user->user_type==='dosen'?'pm-badge-warning':'pm-badge-neutral') }}">{{ ucfirst($user->user_type) }}</span></td>

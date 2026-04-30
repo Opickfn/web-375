@@ -240,6 +240,7 @@
             <table class="pm-table" id="warn-table">
                 <thead>
                     <tr>
+                        <th style="width:60px;">Gambar</th>
                         <th class="pm-th-sort" wire:click="sort('title')">
                             Judul @include('components.sort-icon',['col'=>'title','sortBy'=>$sortBy,'sortDir'=>$sortDir])
                         </th>
@@ -260,6 +261,13 @@
                 <tbody>
                     @forelse($warnings as $warning)
                     <tr class="pm-row {{ $warning->severity==='high'?'pm-row-high':'' }}" wire:key="w-{{ $warning->id }}">
+                        <td style="width: 60px; padding-right: 0;">
+                            @php
+                                $fallback = asset('images/default-warning.jpg');
+                                $imgUrl = $warning->image_url ?: $fallback;
+                            @endphp
+                            <img src="{{ $imgUrl }}" alt="Warning" style="width: 45px; height: 45px; object-fit: cover; border-radius: 6px; border: 1px solid rgba(0,51,78,0.15); box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                        </td>
                         <td>
                             <div style="font-weight:600;font-size:0.875rem;color:var(--pm-text);">{{ $warning->title }}</div>
                             
@@ -336,7 +344,7 @@
                         </td>
                     </tr>
                     @empty
-                    <tr><td colspan="7">
+                    <tr><td colspan="8">
                         <div class="pm-empty">
                             <div class="pm-empty-icon">
                                 <i data-lucide="bell-off" style="width:30px;height:30px;"></i>

@@ -1,395 +1,322 @@
-<div class="public-report-shell">
-    <div class="min-h-screen flex items-center justify-center px-4 py-12">
-        <div class="public-report-card w-full max-w-5xl">
-            <div class="public-report-inner">
-                <div class="public-report-header mb-10">
-                    <h1>Buat Temuan Internal</h1>
-                    <p class="text-[#475569] leading-relaxed">
-                        Sarankan temuan perbaikan K3, 7S, atau 5R dengan detail lengkap untuk diproses oleh tim internal.
-                    </p>
-                </div>
+<div class="report-creation-shell">
+    <div class="min-h-screen py-12 px-4">
+        <div class="max-w-4xl mx-auto">
+            {{-- Header Section --}}
+            <div class="mb-8 animate-in">
+                <h1 class="text-3xl font-black text-white mb-2 flex items-center gap-3">
+                    <i data-lucide="plus-circle" class="text-[#f59e0b]"></i>
+                    Buat Temuan Internal
+                </h1>
+                <p class="text-slate-400">Kontribusi Anda adalah langkah awal menuju lingkungan kerja yang lebih aman dan efisien.</p>
+            </div>
 
-                @if($showSuccess && $successReport)
-                    <div class="success-card">
-                        <div class="success-panel">
-                            <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-[#E6F4E8] text-[#00334E] mb-6 shadow-[0_20px_60px_rgba(0,51,78,0.12)]">
-                                <i data-lucide="check-circle" class="w-10 h-10"></i>
+            @if($showSuccess && $successReport)
+                {{-- Success State --}}
+                <div class="glass-card overflow-hidden animate-in">
+                    <div class="p-8 text-center">
+                        <div class="w-20 h-20 bg-green-500/20 border border-green-500/30 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i data-lucide="check-circle-2" class="w-10 h-10 text-green-500"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-white mb-2">Laporan Berhasil Terkirim!</h2>
+                        <p class="text-slate-400 mb-8">Terima kasih atas kontribusi Anda. Tim manajemen akan segera meninjau temuan ini.</p>
+                        
+                        <div class="grid sm:grid-cols-2 gap-4 mb-8 text-left">
+                            <div class="p-4 rounded-xl bg-[#00263a] border border-white/5">
+                                <span class="text-[10px] uppercase tracking-widest text-slate-500 block mb-1">Kode Laporan</span>
+                                <span class="text-lg font-bold text-[#f59e0b]">{{ $successReport->code }}</span>
                             </div>
-                            <h2 class="success-title" style="color:#001f35">Temuan Berhasil Dikirim!</h2>
-                            <p class="text-[#475569] max-w-2xl mx-auto mb-8">Terima kasih atas kontribusi Anda. Temuan telah terkirim dan akan ditinjau oleh tim manajemen.</p>
-
-                            <div class="grid gap-4 sm:grid-cols-2 mb-8 text-left text-[#00334E]">
-                                <div class="rounded-3xl border border-[#A0AEC0]/30 bg-white/80 p-5">
-                                    <span class="text-xs uppercase tracking-[0.18em] text-[#475569]">Kode Temuan</span>
-                                    <p class="mt-3 text-xl font-semibold">{{ $successReport->code }}</p>
-                                </div>
-                                <div class="rounded-3xl border border-[#A0AEC0]/30 bg-white/80 p-5">
-                                    <span class="text-xs uppercase tracking-[0.18em] text-[#475569]">Kategori</span>
-                                    <p class="mt-3 text-xl font-semibold">{{ $successReport->kategori }}</p>
-                                </div>
-                                <div class="rounded-3xl border border-[#A0AEC0]/30 bg-white/80 p-5">
-                                    <span class="text-xs uppercase tracking-[0.18em] text-[#475569]">Prioritas</span>
-                                    <p class="mt-3 text-xl font-semibold capitalize">{{ $successReport->prioritas }}</p>
-                                </div>
-                                <div class="rounded-3xl border border-[#A0AEC0]/30 bg-white/80 p-5">
-                                    <span class="text-xs uppercase tracking-[0.18em] text-[#475569]">Lokasi</span>
-                                    <p class="mt-3 text-xl font-semibold">{{ $successReport->location_breadcrumb ?? $successReport->detail_lokasi }}</p>
-                                </div>
-                            </div>
-
-                            <div class="flex flex-col gap-3 sm:flex-row sm:justify-center">
-                                <button wire:click="resetForm" class="submit-button px-6 py-4 w-full sm:w-auto">Buat Temuan Baru</button>
-                                <a href="{{ route('dashboard') }}" class="btn btn-outline btn-lg px-6 py-4 text-center w-full sm:w-auto">Kembali ke Dashboard</a>
+                            <div class="p-4 rounded-xl bg-[#00263a] border border-white/5">
+                                <span class="text-[10px] uppercase tracking-widest text-slate-500 block mb-1">Status</span>
+                                <span class="text-lg font-bold text-white capitalize">{{ $successReport->status }}</span>
                             </div>
                         </div>
+
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                            <button wire:click="resetForm" class="btn-auth-primary" style="margin-top:0;">
+                                <span>Buat Laporan Lagi</span>
+                                <i data-lucide="refresh-cw"></i>
+                            </button>
+                            <a href="{{ route('dashboard') }}" class="btn-secondary">
+                                Kembali ke Dashboard
+                            </a>
+                        </div>
                     </div>
-                @else
-                    <div class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] items-start">
-                        <div class="glass-card p-8">
-                            <div class="mb-6 rounded-3xl bg-[#E6F4E8]/70 border border-[#00334E]/10 p-5">
-                                <p class="text-[#00334E] font-medium">Form Temuan Internal</p>
-                                <p class="mt-2 text-[#475569] text-sm leading-relaxed">Temuan lengkap dengan lokasi, kategori, prioritas dan bukti akan diproses oleh tim manajemen internal.</p>
+                </div>
+            @else
+                {{-- Form Section --}}
+                <div class="glass-card animate-in">
+                    <form wire:submit="submit" class="p-8 space-y-8">
+                        {{-- Row 1: Kategori, Judul (Detail), Prioritas --}}
+                        <div class="grid lg:grid-cols-3 gap-6">
+                            <div class="form-field">
+                                <label class="field-label flex items-center gap-2">
+                                    <i data-lucide="tag" class="w-3.5 h-3.5 text-[#f59e0b]"></i>
+                                    Kategori Temuan
+                                </label>
+                                <div class="input-container">
+                                    <select wire:model="kategori" class="modern-input appearance-none text-slate-900 bg-white" required>
+                                        <option value="">Pilih Kategori</option>
+                                        <option value="K3">K3 - Keselamatan</option>
+                                        <option value="5R">5R - Ringkas, Rapi...</option>
+                                        <option value="7S">7S - Budaya Industri</option>
+                                    </select>
+                                </div>
+                                @error('kategori') <p class="field-error">{{ $message }}</p> @enderror
                             </div>
 
-                            <form wire:submit="submit" class="space-y-5">
-                                <div class="form-group input-group">
-                                    <label class="form-label" for="kategori">Kategori Pelanggaran</label>
-                                    <select wire:model="kategori" id="kategori" class="input-field-custom appearance-none bg-white text-[#00334E]">
-                                        <option value="">Pilih kategori</option>
-                                        <option value="5R">5R (Ringkas, Rapi, Resik, Rawat, Rajin)</option>
-                                        <option value="7S">7S (Seiri, Seiton, Seiso, Seiketsu, Shitsuke, Safety, Security/Spirit)</option>
-                                        <option value="K3">K3 (Keselamatan dan Kesehatan Kerja)</option>
-                                    </select>
-                                    @error('kategori') <p class="form-error">{{ $message }}</p> @enderror
+                            <div class="form-field lg:col-span-1">
+                                <label class="field-label flex items-center gap-2">
+                                    <i data-lucide="edit-3" class="w-3.5 h-3.5 text-[#f59e0b]"></i>
+                                    Judul / Ringkasan
+                                </label>
+                                <div class="input-container">
+                                    <input type="text" wire:model="detail_lokasi" class="modern-input text-slate-900 bg-white" placeholder="Contoh: Lampu Rusak..." required>
                                 </div>
+                                @error('detail_lokasi') <p class="field-error">{{ $message }}</p> @enderror
+                            </div>
 
-                                <div class="form-group input-group">
-                                    <label class="form-label" for="prioritas">Prioritas</label>
-                                    <select wire:model="prioritas" id="prioritas" class="input-field-custom appearance-none bg-white text-[#00334E]">
+                            <div class="form-field">
+                                <label class="field-label flex items-center gap-2">
+                                    <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-[#f59e0b]"></i>
+                                    Prioritas
+                                </label>
+                                <div class="input-container">
+                                    <select wire:model="prioritas" class="modern-input appearance-none text-slate-900 bg-white" required>
                                         <option value="rendah">Rendah</option>
                                         <option value="sedang">Sedang</option>
                                         <option value="tinggi">Tinggi</option>
                                     </select>
-                                    @error('prioritas') <p class="form-error">{{ $message }}</p> @enderror
                                 </div>
+                                @error('prioritas') <p class="field-error">{{ $message }}</p> @enderror
+                            </div>
+                        </div>
 
-                                <div class="form-group input-group">
-<label class="form-label" for="campus_id">Kampus</label>
-                                    <select wire:model="campus_id" id="campus_id" wire:change="$refresh" class="input-field-custom appearance-none bg-white text-[#00334E]">
+                        {{-- Row 2: Location Selection --}}
+                        <div class="space-y-4">
+                            <h3 class="text-sm font-bold text-white/50 uppercase tracking-[0.2em] flex items-center gap-2">
+                                <i data-lucide="map-pin" class="w-4 h-4"></i>
+                                Detail Lokasi
+                            </h3>
+                            <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                                <div class="form-field">
+                                    <select wire:model="campus_id" wire:change="$refresh" class="modern-input appearance-none text-slate-900 bg-white" required>
                                         <option value="">Pilih Kampus</option>
                                         @foreach($campuses as $campus)
                                             <option value="{{ $campus->id }}">{{ $campus->name }}</option>
                                         @endforeach
                                     </select>
-                                    @error('campus_id') <p class="form-error">{{ $message }}</p> @enderror
                                 </div>
-
-                                <div class="form-group input-group">
-                                    <label class="form-label" for="branch_id">Gedung/Infrastruktur</label>
-                                    <select wire:model="branch_id" id="branch_id" wire:change="$refresh" class="input-field-custom appearance-none bg-white text-[#00334E]" {{ !$campus_id ? 'disabled' : '' }}>
-                                        <option value="">Pilih Gedung/Infrastruktur</option>
+                                <div class="form-field">
+                                    <select wire:model="branch_id" wire:change="$refresh" class="modern-input appearance-none text-slate-900 bg-white" {{ !$campus_id ? 'disabled' : '' }} required>
+                                        <option value="">Pilih Gedung</option>
                                         @foreach($branches as $branch)
                                             <option value="{{ $branch->id }}">{{ ucwords($branch->type) }} - {{ $branch->name }}</option>
                                         @endforeach
                                     </select>
-                                    @error('branch_id') <p class="form-error">{{ $message }}</p> @enderror  
                                 </div>
-
-                                @if($branchType === 'gedung' && $branch_id)
-                                    <div class="form-group input-group">
-                                        <label class="form-label" for="floor_id">Lantai</label>
-                                        <select wire:model="floor_id" id="floor_id" wire:change="$refresh" class="input-field-custom appearance-none bg-white text-[#00334E]">
-                                        <option value="">Pilih Lantai</option>
+                                @if($branchType === 'gedung')
+                                    <div class="form-field">
+                                        <select wire:model="floor_id" wire:change="$refresh" class="modern-input appearance-none text-slate-900 bg-white" required>
+                                            <option value="">Pilih Lantai</option>
                                             @foreach($floors as $floor)
                                                 <option value="{{ $floor->id }}">{{ $floor->name }}</option>
                                             @endforeach
                                         </select>
-                                        @error('floor_id') <p class="form-error">{{ $message }}</p> @enderror
                                     </div>
+                                    <div class="form-field">
+                                        <select wire:model="space_id" class="modern-input appearance-none text-slate-900 bg-white" required>
+                                            <option value="">Pilih Ruang</option>
+                                            @foreach($spaces as $space)
+                                                <option value="{{ $space->id }}">{{ ucfirst($space->type) }} - {{ $space->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
 
-                                    @if($floor_id)
-                                        <div class="form-group input-group">
-                                            <label class="form-label" for="space_id">Ruang/Area</label>
-                                            <select wire:model="space_id" id="space_id" class="input-field-custom appearance-none bg-white text-[#00334E]">
-                                                <option value="">Pilih Ruang/Area</option>
-                                                @foreach($spaces as $space)
-                                                    <option value="{{ $space->id }}">{{ ucfirst($space->type) }} - {{ $space->name }}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('space_id') <p class="form-error">{{ $message }}</p> @enderror
+                        {{-- Row 3: Description --}}
+                        <div class="form-field">
+                            <label class="field-label flex items-center gap-2">
+                                <i data-lucide="align-left" class="w-3.5 h-3.5 text-[#f59e0b]"></i>
+                                Deskripsi Kejadian / Temuan
+                            </label>
+                            <div class="input-container">
+                                <textarea wire:model="deskripsi" rows="5" class="modern-input text-slate-900 bg-white min-h-[120px]" placeholder="Jelaskan detail temuan Anda di sini..."></textarea>
+                            </div>
+                            @error('deskripsi') <p class="field-error">{{ $message }}</p> @enderror
+                        </div>
+
+                        {{-- Row 4: Evidence & Solution --}}
+                        <div class="grid lg:grid-cols-2 gap-8">
+                            <div class="form-field">
+                                <label class="field-label flex items-center gap-2">
+                                    <i data-lucide="camera" class="w-3.5 h-3.5 text-[#f59e0b]"></i>
+                                    Bukti Visual
+                                </label>
+                                <div class="upload-area" onclick="document.getElementById('bukti').click()">
+                                    <input type="file" id="bukti" wire:model="bukti" accept="image/*" class="hidden">
+                                    @if($bukti)
+                                        <div class="relative w-full h-full p-2">
+                                            <img src="{{ $bukti->temporaryUrl() }}" class="w-full h-48 object-cover rounded-xl shadow-lg">
+                                            <div class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 hover:opacity-100 transition-opacity rounded-xl">
+                                                <p class="text-white text-xs font-bold">Klik untuk ganti foto</p>
+                                            </div>
+                                        </div>
+                                    @else
+                                        <div class="flex flex-col items-center justify-center py-10 px-4 text-center cursor-pointer">
+                                            <div class="w-12 h-12 rounded-full bg-[#f59e0b]/10 flex items-center justify-center mb-3">
+                                                <i data-lucide="image-plus" class="w-6 h-6 text-[#f59e0b]"></i>
+                                            </div>
+                                            <p class="text-white text-sm font-bold">Klik atau seret foto ke sini</p>
+                                            <p class="text-slate-500 text-[10px] mt-1">PNG, JPG (Maks. 5MB)</p>
                                         </div>
                                     @endif
+                                </div>
+                                @error('bukti') <p class="field-error">{{ $message }}</p> @enderror
+                            </div>
+
+                            <div class="form-field">
+                                <label class="field-label flex items-center gap-2">
+                                    <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#f59e0b]"></i>
+                                    Saran Solusi (Opsional)
+                                </label>
+                                <div class="input-container h-full">
+                                    <textarea wire:model="solusi" class="modern-input text-slate-900 bg-white h-[200px]" placeholder="Apa langkah perbaikan yang Anda sarankan?"></textarea>
+                                </div>
+                                @if($solusi)
+                                    <p class="mt-2 text-[10px] text-green-400 flex items-center gap-1">
+                                        <i data-lucide="star" class="w-3 h-3"></i>
+                                        Poin tambahan +5 akan diberikan untuk saran solusi.
+                                    </p>
                                 @endif
-
-                                <div class="form-group input-group">
-                                    <label class="form-label" for="detail_lokasi">Detail Lokasi</label>
-                                    <input id="detail_lokasi" type="text" wire:model="detail_lokasi" class="input-field-custom" placeholder="Contoh: Dekat pintu masuk, sudut tangga, dll">
-                                    @error('detail_lokasi') <p class="form-error">{{ $message }}</p> @enderror
-                                </div>
-
-                                <div class="form-group input-group">
-                                    <label class="form-label" for="deskripsi">Deskripsi Temuan</label>
-                                    <textarea id="deskripsi" wire:model="deskripsi" rows="5" class="input-field-custom" placeholder="Jelaskan secara detail temuan pelanggaran yang Anda temukan..."></textarea>
-                                    @error('deskripsi') <p class="form-error">{{ $message }}</p> @enderror
-                                </div>
-
-                                <div class="form-group input-group">
-                                    <label class="form-label" for="bukti">Bukti Foto <span class="text-xs text-gray-400">(Opsional)</span></label>
-                                    <input id="bukti" type="file" wire:model="bukti" accept="image/*" class="input-field-custom cursor-pointer" />
-                                    @error('bukti') <p class="form-error">{{ $message }}</p> @enderror
-
-                                    @if($bukti)
-                                        @php
-                                            $previewBorder = $kategori === 'K3'
-                                                ? 'border-cyan-400 shadow-[0_0_25px_rgba(34,211,238,0.25)]'
-                                                : ($kategori === '7S'
-                                                    ? 'border-rose-400 shadow-[0_0_25px_rgba(244,63,94,0.25)]'
-                                                    : ($kategori === '5R'
-                                                        ? 'border-emerald-400 shadow-[0_0_25px_rgba(34,197,94,0.25)]'
-                                                        : 'border-[#A0AEC0]/10 shadow-[0_0_15px_rgba(255,255,255,0.08)]'));
-                                        @endphp
-                                        <img src="{{ $bukti->temporaryUrl() }}" alt="Preview"
-                                             class="report-preview mt-4 rounded-3xl border {{ $previewBorder }}" />
-                                    @endif
-                                </div>
-
-                                <div class="form-group input-group">
-                                    <label class="form-label" for="solusi">
-                                        Solusi dari Anda <span class="text-xs text-gray-400">(Opsional)</span>
-                                    </label>
-                                    <textarea 
-                                        wire:model="solusi" 
-                                        class="input-field-custom min-h-[100px]" 
-                                        placeholder="Berikan saran perbaikan atau solusi teknis jika ada..."></textarea>
-                                    @if($solusi && Request::is('create-report'))
-                                        <p class="mt-2 text-xs text-green-600 flex items-center gap-1">
-                                            <i data-lucide="sparkles" class="w-3 h-3"></i> 
-                                            Keren! Kamu akan mendapatkan tambahan +5 poin untuk solusi ini.
-                                        </p>
-                                    @endif
-                                </div>
-
-                                <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between pt-2">
-                                    <button type="button" wire:click="resetForm" class="btn btn-outline btn-lg px-6 py-4 text-center w-full sm:w-auto">Batal</button>
-                                    <button type="submit" class="submit-button w-full sm:w-auto py-4 font-semibold">Kirim Temuan Internal</button>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div class="glass-card p-8 border border-[#A0AEC0]/30 bg-white/85 shadow-[0_30px_90px_rgba(0,51,78,0.08)]">
-                            <div class="rounded-[2rem] border border-[#00334E]/10 bg-[#E6F4E8]/50 p-6 mb-6">
-                                <h3 class="text-xl font-semibold text-[#00334E]">Ringkasan Internal</h3>
-                                <p class="mt-3 text-[#475569] leading-relaxed">Temuan internal diproses prioritas tinggi oleh tim manajemen. Lengkapi lokasi dan prioritas dengan akurat.</p>
-                            </div>
-                            <div class="space-y-4 text-[#475569] text-sm leading-7">
-                                <div>
-                                    <span class="inline-flex rounded-full bg-[#E6F4E8] px-3 py-1 text-[#00334E] text-xs uppercase tracking-[0.2em]">Pro tip</span>
-                                    <p class="mt-3">Prioritas tinggi akan langsung masuk queue manajer. Gunakan dengan tepat.</p>
-                                </div>
-                                <div>
-                                    <span class="inline-flex rounded-full bg-[#E6F4E8] px-3 py-1 text-[#00334E] text-xs uppercase tracking-[0.18em]">Fokus</span>
-                                    <p class="mt-3">Lokasi lengkap (lantai/ruang) memastikan respons tim tepat sasaran.</p>
-                                </div>
-                                <div>
-                                    <span class="inline-flex rounded-full bg-[#E6F4E8] px-3 py-1 text-[#00334E] text-xs uppercase tracking-[0.18em]">Keamanan</span>
-                                    <p class="mt-3">Temuan dienkripsi dan hanya terlihat oleh tim berwenang.</p>
-                                </div>
                             </div>
                         </div>
-                    </div>
-                @endif
-            </div>
+
+                        {{-- Footer Buttons --}}
+                        <div class="flex flex-col sm:flex-row gap-4 pt-4 border-t border-white/5">
+                            <button type="button" wire:click="resetForm" class="btn-secondary flex-1">Batal</button>
+                            <button type="submit" class="btn-auth-primary flex-[2]" style="margin-top:0;">
+                                <span>Kirim Temuan Internal</span>
+                                <i data-lucide="send"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            @endif
         </div>
     </div>
 </div>
 
 @push('styles')
 <style>
-    .public-report-shell {
+    .report-creation-shell {
         min-height: 100vh;
-        position: relative;
-        background: radial-gradient(circle at top right, rgba(0, 51, 78, 0.06), transparent 28%),
-                    radial-gradient(circle at bottom left, rgba(160, 174, 192, 0.08), transparent 22%),
-                    linear-gradient(180deg, #F0F9F4 0%, #E6F4E8 100%);
-        overflow: hidden;
-    }
-    .public-report-shell::before,
-    .public-report-shell::after {
-        content: '';
-        position: absolute;
-        border-radius: 9999px;
-        filter: blur(110px);
-        opacity: 0.4;
-    }
-    .public-report-shell::before {
-        width: 540px;
-        height: 540px;
-        top: -150px;
-        right: -120px;
-        background: rgba(0, 51, 78, 0.08);
-    }
-    .public-report-shell::after {
-        width: 420px;
-        height: 420px;
-        bottom: -140px;
-        left: -120px;
-        background: rgba(230, 244, 232, 0.5);
-    }
-    .public-report-card {
-        border-radius: 2rem;
-        background: rgba(255, 255, 255, 0.9);
-        border: 1px solid rgba(160, 174, 192, 0.35);
-        box-shadow: 0 60px 120px rgba(0, 51, 78, 0.1);
-        backdrop-filter: blur(22px);
-    }
-    .public-report-inner {
-        padding: 2.5rem;
-    }
-    .public-report-header h1 {
-        font-size: clamp(2.5rem, 4vw, 3.6rem);
-        line-height: 1;
-        font-weight: 800;
-        color: #00334E;
-    }
-    .public-report-header p {
-        margin-top: 0.9rem;
-        max-width: 44rem;
-        color: #475569;
+        background-color: #001524;
+        background-image: 
+            radial-gradient(at 0% 0%, rgba(0, 51, 78, 0.4) 0, transparent 50%), 
+            radial-gradient(at 100% 100%, rgba(0, 51, 78, 0.2) 0, transparent 50%);
     }
     .glass-card {
-        border-radius: 2rem;
-        background: rgba(255, 255, 255, 0.85);
-        border: 1px solid rgba(160, 174, 192, 0.3);
-        box-shadow: 0 30px 90px rgba(0, 51, 78, 0.08);
-        backdrop-filter: blur(18px);
-    }
-    .input-field-custom {
-        width: 100%;
-        min-height: 3rem;
-        background: #FFFFFF;
-        border: 1px solid #A0AEC0;
-        border-radius: 1.2rem;
-        padding: 1rem 1.2rem;
-        color: #00334E;
-        transition: all 0.28s ease;
-    }
-    select.input-field-custom {
-        background: #FFFFFF;
-        color: #00334E;
-        appearance: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%239ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
-        background-position: right 1rem center;
-        background-repeat: no-repeat;
-        background-size: 1.2em 1.2em;
-        padding-right: 2.8rem;
-    }
-    select.input-field-custom option {
-        background-color: #FFFFFF;
-        color: #00334E;
-        padding: 10px;
-    }
-    .input-field-custom:focus {
-        border-color: #00334E;
-        box-shadow: 0 0 24px rgba(0, 51, 78, 0.12);
-        outline: none;
-        transform: translateY(-1px);
-    }
-    .form-label {
-        display: block;
-        margin-bottom: 0.65rem;
-        font-size: 0.95rem;
-        font-weight: 600;
-        color: #00334E;
-        transition: color 0.25s ease;
-    }
-    .form-group:focus-within .form-label {
-        color: #00334E;
-    }
-    .report-preview {
-        display: block;
-        max-width: 100%;
-        max-height: 260px;
+        background: #00334E;
+        border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 1.5rem;
-        object-fit: cover;
-        border: 1px solid rgba(160, 174, 192, 0.3);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     }
-    .submit-button {
-        display: inline-flex;
+    .field-label {
+        display: block;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+    .modern-input {
+        width: 100%;
+        background: #f8fafc;
+        border: 2px solid transparent;
+        border-radius: 0.75rem;
+        padding: 0.75rem 1rem;
+        color: #1e293b;
+        transition: all 0.3s ease;
+        font-size: 0.95rem;
+        font-weight: 500;
+    }
+    .modern-input:focus {
+        border-color: #f59e0b;
+        box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.1);
+        outline: none;
+    }
+    .field-error {
+        color: #f87171;
+        font-size: 0.7rem;
+        margin-top: 0.3rem;
+        font-weight: 600;
+    }
+    .upload-area {
+        background: #00263a;
+        border: 2px dashed rgba(245, 158, 11, 0.3);
+        border-radius: 1rem;
+        transition: all 0.3s ease;
+        overflow: hidden;
+    }
+    .upload-area:hover {
+        border-color: #f59e0b;
+        background: #002e47;
+    }
+    .btn-auth-primary {
+        background: #f59e0b;
+        color: #001524;
+        font-weight: 800;
+        padding: 1rem;
+        border-radius: 0.75rem;
+        display: flex;
         align-items: center;
         justify-content: center;
-        width: 100%;
-        padding: 1rem 1.5rem;
-        border-radius: 1.25rem;
+        gap: 0.75rem;
+        transition: all 0.3s ease;
         border: none;
-        color: #ffffff;
-        background: #00334E;
-        transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
-        box-shadow: 0 22px 50px rgba(6, 182, 212, 0.18);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        cursor: pointer;
     }
-    .submit-button:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 28px 60px rgba(6, 182, 212, 0.22);
-        background: #001f35;
+    .btn-auth-primary:hover {
+        background: #fbbf24;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px -5px rgba(245, 158, 11, 0.4);
     }
-    .submit-button:active {
-        transform: translateY(0px);
+    .btn-secondary {
+        background: rgba(255, 255, 255, 0.05);
+        color: white;
+        font-weight: 700;
+        padding: 1rem;
+        border-radius: 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        cursor: pointer;
+        text-decoration: none;
     }
-    .btn-outline {
-        border: 1px solid #A0AEC0;
-        color: #00334E;
-        background: transparent;
-        transition: all 0.25s ease;
-        border-radius: 1.25rem;
-        padding: 1rem 1.5rem;
-        font-weight: 600;
+    .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.2);
     }
-    .btn-outline:hover {
-        border-color: #00334E;
-        color: #00334E;
-        background: rgba(0, 51, 78, 0.06);
+    .animate-in {
+        animation: fadeInUp 0.6s ease-out forwards;
     }
-    .form-error {
-        margin-top: 0.5rem;
-        font-size: 0.92rem;
-        color: #f97316;
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
     }
-    .success-card {
-        border-radius: 2rem;
-        background: rgba(255, 255, 255, 0.9);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        box-shadow: 0 60px 120px rgba(5, 10, 20, 0.55);
-        backdrop-filter: blur(22px);
-    }
-    .success-panel {
-        padding: 3rem 2.5rem;
-        text-align: center;
-    }
-    .success-title {
-        font-size: clamp(1.75rem, 3vw, 2.25rem);
-        line-height: 1.2;
-        font-weight: 800;
-        color: #f8fafc;
-        margin: 0 0 1rem 0;
-    }
-    .success-card {
-        animation: successSlide 0.6s ease-out;
-    }
-    @keyframes successSlide {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    @media (max-width: 1024px) {
-        .lg\\:grid-cols-\\[1\\.1fr_0\\.9fr\\] {
-            grid-template-columns: 1fr !important;
-        }
+    select.modern-input option {
+        color: #1e293b;
+        background: white;
     }
 </style>
 @endpush
@@ -397,41 +324,13 @@
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const groups = document.querySelectorAll('.input-group');
-        if (groups.length && window.anime) {
-            anime({
-                targets: groups,
-                opacity: [0, 1],
-                translateY: [24, 0],
-                delay: anime.stagger(90),
-                easing: 'easeOutExpo'
-            });
-        }
-
-        const inputs = document.querySelectorAll('.input-field-custom');
-        inputs.forEach(input => {
-            input.addEventListener('focus', () => {
-                if (window.anime) {
-                    anime({
-                        targets: input,
-                         borderColor: '#00334E',
-                        boxShadow: '0 0 24px rgba(0, 51, 78, 0.15)',
-                        duration: 220,
-                        easing: 'easeOutQuad'
-                    });
-                }
-            });
-            input.addEventListener('blur', () => {
-                if (window.anime) {
-                    anime({
-                        targets: input,
-                        borderColor: '#A0AEC0',
-                        boxShadow: '0 0 0 rgba(0, 51, 78, 0)',
-                        duration: 220,
-                        easing: 'easeOutQuad'
-                    });
-                }
-            });
+        if (window.lucide) lucide.createIcons();
+    });
+    
+    // Refresh icons after Livewire updates
+    document.addEventListener('livewire:load', function () {
+        Livewire.hook('message.processed', (message, component) => {
+            if (window.lucide) lucide.createIcons();
         });
     });
 </script>

@@ -86,9 +86,17 @@
                         <td>{{ Str::limit($fu->action_plan, 50) }}</td>
                         <td>{{ $fu->target_date->format('d M Y') }}</td>
                         <td>
-                            <span class="pm-badge {{ $fu->status == 'completed' ? 'pm-badge-success' : 'pm-badge-warning' }}">
-                                {{ ucfirst($fu->status) }}
-                            </span>
+                            <div style="margin-bottom: 6px;">
+                                <span class="pm-badge {{ $fu->status == 'completed' ? 'pm-badge-success' : 'pm-badge-warning' }}">
+                                    {{ ucfirst($fu->status) }}
+                                </span>
+                            </div>
+                            <!-- Progress Bar Animasi -->
+                            <div style="width: 100%; max-width: 120px; background-color: #e2e8f0; border-radius: 9999px; height: 6px; overflow: hidden;">
+                                <div class="progress-bar-fill" 
+                                    style="height: 100%; border-radius: 9999px; background-color: {{ $fu->status == 'completed' ? '#10b981' : '#f59e0b' }}; width: 0%;" 
+                                    x-init="setTimeout(() => { $el.style.width = '{{ $fu->status == 'completed' ? '100%' : '50%' }}' }, 150)"></div>
+                            </div>
                         </td>
                         <td>
                             @if($fu->status !== 'completed')

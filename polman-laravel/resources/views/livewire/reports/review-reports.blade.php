@@ -146,12 +146,11 @@
         {{-- MODAL DETAIL --}}
         @if($showModal && $selectedReport)
         <div class="pm-modal-backdrop" 
-            style="display: flex; align-items: flex-start; justify-content: center; background: rgba(15, 23, 42, 0.45); backdrop-filter: blur(4px); z-index: 9999; padding-top: 80px; overflow-y: auto;"
+            style="display: flex; align-items: flex-start; justify-content: center; background: rgba(0, 51, 78, 0.6); backdrop-filter: blur(6px); z-index: 9999; padding-top: 80px; overflow-y: auto;"
             x-data 
-            x-init="anime({targets:'.pm-modal-card', opacity:[0,1], translateY:[15,0], scale:[0.98,1], duration:350, easing:'easeOutQuad'})"
             @click.self="$wire.set('showModal', false)">
             
-            <div class="pm-modal-card" style="max-width: 400px; width: 90%; border-radius: 12px; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04); margin-bottom: 40px; background: #fff;">
+            <div class="pm-modal-card" style="max-width: 400px; width: 90%; border-radius: 16px; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0,51,78,0.25); margin-bottom: 40px; background: #fff;">
                 
                 {{-- Header --}}
                 <div class="pm-modal-header" style="padding: 1rem 1.25rem; border-bottom: 1px solid #f1f5f9; background: #fff;">

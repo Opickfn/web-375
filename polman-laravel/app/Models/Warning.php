@@ -78,31 +78,16 @@ class Warning extends Model
 
     public function getImageUrlAttribute(): string
     {
-        // $default = 'https://images.unsplash.com/photo-1519337265831-281ec6cc8514?auto=format&fit=crop&w=1200&q=80';
+        $url = asset('images/polman.png'); // Verified fallback
 
-        // if ($this->image_source === 'report' && $this->report && $this->report->bukti) {
-        //     return $this->report->bukti;
-        // }
-
-        // if ($this->image_path && \Illuminate\Support\Facades\Storage::disk('public')->exists('warnings/' . $this->image_path)) {
-        //     return \Illuminate\Support\Facades\Storage::url('warnings/' . $this->image_path);
-        // }
-
-        // return $default;
-
-        // 1. Jika ambil dari bukti laporan
         if ($this->report_id && $this->report && $this->report->bukti) {
-            return asset('storage/uploads/' . $this->report->bukti);
+            $url = asset('storage/uploads/' . $this->report->bukti);
+        } elseif ($this->image_path) {
+            $url = asset('storage/warnings/' . $this->image_path);
         }
 
-        // 2. Jika ada gambar manual yang diunggah
-        if ($this->image_path) {
-            return asset('storage/warnings/' . $this->image_path);
-        }
-
-        // 3. Fallback jika tidak ada gambar (Ganti ke gambar lokal polman jika ada)
-        return asset('images/default-hero.jpg');
-
+        // Handle spaces and ensure it's an absolute URL with correct port
+        return str_replace(' ', '%20', $url);
     }
 }
 

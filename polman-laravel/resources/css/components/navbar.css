@@ -5,18 +5,18 @@
   --navbar-h: 4rem;
   --sidebar-w: 16rem;
   --sidebar-collapsed-w: 4rem;
-  --bg-primary: #F0F9F4;
-  --bg-secondary: #E6F4E8;
-  --bg-card: #FFFFFF;
-  --border: #A0AEC0;
-  --accent: #00334E;
-  --accent-hover: #001f35;
-  --text-primary: #00334E;
-  --text-secondary: #475569;
+  --bg-primary: #00334E;
+  --bg-secondary: #00263a;
+  --bg-card: #00263a;
+  --border: rgba(255,255,255,0.15);
+  --accent: #f59e0b;
+  --accent-hover: #d97706;
+  --text-primary: #FFFFFF;
+  --text-secondary: rgba(255,255,255,0.7);
   --success: #4ade80;
   --warning: #facc15;
   --danger: #f87171;
-  --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -151,7 +151,7 @@
 }
 
 .user-profile:hover {
-  background: rgba(79, 159, 212, 0.1);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .user-info h4 {
@@ -182,7 +182,7 @@
   font-weight: 700;
   font-size: 0.85rem;
   color: white;
-  box-shadow: 0 4px 12px rgba(79, 159, 212, 0.3);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
   border: 2px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -223,7 +223,7 @@
 }
 
 .dropdown-item:hover {
-  background: rgba(79, 159, 212, 0.1);
+  background: rgba(255, 255, 255, 0.05);
   color: var(--accent);
   padding-left: 1.5rem;
 }
@@ -326,13 +326,13 @@
 }
 
 .sidebar-link:hover {
-  background: rgba(79, 159, 212, 0.1);
+  background: rgba(255, 255, 255, 0.05);
   color: var(--text-primary);
   padding-left: 1.75rem;
 }
 
 .sidebar-link.active {
-  background: rgba(79, 159, 212, 0.15);
+  background: rgba(245, 158, 11, 0.15);
   color: var(--accent);
   border-right: 3px solid var(--accent);
 }
@@ -362,7 +362,7 @@
   min-height: calc(100vh - var(--navbar-h));
   padding: 2rem;
   transition: var(--transition);
-  background: var(--bg-primary);
+  background: transparent;
 }
 
 .sidebar.collapsed ~ .main-content {

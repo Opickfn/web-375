@@ -2,337 +2,411 @@
 @section('title', 'Login')
 
 @section('content')
-<div class="auth-shell">
-    <div class="auth-card animate-in">
-        <div class="auth-logo">
-            <img src="{{ asset('images/polman.png') }}" alt="Polman">
-            <span>POLMAN 375</span>
-        </div>
-
-        <h2 class="auth-title" style="font-size: 2rem; font-weight: 800; line-height: 1.1;">Masuk ke Sistem</h2>
-        <p class="auth-subtitle" style="font-size: 1.1rem; font-weight: 500; opacity: 0.95;">Sistem Improvement K3, 7S, dan 5R</p>
-
-        @if(session('status'))
-            <div class="alert alert-success">
-                <i data-lucide="check-circle" style="width:16px;height:16px;flex-shrink:0;"></i>
-                {{ session('status') }}
-            </div>
-        @endif
-
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
-
-            <div class="form-group">
-                <label class="form-label" for="email">Email</label>
-                <div class="input-wrapper">
-                    <span class="input-icon"><i data-lucide="mail"></i></span>
-                    <input type="email" id="email" name="email" class="form-input" value="{{ old('email') }}" required autofocus placeholder="nama@polman.ac.id">
+<div class="split-screen">
+    {{-- Left Side: Visual & Education --}}
+    <div class="auth-visual">
+        <div class="visual-bg" style="background-image: url('{{ asset('images/auth-bg.png') }}');"></div>
+        <div class="visual-overlay"></div>
+        
+        <div class="visual-content">
+            <div class="visual-header">
+                <img src="{{ asset('images/polman.png') }}" alt="Polman Logo" class="visual-logo">
+                <div>
+                    <h1 class="visual-title">Sistem Improvement POLMAN 375</h1>
+                    <p class="visual-subtitle">Membangun Budaya Industri Unggul</p>
                 </div>
-                @error('email') <p class="form-error">{{ $message }}</p> @enderror
             </div>
 
-            <div class="form-group">
-                <label class="form-label" for="password">Password</label>
-                <div class="input-wrapper">
-                    <span class="input-icon"><i data-lucide="lock"></i></span>
-                    <input type="password" id="password" name="password" class="form-input" required placeholder="Masukkan password">
+            <div class="edu-slider">
+                <div class="edu-slide active" data-index="0">
+                    <div class="edu-icon"><i data-lucide="shield-check"></i></div>
+                    <h2 class="edu-title">K3 (Keselamatan & Kesehatan Kerja)</h2>
+                    <p class="edu-text">Prioritas utama dalam setiap jengkal workshop. Laporkan potensi bahaya sebelum menjadi insiden.</p>
                 </div>
-                @error('password') <p class="form-error">{{ $message }}</p> @enderror
+                <div class="edu-slide" data-index="1">
+                    <div class="edu-icon"><i data-lucide="award"></i></div>
+                    <h2 class="edu-title">7S (Seven Waste)</h2>
+                    <p class="edu-text">7 pemborosan yang sering terjadi di lingkungan kerja. 
+                       <br>Transport, Inventory, Motion, Waiting, Overproduction, <br> Over-processing, Defects
+                </div>
+                <div class="edu-slide" data-index="2">
+                    <div class="edu-icon"><i data-lucide="layout-grid"></i></div>
+                    <h2 class="edu-title">5R Metodologi</h2>
+                    <p class="edu-text">Ringkas, Rapi, Resik, Rawat, Rajin. Ciptakan lingkungan kerja yang efisien dan produktif.</p>
+                </div>
+                
+                <div class="slider-dots">
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Right Side: Auth Form --}}
+    <div class="auth-form-side">
+        <div class="auth-card-wrapper animate-in">
+            <div class="mobile-logo lg:hidden">
+                <img src="{{ asset('images/polman.png') }}" alt="Polman Logo">
+                <span>POLMAN 375</span>
             </div>
 
-            <button type="submit" class="btn btn-primary w-full btn-lg mt-2">
-                <i data-lucide="log-in" style="width:18px;height:18px;"></i>
-                Masuk
-            </button>
-        </form>
+            <div class="auth-form-card">
+                <div class="form-header">
+                    <h2 class="form-title">Selamat Datang</h2>
+                    <p class="form-subtitle">Silakan masuk untuk melanjutkan kontribusi Anda</p>
+                </div>
 
-        <div class="auth-back mt-5">
-            <a href="{{ url('/') }}"><i data-lucide="arrow-left"></i> Kembali ke Beranda</a>
+                @if(session('status'))
+                    <div class="alert alert-success">
+                        <i data-lucide="check-circle"></i>
+                        {{ session('status') }}
+                    </div>
+                @endif
+
+                <form method="POST" action="{{ route('login') }}" class="space-y-6">
+                    @csrf
+
+                    <div class="form-field">
+                        <label for="email" class="field-label">Alamat Email</label>
+                        <div class="input-container">
+                            <i data-lucide="mail" class="input-icon"></i>
+                            <input type="email" id="email" name="email" class="modern-input" value="{{ old('email') }}" required autofocus placeholder="nama@polman.ac.id">
+                        </div>
+                        @error('email') <p class="field-error">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div class="form-field">
+                        <div class="flex justify-between items-center mb-2">
+                            <label for="password" class="field-label">Password</label>
+                            @if (Route::has('password.request'))
+                                <a href="{{ route('password.request') }}" class="text-xs text-orange-400 hover:text-orange-300 transition-colors">Lupa Password?</a>
+                            @endif
+                        </div>
+                        <div class="input-container">
+                            <i data-lucide="lock" class="input-icon"></i>
+                            <input type="password" id="password" name="password" class="modern-input" required placeholder="Masukkan password Anda">
+                        </div>
+                        @error('password') <p class="field-error">{{ $message }}</p> @enderror
+                    </div>
+
+                    <div class="flex items-center">
+                        <input type="checkbox" id="remember_me" name="remember" class="rounded border-gray-700 bg-gray-800 text-orange-500 focus:ring-orange-500">
+                        <label for="remember_me" class="ml-2 text-sm text-gray-400">Ingat saya</label>
+                    </div>
+
+                    <button type="submit" class="btn-auth-primary">
+                        <span>Masuk ke Sistem</span>
+                        <i data-lucide="arrow-right"></i>
+                    </button>
+                </form>
+
+                <div class="form-footer">
+                    <p>Belum memiliki akun? <a href="{{ route('register') }}">Daftar Sekarang</a></p>
+                    <a href="{{ url('/') }}" class="back-home"><i data-lucide="home"></i> Kembali ke Beranda</a>
+                </div>
+            </div>
         </div>
-
-        <p class="auth-footer">
-            Belum punya akun?
-            <a href="{{ route('register') }}">Daftar di sini</a>
-        </p>
     </div>
 </div>
 
 @push('styles')
 <style>
-    .input-wrapper {
+    /* Split Screen Layout */
+    .auth-visual {
+        flex: 1.2;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4rem;
+        background: #001524;
+    }
+    @media (max-width: 1024px) {
+        .auth-visual {
+            display: none !important;
+        }
+    }
+    .visual-bg {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        filter: scale(1.05);
+        animation: slowZoom 20s infinite alternate;
+    }
+    @keyframes slowZoom {
+        from { transform: scale(1); }
+        to { transform: scale(1.1); }
+    }
+    .visual-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(0, 51, 78, 0.95) 0%, rgba(0, 21, 36, 0.8) 100%);
+    }
+    .visual-content {
+        position: relative;
+        z-index: 10;
+        width: 100%;
+        max-width: 600px;
+    }
+    .visual-header {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        margin-bottom: 5rem;
+    }
+    .visual-logo {
+        width: 80px;
+        filter: drop-shadow(0 0 20px rgba(245, 158, 11, 0.3));
+    }
+    .visual-title {
+        font-size: 2.25rem;
+        font-weight: 800;
+        color: white;
+        margin: 0;
+        line-height: 1.1;
+    }
+    .visual-subtitle {
+        color: rgba(255,255,255,0.6);
+        font-size: 1.1rem;
+        margin: 0.5rem 0 0 0;
+    }
+
+    /* Edu Slider */
+    .edu-slider {
+        position: relative;
+        min-height: 200px;
+    }
+    .edu-slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        opacity: 0;
+        transform: translateX(20px);
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: none;
+    }
+    .edu-slide.active {
+        opacity: 1;
+        transform: translateX(0);
+        pointer-events: auto;
+    }
+    .edu-icon {
+        width: 48px;
+        height: 48px;
+        background: rgba(245, 158, 11, 0.2);
+        border: 1px solid rgba(245, 158, 11, 0.4);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #f59e0b;
+        margin-bottom: 1.5rem;
+    }
+    .edu-title {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: white;
+        margin-bottom: 1rem;
+    }
+    .edu-text {
+        font-size: 1.1rem;
+        color: rgba(255,255,255,0.7);
+        line-height: 1.6;
+    }
+    .slider-dots {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 3rem;
+    }
+    .dot {
+        width: 24px;
+        height: 4px;
+        background: rgba(255,255,255,0.2);
+        border-radius: 2px;
+        transition: all 0.3s ease;
+    }
+    .dot.active {
+        background: #f59e0b;
+        width: 40px;
+    }
+
+    /* Form Side */
+    .auth-form-side {
+        flex: 1;
+        background: #001524;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+    }
+    .auth-card-wrapper {
+        width: 100%;
+        max-width: 450px;
+    }
+    .auth-form-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        padding: 3rem;
+        border-radius: 2rem;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+    .form-header {
+        margin-bottom: 2.5rem;
+    }
+    .form-title {
+        font-size: 2rem;
+        font-weight: 800;
+        color: white;
+        margin-bottom: 0.5rem;
+    }
+    .form-subtitle {
+        color: rgba(255,255,255,0.5);
+    }
+
+    /* Modern Inputs */
+    .form-field {
+        margin-bottom: 1.5rem;
+    }
+    .field-label {
+        display: block;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: rgba(255,255,255,0.8);
+        margin-bottom: 0.5rem;
+    }
+    .input-container {
         position: relative;
     }
-    .input-wrapper .input-icon {
+    .input-icon {
         position: absolute;
         left: 1rem;
         top: 50%;
         transform: translateY(-50%);
-        pointer-events: none;
-        z-index: 1;
-        color: rgba(85,136,163,0.65);
         width: 20px;
         height: 20px;
+        color: rgba(255,255,255,0.3);
+        transition: color 0.3s ease;
     }
-    .form-input {
-        padding-left: 3.6rem !important;
+    .modern-input {
+        width: 100%;
+        background: rgba(255,255,255,0.05);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 1rem;
+        padding: 1rem 1rem 1rem 3.5rem;
+        color: white;
+        transition: all 0.3s ease;
     }
-    .auth-shell {
-        min-height: 100vh;
+    .modern-input:focus {
+        background: rgba(255,255,255,0.08);
+        border-color: #f59e0b;
+        box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.1);
+        outline: none;
+    }
+    .modern-input:focus + .input-icon {
+        color: #f59e0b;
+    }
+    .field-error {
+        color: #f87171;
+        font-size: 0.75rem;
+        margin-top: 0.5rem;
+    }
+
+    /* Auth Button */
+    .btn-auth-primary {
+        width: 100%;
+        background: #f59e0b;
+        color: #001524;
+        font-weight: 700;
+        padding: 1rem;
+        border-radius: 1rem;
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 2.5rem;
-        background: #F0F9F4;
-        position: relative;
-        overflow: hidden;
-        transition: background-color 0.4s ease;
-    }
-    .auth-shell::before,
-    .auth-shell::after {
-        content: '';
-        position: absolute;
-        border-radius: 9999px;
-        filter: blur(120px);
-        opacity: 0.25;
-        pointer-events: none;
-    }
-    .auth-shell::before {
-        width: 420px;
-        height: 420px;
-        top: -100px;
-        right: -80px;
-        background: rgba(0, 51, 78, 0.1);
-    }
-    .auth-shell::after {
-        width: 520px;
-        height: 520px;
-        bottom: -140px;
-        left: -100px;
-        background: rgba(0, 51, 78, 0.08);
-    }
-    .auth-card {
-        width: 100%;
-        max-width: 520px;
-        position: relative;
-        background: rgba(255, 255, 255, 0.95);
-        border: 1px solid #A0AEC0;
-        border-radius: 1.75rem;
-        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(24px);
-        padding: 3rem 2.5rem;
-        overflow: hidden;
-        color: #00334E;
-        transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
-    }
-    .form-group {
-        margin-bottom: 1rem;
-    }
-    .auth-logo {
-        margin-bottom: 2rem;
-    }
-    .auth-subtitle {
-        margin-bottom: 2rem;
-        position: relative;
-    }
-    .auth-subtitle::after {
-        content: '';
-        position: absolute;
-        bottom: -1rem;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 60px;
-        height: 2px;
-        background: linear-gradient(90deg, #00334E, rgba(0,51,78,0.35));
-        border-radius: 1px;
-    }
-    .auth-card::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 2px;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), rgba(255,255,255,0.6), rgba(255,255,255,0.4), transparent);
-        box-shadow: 0 2px 6px rgba(255,255,255,0.25);
-    }
-    .auth-subtitle {
-        margin-bottom: 2rem;
-    }
-    .auth-subtitle {
-        margin-bottom: 2.5rem;
-    }
-    .auth-back, .auth-footer {
+        gap: 0.75rem;
+        transition: all 0.3s ease;
+        border: none;
         margin-top: 2rem;
     }
-    .auth-card::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(180deg, rgba(255,255,255,0.06), transparent 40%);
-        pointer-events: none;
+    .btn-auth-primary:hover {
+        background: #fbbf24;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px -5px rgba(245, 158, 11, 0.4);
     }
-    .auth-logo {
+    .btn-auth-primary:active {
+        transform: translateY(0);
+    }
+
+    /* Footer */
+    .form-footer {
+        margin-top: 2.5rem;
+        text-align: center;
+        font-size: 0.875rem;
+        color: rgba(255,255,255,0.5);
+    }
+    .form-footer a {
+        color: #f59e0b;
+        font-weight: 600;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+    .form-footer a:hover {
+        color: #fbbf24;
+    }
+    .back-home {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-top: 1.5rem;
+        color: rgba(255,255,255,0.3) !important;
+        font-weight: 400 !important;
+    }
+
+    /* Mobile adjustments */
+    .mobile-logo {
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 1rem;
-        margin-bottom: 1.5rem;
-        color: #00334E;
-        position: relative;
-        z-index: 1;
+        margin-bottom: 2.5rem;
     }
-    .auth-back {
-        position: relative;
-        z-index: 1;
-        margin-bottom: 1rem;
-        text-align: center;
+    .mobile-logo img {
+        width: 50px;
     }
-    .auth-back a {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        color: #64748b;
-        font-size: 0.95rem;
-        text-decoration: none;
-        transition: color 0.2s ease, transform 0.2s ease;
-    }
-    .auth-back a:hover {
-        color: #00334E;
-        transform: translateX(-2px);
-    }
-    .auth-back a i {
-        width: 18px;
-        height: 18px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .auth-footer {
-        color: #475569;
-        text-align: center;
-        margin-top: 1.4rem;
-        font-size: 0.95rem;
-    }
-    .auth-footer a {
-        color: #00334E;
-        text-decoration: none;
-        transition: color 0.2s ease;
-    }
-    .auth-footer a:hover {
-        color: #001f35;
-    }
-    .auth-logo img {
-        width: 56px;
-        filter: drop-shadow(0 0 12px rgba(0, 51, 78, 0.15));
-    }
-    .auth-logo span {
-        font-size: 1.6rem;
+    .mobile-logo span {
+        font-size: 1.5rem;
         font-weight: 800;
-        letter-spacing: 1px;
+        color: white;
     }
+
+    @media (max-width: 1024px) {
+        .auth-form-side {
+            padding: 1.5rem;
+        }
+        .auth-form-card {
+            padding: 2rem;
+            border-radius: 1.5rem;
+        }
+    }
+
     .animate-in {
-        animation: fade-in-up 0.8s ease-out;
+        animation: fadeInUp 0.8s ease-out forwards;
     }
-    @keyframes fade-in-up {
+    @keyframes fadeInUp {
         from {
             opacity: 0;
-            transform: translateY(2rem);
+            transform: translateY(20px);
         }
         to {
             opacity: 1;
             transform: translateY(0);
         }
-    }
-    .alert {
-        position: relative;
-        z-index: 1;
-        display: flex;
-        align-items: flex-start;
-        gap: 0.75rem;
-        padding: 1rem 1.25rem;
-        margin-bottom: 1.5rem;
-        border-radius: 1rem;
-        border: 1px solid;
-        font-size: 0.95rem;
-        line-height: 1.5;
-    }
-    .alert-success {
-        background: rgba(34, 197, 94, 0.1);
-        border-color: rgba(34, 197, 94, 0.35);
-        color: #15803d;
-    }
-    .alert i {
-        flex-shrink: 0;
-        width: 20px;
-        height: 20px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        color: #38bdf8;
-        animation: bounce-icon 0.3s ease-out;
-    }
-    @keyframes bounce-icon {
-        0%, 100% { transform: translateY(-50%) scale(1); }
-        50% { transform: translateY(-50%) scale(1.2); }
-    }
-    .form-input,
-    .form-select {
-        width: 100%;
-        min-height: 3rem;
-        padding: 1rem 1rem 1rem 3.6rem;
-        color: #00334E;
-        background: #FFFFFF !important;
-        border: 1px solid #A0AEC0 !important;
-        border-radius: 1rem;
-        outline: none;
-        transition: border-color 0.28s ease, box-shadow 0.28s ease, transform 0.28s ease;
-        backdrop-filter: blur(14px);
-        appearance: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-    }
-    .form-input::placeholder,
-    .form-select::placeholder {
-        color: rgba(100, 116, 139, 0.65);
-    }
-    .form-select {
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%2300334E' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
-        background-repeat: no-repeat;
-        background-position: right 1.1rem center;
-        background-size: 1.1rem 1.1rem;
-        padding-right: 3.6rem;
-    }
-    .form-input:focus,
-    .form-select:focus {
-        border-color: #00334E;
-        box-shadow: 0 0 10px rgba(0, 51, 78, 0.15);
-        transform: translateY(-1px);
-    }
-    .btn-primary {
-        width: 100%;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.75rem;
-        padding: 1rem 1.25rem;
-        margin-top: 0.75rem;
-        border-radius: 1rem;
-        background: #00334E;
-        color: #ffffff;
-        border: none;
-        box-shadow: 0 12px 30px rgba(0, 51, 78, 0.25);
-        transition: transform 0.24s ease, box-shadow 0.24s ease, background 0.24s ease;
-        z-index: 1;
-    }
-    .btn-primary:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 16px 40px rgba(0, 51, 78, 0.35);
-        background: #001f35;
-    }
-    .form-error {
-        margin-top: 0.55rem;
-        color: #f97316;
-        font-size: 0.92rem;
     }
 </style>
 @endpush
@@ -340,23 +414,37 @@
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const card = document.querySelector('.auth-card');
-        if (!card) return;
+        // Slider Logic
+        const slides = document.querySelectorAll('.edu-slide');
+        const dots = document.querySelectorAll('.dot');
+        let currentSlide = 0;
 
-        if (window.anime && typeof anime === 'function') {
-            anime({
-                targets: card,
-                opacity: [0, 1],
-                scale: [0.92, 1],
-                duration: 700,
-                easing: 'easeOutElastic(1, .85)'
+        function nextSlide() {
+            slides[currentSlide].classList.remove('active');
+            dots[currentSlide].classList.remove('active');
+            
+            currentSlide = (currentSlide + 1) % slides.length;
+            
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+
+        setInterval(nextSlide, 5000);
+
+        // Input effects
+        const inputs = document.querySelectorAll('.modern-input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.parentElement.classList.add('focused');
             });
-        } else {
-            card.style.opacity = '0';
-            setTimeout(() => {
-                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                card.style.opacity = '1';
-            }, 50);
+            input.addEventListener('blur', () => {
+                input.parentElement.parentElement.classList.remove('focused');
+            });
+        });
+
+        // Initialize Lucide icons
+        if (window.lucide) {
+            lucide.createIcons();
         }
     });
 </script>
