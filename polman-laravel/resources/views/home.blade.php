@@ -563,7 +563,7 @@ use Illuminate\Support\Str;
                             <div class="flow-icon-wrap mx-auto w-24 h-24 rounded-3xl flex items-center justify-center mb-6 relative" style="background-color: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);">
                                 <div class="flow-icon-ring absolute inset-0 rounded-3xl opacity-0" style="border: 2px solid #f59e0b; box-shadow: 0 0 20px rgba(85,136,163,0.4);"></div>
                                 <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-                                <span class="absolute -top-2 -right-2 w-6 h-6 rounded-full text-xs font-black flex items-center justify-center" style="background-color: #FFFFFF; color: #FFFFFF;">1</span>
+                               <span class="absolute -top-2 -right-2 w-6 h-6 rounded-full text-xs font-black flex items-center justify-center" style="background-color: rgba(0,51,78,0.3); color: #FFFFFF; border: 1px solid rgba(85,136,163,0.4);">1</span>
                             </div>
                             <h4 class="font-black text-lg mb-2" style="color: #FFFFFF;">Sarankan Perbaikan</h4>
                             <p class="text-sm leading-relaxed" style="color: rgba(255,255,255,0.6);">Pengusul mengisi formulir temuan K3, 7S, atau 5R lengkap dengan foto dan lokasi kejadian.</p>
