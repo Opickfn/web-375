@@ -19,6 +19,7 @@ return new class extends Migration
             $table->boolean('is_public')->default(true);
             $table->timestamp('expires_at')->nullable();
             $table->string('image_path')->nullable();
+            $table->string('image_source')->default('manual');
             $table->timestamps();
         });
     }

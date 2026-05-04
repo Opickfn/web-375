@@ -19,18 +19,18 @@
 
             <div class="edu-slider">
                 <div class="edu-slide active" data-index="0">
-                    <div class="edu-icon"><i data-lucide="shield-check"></i></div>
+                    <div class="edu-icon flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-lg bg-white/10 mb-4"><i data-lucide="shield-check"></i></div>
                     <h2 class="edu-title">K3 (Keselamatan & Kesehatan Kerja)</h2>
                     <p class="edu-text">Prioritas utama dalam setiap jengkal workshop. Laporkan potensi bahaya sebelum menjadi insiden.</p>
                 </div>
                 <div class="edu-slide" data-index="1">
-                    <div class="edu-icon"><i data-lucide="award"></i></div>
+                    <div class="edu-icon flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-lg bg-white/10 mb-4"><i data-lucide="award"></i></div>
                     <h2 class="edu-title">7S (Seven Waste)</h2>
                     <p class="edu-text">7 pemborosan yang sering terjadi di lingkungan kerja. 
                        <br>Transport, Inventory, Motion, Waiting, Overproduction, <br>Over-processing, Defects
                 </div>
                 <div class="edu-slide" data-index="2">
-                    <div class="edu-icon"><i data-lucide="layout-grid"></i></div>
+                    <div class="edu-icon flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-lg bg-white/10 mb-4"><i data-lucide="layout-grid"></i></div>
                     <h2 class="edu-title">5R Metodologi</h2>
                     <p class="edu-text">Ringkas, Rapi, Resik, Rawat, Rajin. Ciptakan lingkungan kerja yang efisien dan produktif.</p>
                 </div>
@@ -268,6 +268,11 @@
         top: 0;
         left: 0;
         width: 100%;
+        padding: 1.5rem; 
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        height: 100%;
         opacity: 0;
         transform: translateX(20px);
         transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
@@ -294,6 +299,7 @@
         font-size: 1.75rem;
         font-weight: 700;
         color: white;
+        line-height: 1.4;
         margin-bottom: 1rem;
     }
     .edu-text {

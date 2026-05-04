@@ -128,7 +128,7 @@ class ManageWarnings extends Component
 
     public function save(): void
     {
-        $this->validate([
+       $this->validate([
             'formTitle'       => 'required|string|max:255',
             'formDescription' => 'required|string',
             'formSeverity'    => 'required|in:low,medium,high',
@@ -137,37 +137,36 @@ class ManageWarnings extends Component
             'formExpiresAt'   => 'nullable|date|date_format:Y-m-d',
             'formReportId'    => 'nullable|exists:reports,id|required_if:image_source,report',
             'image_source'    => 'required|in:manual,report',
-            'formImage'       => 'nullable|image|max:2048', // 2MB
+            'formImage'       => 'nullable|image|max:2048', 
         ]);
 
-        $imagePath = null;
-        if ($this->image_source === 'manual' && $this->formImage) {
-            $imagePath = $this->formImage->store('warnings', 'public');
+        $data = [
+            'created_by'   => Auth::id(),
+            'title'        => $this->formTitle,
+            'description'  => $this->formDescription,
+            'severity'     => $this->formSeverity,
+            'status'       => $this->formStatus,
+            'is_public'    => $this->formIsPublic,
+            'expires_at'   => $this->formExpiresAt ? now()->parse($this->formExpiresAt) : null,
+            'image_source' => $this->image_source,
+            'is_default'   => $this->formIsDefault,
+        ];
+
+        if ($this->image_source === 'manual') {
+            $data['report_id'] = null;
+            // Hanya update image_path jika ada file baru yang diupload[cite: 2]
+            if ($this->formImage) {
+                $data['image_path'] = $this->formImage->store('warnings', 'public');
+            }
+        } else {
+            $data['report_id'] = $this->formReportId;
+            $data['image_path'] = null; 
         }
 
-        $isEdit = (bool) $this->editingId;
-
-        Warning::updateOrCreate(
-            ['id' => $this->editingId],
-            [
-                'created_by'  => Auth::id(),
-                'title'       => $this->formTitle,
-                'description' => $this->formDescription,
-                'severity'    => $this->formSeverity,
-                'status'      => $this->formStatus,
-                'is_public'   => $this->formIsPublic,
-                'expires_at'  => $this->formExpiresAt ? now()->parse($this->formExpiresAt) : null,
-                'report_id'   => $this->formReportId,
-                'image_source' => $this->image_source,
-                'image_path' => $imagePath,
-
-                // If this warning is marked as default, we need to unset the default flag from all other warnings
-                'is_default' => $this->formIsDefault,
-            ]
-        );
+        Warning::updateOrCreate(['id' => $this->editingId], $data);
 
         $this->closeForm();
-        $this->message     = $isEdit ? 'Peringatan berhasil diperbarui.' : 'Peringatan berhasil ditambahkan.';
+        $this->message = $this->editingId ? 'Peringatan diperbarui.' : 'Peringatan ditambahkan.';
         $this->messageType = 'success';
     }
 

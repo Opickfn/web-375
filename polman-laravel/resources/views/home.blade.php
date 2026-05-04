@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 
 @section('content')
 <div id="landing-root" class="min-h-screen text-slate-100 m-0 p-0" style="background-color: #00263a; color: #FFFFFF;">
-    <nav id="landingNav" class="fixed top-0 left-0 right-0 z-50 w-full backdrop-blur-md transition-all duration-300" style="background-color: rgba(0,51,78,0.95); border-bottom: 1px solid rgba(255,255,255,0.1);">
+    <nav id="landingNav" class="fixed top-0 left-0 right-0 z-50 w-full backdrop-blur-md transition-transform duration-300" style="background-color: rgba(0,51,78,0.95); border-bottom: 1px solid rgba(255,255,255,0.1);">
         <div class="max-w-screen-xl mx-auto px-6 h-20 flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <img src="{{ asset('images/polman.png') }}" alt="Logo POLMAN" class="h-10 w-auto bg-white/10 rounded-md p-1">
@@ -30,90 +30,98 @@ use Illuminate\Support\Str;
 
     <main>
         {{-- HERO 1 (Full-Width Slideable) --}}
-        <section id="hero1" class="relative w-full min-h-screen flex items-center justify-center overflow-hidden">
-            <!-- Full Width Slider Backgrounds -->
-            <div id="hero-slider-bg" class="absolute inset-0 z-0 w-full h-full min-h-[600px]">
-                <!-- Slide 0 (Static/Default) -->
-                <div class="hero-slide active absolute inset-0 w-full h-full transition-all duration-1000 ease-in-out">
-                    <img src="{{ asset('images/polman.png') }}" alt="Background Default" class="w-full h-full object-cover opacity-100">
-                    <div class="absolute inset-0 bg-[#00334E]/50 backdrop-blur-[2px]"></div>
-                </div>
+        <section id="hero1" class="relative w-full min-h-screen flex items-center overflow-hidden pt-20" style="background-color: #00263a;">
+            <div class="relative z-10 w-full max-w-screen-xl mx-auto px-6 grid lg:grid-cols-2 gap-0 items-stretch min-h-[600px]">
                 
-                <!-- Slide 1+ (Dynamic Warnings) -->
-                @foreach($activeWarnings as $index => $warning)
-                <div class="hero-slide absolute inset-0 w-full h-full transition-all duration-1000 ease-in-out opacity-0 translate-x-full">
-                    <img src="{{ $warning->image_url }}" alt="{{ $warning->title }}" class="w-full h-full object-cover opacity-100">
-                    <div class="absolute inset-0 bg-[#00334E]/50 backdrop-blur-[2px]"></div>
-                </div>
-                @endforeach
-            </div>
+                <!-- SISI KIRI: Penjelasan WEB (Statis) -->
+                <div class="flex flex-col justify-center space-y-8 py-12 lg:pr-12 pm-fade-in-up">
+                    <div class="space-y-4">
+                        <p class="text-sm md:text-base uppercase tracking-[0.35em] font-semibold text-[#10b981]">Platform Improvement Terintegrasi</p>
+                        <h1 class="text-5xl md:text-6xl font-black leading-tight text-white">
+                            Sistem Pelaporan <br>
+                            <span class="text-[#f59e0b]">K3, 7S, & 5R</span>
+                        </h1>
+                        <p class="max-w-md text-lg leading-relaxed text-slate-300">
+                            Wadah aspirasi civitas POLMAN Bandung untuk menciptakan lingkungan kampus yang aman, rapi, dan produktif melalui pelaporan real-time.
+                        </p>
+                    </div>
 
-            <!-- Content Overlay -->
-            <div class="relative z-10 w-full max-w-screen-xl mx-auto px-6 pt-32 pb-24 grid lg:grid-cols-12 gap-10 items-center">
-                
-                <div class="lg:col-span-8 space-y-8 pm-fade-in-up">
-                    <p class="text-sm md:text-base uppercase tracking-[0.35em] font-semibold text-[#10b981]">Platform Improvement Terintegrasi</p>
-                    
-                    <!-- Dynamic Text Container -->
-                    <div id="hero-text-container" class="space-y-6">
-                        <!-- Slide 0 Text (Default) -->
-                        <div class="hero-text-item active space-y-6 transition-all duration-500">
-                            <h1 class="text-5xl md:text-6xl lg:text-7xl font-black leading-tight tracking-tight font-sans text-white drop-shadow-xl">
-                                Sistem Improvement <span class="text-[#10b981]">K3,</span> <span class="text-[#f59e0b]">7S,</span> <span class="text-white">dan</span> <span class="text-[#10b981]">5R</span>
-                            </h1>
-                            <p class="max-w-2xl text-lg md:text-xl leading-relaxed text-[#f8fafc] drop-shadow">
-                                Suarakan temuan lapangan dengan mudah, pantau tindak lanjut, dan bangun budaya keselamatan kampus.
-                            </p>
+                    <div class="flex flex-wrap gap-4 pt-4">
+                        <a href="{{ route('register') }}" class="rounded-[12px] px-8 py-4 text-sm font-black uppercase tracking-widest transition-all bg-[#f59e0b] text-white hover:bg-[#d97706] shadow-lg shadow-amber-500/20">
+                            Mulai Lapor
+                        </a>
+                        <a href="/create/publik/reports" class="rounded-[12px] px-8 py-4 text-sm font-semibold uppercase tracking-widest transition-all border border-white/20 text-white hover:bg-white/10 backdrop-blur-sm">
+                            Publik Report
+                        </a>
+                    </div>
+                </div>
+
+                <!-- SISI KANAN: Slider Peringatan (Dynamic) -->
+                <div class="relative rounded-[32px] overflow-hidden shadow-2xl lg:my-12 group pm-fade-in-up" style="animation-delay: 0.2s;">
+                    <div id="hero-slider-bg" class="absolute inset-0 w-full h-full">
+                        <!-- Slide 0 (Default) -->
+                        <div class="hero-slide active absolute inset-0 w-full h-full transition-all duration-1000 ease-in-out">
+                            <img src="{{ asset('images/majalengka.jpg') }}" class="w-full h-full object-cover brightness-110 contrast-105">
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#00263a] via-transparent to-transparent opacity-60"></div>
                         </div>
-
-                        <!-- Slide 1+ Texts -->
+                        
+                        <!-- Slide Dynamic -->
+                        <!-- Bagian Slide Dynamic -->
                         @foreach($activeWarnings as $index => $warning)
-                        <div class="hero-text-item hidden opacity-0 space-y-6 transition-all duration-500 absolute top-0 left-0">
-                            <div class="inline-block px-4 py-1.5 rounded-full text-xs font-bold tracking-widest text-white uppercase bg-[#ef4444] shadow-[0_0_15px_rgba(239,68,68,0.5)]">
-                                {{ strtoupper($warning->severity_label ?? 'PERINGATAN UMUM') }}
-                            </div>
-                            <h1 class="text-4xl md:text-5xl lg:text-6xl font-black leading-tight tracking-tight font-sans text-white drop-shadow-xl">
-                                {{ $warning->title }}
-                            </h1>
-                            <p class="max-w-2xl text-lg md:text-xl leading-relaxed text-[#f8fafc] drop-shadow">
-                                {{ Str::limit($warning->description, 180) }}
-                            </p>
+                        <div class="hero-slide absolute inset-0 w-full h-full transition-all duration-1000 ease-in-out" 
+                            style="opacity: 0; z-index: 0; transform: translateX(100%);"> 
+                            <img src="{{ $warning->image_url }}" class="w-full h-full object-cover brightness-110 contrast-105">
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#00263a] via-[#00263a]/20 to-transparent"></div>
                         </div>
                         @endforeach
                     </div>
 
-                    <div class="flex flex-wrap gap-4 pt-8 relative z-20">
-                        <a href="{{ route('register') }}" class="btn-hero rounded-[12px] px-8 py-4 text-sm font-black uppercase tracking-[0.18em] transition-all bg-[#f59e0b] text-white hover:bg-[#d97706] shadow-[0_8px_24px_rgba(245,158,11,0.4)]">Mulai Dari Sini</a>
-                        <a href="/create/publik/reports" class="btn-hero rounded-[12px] px-8 py-4 text-sm font-semibold uppercase tracking-[0.18em] transition-all border border-white/50 text-white hover:bg-white hover:text-[#00334E] backdrop-blur-sm">Kontribusi Tanpa Login</a>
-                    </div>
-                </div>
-
-                <div class="lg:col-span-4 flex justify-end h-full items-end lg:items-center pm-fade-in-up" style="animation-delay: 0.2s;">
-                    <div class="backdrop-blur-xl bg-white/10 border border-white/20 p-6 rounded-[24px] w-full max-w-sm shadow-[0_20px_60px_rgba(0,0,0,0.3)] relative overflow-hidden">
-                        <div class="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
-                        <div class="relative z-10">
-                            <div class="flex items-center justify-between mb-6">
-                                <span class="text-xs font-bold tracking-widest text-white/70 uppercase">Navigasi Slider</span>
-                                <div class="text-sm font-bold text-white"><span id="hero-current-slide">1</span> / <span id="hero-total-slides">{{ $activeWarnings->count() + 1 }}</span></div>
+                    <!-- Slider Content Overlay (Pindah ke dalam box kanan) -->
+                    <div class="absolute inset-0 z-20 p-8 flex flex-col justify-end">
+                        <!-- Container Teks Utama -->
+                        <div id="hero-text-container" class="relative min-h-[100px] flex flex-col justify-end">
+                            
+                            <!-- Slide 0 Text (Default) -->
+                            <div class="hero-text-item active transition-all duration-500 ease-in-out">
+                                <span class="text-xs font-bold text-white/80 uppercase tracking-widest">Informasi Kampus</span>
+                                <h2 class="text-2xl font-bold text-white mt-1">Kampus 2 POLMAN MAJALENGKA</h2>
                             </div>
-                            <div class="flex gap-3 mb-6" id="hero-indicators">
-                                <div class="h-1.5 flex-1 bg-white rounded-full transition-all slider-indicator active"></div>
-                                @foreach($activeWarnings as $warning)
-                                <div class="h-1.5 flex-1 bg-white/30 rounded-full transition-all slider-indicator"></div>
-                                @endforeach
+
+                            <!-- Slide Dynamic -->
+                            @foreach($activeWarnings as $index => $warning)
+                            <div class="hero-text-item hidden opacity-0 transition-all duration-500 ease-in-out absolute bottom-0 left-0 w-full">
+                                <div class="inline-block px-3 py-1 rounded-md text-[10px] font-bold text-white uppercase bg-red-600 mb-2">
+                                    {{ $warning->severity_label ?? 'PERINGATAN' }}
+                                </div>
+                                <h2 class="text-2xl font-bold text-white leading-tight">{{ $warning->title }}</h2>
+                                <p class="text-white/80 text-sm mt-2 line-clamp-2">
+                                    {{ $warning->description ?? 'Tidak ada deskripsi tersedia.' }}
+                                </p>
+                            </div>
+                            @endforeach
+                        </div>
+
+                        <!-- Navigation Controls (Garis & Tombol) -->
+                        <div class="flex items-center justify-between mt-6 pt-4 border-t border-white/10">
+                            <div class="flex gap-2" id="hero-indicators">
+                                <div class="h-1 w-8 bg-[#f59e0b] rounded-full transition-all slider-indicator active"></div>
+                               <div class="flex gap-2" id="hero-indicators">
+                                    @foreach($activeWarnings as $index => $warning)
+                                        <div class="slider-indicator h-1 rounded-full cursor-pointer"></div>
+                                    @endforeach
+                                </div>
                             </div>
                             <div class="flex gap-3">
-                                <button id="hero-prev" class="flex-1 h-12 rounded-[12px] flex items-center justify-center bg-white/10 hover:bg-white/20 border border-white/20 text-white transition-all btn-hero">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                                <button id="hero-prev" class="w-10 h-10 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20 text-white transition-all backdrop-blur-md">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
                                 </button>
-                                <button id="hero-next" class="flex-1 h-12 rounded-[12px] flex items-center justify-center bg-white/10 hover:bg-white/20 border border-white/20 text-white transition-all btn-hero">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                                <button id="hero-next" class="w-10 h-10 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20 text-white transition-all backdrop-blur-md">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
         </section>
 
@@ -221,43 +229,76 @@ use Illuminate\Support\Str;
                             </div>
                         </div>
                         <div class="lg:col-span-7">
-                            <p class="text-xs uppercase tracking-widest mb-6" style="color: rgba(255,255,255,0.45);">Contoh Kasus yang perlu improvement</p>
-                            <div class="grid sm:grid-cols-2 gap-4">
-                                <div class="h3-case-card p-5 rounded-2xl" style="background-color: rgba(255,255,255,0.05); border: 1px solid rgba(74,222,128,0.2);">
-                                    <div class="flex items-start gap-3">
-                                        <span class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color: #4ade80;"></span>
-                                        <div>
-                                            <p class="font-semibold text-sm mb-1" style="color: #FFFFFF;">APD Tidak Tersedia / Rusak</p>
-                                            <p class="text-sm" style="color: rgba(255,255,255,0.6);">Helm, sarung tangan, kacamata pelindung, atau sepatu safety yang hilang, rusak, atau tidak sesuai standar di area kerja.</p>
+                            <p class="text-xs uppercase tracking-widest mb-6" style="color: rgba(255,255,255,0.45);">Contoh Kasus yang perlu Improvement</p>
+                            
+                            {{-- Case Slider Container --}}
+                            <div class="relative overflow-hidden group h3-case-slider" data-panel="k3">
+                                <div class="flex transition-transform duration-500 ease-out h3-slider-track">
+                                    
+                                    {{-- Contoh Item Slider (Ulangi untuk setiap kasus) --}}
+                                    <div class="w-full flex-shrink-0 px-2">
+                                        <div class="h-full rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-sm">
+                                            <img src="images/k3/case-1.jpg" alt="Kasus K3" class="w-full h-[375px] object-cover">
+                                            <div class="p-5">
+                                                <div class="flex items-center gap-2 mb-2">
+                                                    <span class="w-2 h-2 rounded-full bg-green-400"></span>
+                                                    <h4 class="font-bold text-white text-sm">Jalur Evakuasi Terhalang</h4>
+                                                </div>
+                                                <p class="text-xs text-white/60 leading-relaxed">Pintu evakuasi terhalang oleh box sehingga menghalangi jalur evakuasi di kondisi darurat.</p>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="w-full flex-shrink-0 px-2">
+                                        <div class="h-full rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-sm">
+                                            <img src="images/k3/case-2.jpg" alt="Kasus K3" class="w-full h-[375px] object-cover">
+                                            <div class="p-5">
+                                                <div class="flex items-center gap-2 mb-2">
+                                                    <span class="w-2 h-2 rounded-full bg-green-400"></span>
+                                                    <h4 class="font-bold text-white text-sm">APD Tidak Lengkap</h4>
+                                                </div>
+                                                <p class="text-xs text-white/60 leading-relaxed">Kacamata safety tidak digunakan saat menggunakan mesin bor.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="w-full flex-shrink-0 px-2">
+                                        <div class="h-full rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-sm">
+                                            <img src="images/k3/case-3.jpg" alt="Kasus K3" class="w-full h-[375px] object-cover">
+                                            <div class="p-5">
+                                                <div class="flex items-center gap-2 mb-2">
+                                                    <span class="w-2 h-2 rounded-full bg-green-400"></span>
+                                                    <h4 class="font-bold text-white text-sm">Kabel Terkelupas</h4>
+                                                </div>
+                                                <p class="text-xs text-white/60 leading-relaxed">Adanya kabel instalasi stop kontak di kelas yang terkelupas dan dibiarkan terbuka, berisiko menyebabkan sengatan listrik (setrum) bagi mahasiswa yang menggunakan laptop.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="w-full flex-shrink-0 px-2">
+                                        <div class="h-full rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-sm">
+                                            <img src="images/k3/case-4.jpg" alt="Kasus K3" class="w-full h-[375px] object-cover">
+                                            <div class="p-5">
+                                                <div class="flex items-center gap-2 mb-2">
+                                                    <span class="w-2 h-2 rounded-full bg-green-400"></span>
+                                                    <h4 class="font-bold text-white text-sm">Lantai Licin</h4>
+                                                </div>
+                                                <p class="text-xs text-white/60 leading-relaxed">Area lantai di area bengkel ditemukan licin karena terdapat genangan air dan oli.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{-- Tambahkan item lainnya di sini... --}}
+                                    
                                 </div>
-                                <div class="h3-case-card p-5 rounded-2xl" style="background-color: rgba(255,255,255,0.05); border: 1px solid rgba(74,222,128,0.2);">
-                                    <div class="flex items-start gap-3">
-                                        <span class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color: #4ade80;"></span>
-                                        <div>
-                                            <p class="font-semibold text-sm mb-1" style="color: #FFFFFF;">Mesin / Peralatan Berbahaya</p>
-                                            <p class="text-sm" style="color: rgba(255,255,255,0.6);">Guard pengaman mesin yang terlepas, kabel listrik terbuka, atau peralatan dengan kondisi tidak layak pakai.</p>
-                                        </div>
-                                    </div>
+
+                                {{-- Slider Navigation --}}
+                                <div class="absolute inset-y-0 left-0 flex items-center z-20">
+                                    <button class="h3-case-prev -translate-x-full group-hover:translate-x-2 transition-all p-2 rounded-full bg-black/50 text-white hover:bg-black/80">
+                                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+                                    </button>
                                 </div>
-                                <div class="h3-case-card p-5 rounded-2xl" style="background-color: rgba(255,255,255,0.05); border: 1px solid rgba(74,222,128,0.2);">
-                                    <div class="flex items-start gap-3">
-                                        <span class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color: #4ade80;"></span>
-                                        <div>
-                                            <p class="font-semibold text-sm mb-1" style="color: #FFFFFF;">Potensi Kebakaran / APAR Kadaluarsa</p>
-                                            <p class="text-sm" style="color: rgba(255,255,255,0.6);">Bahan mudah terbakar tidak tersimpan dengan benar, APAR kosong atau kadaluarsa, jalur evakuasi terhalang.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="h3-case-card p-5 rounded-2xl" style="background-color: rgba(255,255,255,0.05); border: 1px solid rgba(74,222,128,0.2);">
-                                    <div class="flex items-start gap-3">
-                                        <span class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color: #4ade80;"></span>
-                                        <div>
-                                            <p class="font-semibold text-sm mb-1" style="color: #FFFFFF;">Near Miss / Hampir Celaka</p>
-                                            <p class="text-sm" style="color: rgba(255,255,255,0.6);">Kejadian yang hampir menyebabkan kecelakaan namun tidak menimbulkan cedera — sangat penting untuk dicatat dan dicegah.</p>
-                                        </div>
-                                    </div>
+                                <div class="absolute inset-y-0 right-0 flex items-center z-20">
+                                    <button class="h3-case-next translate-x-full group-hover:-translate-x-2 transition-all p-2 rounded-full bg-black/50 text-white hover:bg-black/80">
+                                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l6 6-6 6"/></svg>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -278,7 +319,7 @@ use Illuminate\Support\Str;
                             <p class="text-base leading-relaxed" style="color: rgba(255,255,255,0.8);">
                                 5R adalah metodologi manajemen tempat kerja yang bertujuan menciptakan lingkungan yang terorganisir, bersih, dan efisien. Diterapkan secara konsisten, 5R meningkatkan produktivitas dan keselamatan secara bersamaan.
                             </p>
-                            <div class="grid grid-cols-2 gap-2 pt-2">
+                            <div class="grid grid-cols-1 gap-2 pt-2">
                                 @foreach([['Ringkas/Seiri (整理) ','Memilah barang yang diperlukan dan tidak diperlukan, lalu membuang atau memindahkan barang yang tidak perlu.'],
                                 ['Rapi/Seiton (整頓)','Mengatur dan menata barang yang diperlukan agar mudah ditemukan, digunakan, dan dikembalikan ke tempatnya.'],
                                 ['Resik/Seiso (清掃)','Membersihkan lingkungan kerja dari kotoran dan debu, serta merawat peralatan agar tidak rusak.'],
@@ -296,42 +337,86 @@ use Illuminate\Support\Str;
                         </div>
                         <div class="lg:col-span-7">
                             <p class="text-xs uppercase tracking-widest mb-6" style="color: rgba(255,255,255,0.45);">Contoh Kasus yang perlu Improvement</p>
-                            <div class="grid sm:grid-cols-2 gap-4">
-                                <div class="h3-case-card p-5 rounded-2xl" style="background-color: rgba(255,255,255,0.05); border: 1px solid rgba(248,113,113,0.2);">
-                                    <div class="flex items-start gap-3">
-                                        <span class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color: #f87171;"></span>
-                                        <div>
-                                            <p class="font-semibold text-sm mb-1" style="color: #FFFFFF;">SOP Tidak Diikuti</p>
-                                            <p class="text-sm" style="color: rgba(255,255,255,0.6);">Prosedur operasional standar yang ada di papan informasi diabaikan atau tidak diperbarui sesuai kondisi terkini.</p>
+                            
+                            {{-- Case Slider Container --}}
+                            <div class="relative overflow-hidden group h3-case-slider" data-panel="7s">
+                                <div class="flex transition-transform duration-500 ease-out h3-slider-track">
+                                    
+                                    {{-- Contoh Item Slider (Ulangi untuk setiap kasus) --}}
+                                    <div class="w-full flex-shrink-0 px-2">
+                                        <div class="h-full rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-sm">
+                                            <img src="images/5r/case-1.jpg" alt="Kasus 5R" class="w-full h-[375px] object-cover">
+                                            <div class="p-5">
+                                                <div class="flex items-center gap-2 mb-2">
+                                                    <span class="w-2 h-2 rounded-full bg-red-400"></span>
+                                                    <h4 class="font-bold text-white text-sm">Pelanggaran Ringkas (Seiri)</h4>
+                                                </div>
+                                                <p class="text-xs text-white/60 leading-relaxed">Gudang organisasi mahasiswa (UKM) yang penuh sesampahan logistik acara dari 3 tahun lalu yang sudah rusak, namun tidak pernah dibuang sehingga menjadi sarang tikus.</p>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="w-full flex-shrink-0 px-2">
+                                        <div class="h-full rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-sm">
+                                            <img src="images/5r/case-2.jpg" alt="Kasus 5R" class="w-full h-[375px] object-cover">
+                                            <div class="p-5">
+                                                <div class="flex items-center gap-2 mb-2">
+                                                    <span class="w-2 h-2 rounded-full bg-red-400"></span>
+                                                    <h4 class="font-bold text-white text-sm">Pelanggaran Rapi (Seiton)</h4>
+                                                </div>
+                                                <p class="text-xs text-white/60 leading-relaxed">Alur sirkulasi dan penempatan alat di area kerja semrawut</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="w-full flex-shrink-0 px-2">
+                                        <div class="h-full rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-sm">
+                                            <img src="images/5r/case-3.jpg" alt="Kasus 5R" class="w-full h-[375px] object-cover">
+                                            <div class="p-5">
+                                                <div class="flex items-center gap-2 mb-2">
+                                                    <span class="w-2 h-2 rounded-full bg-red-400"></span>
+                                                    <h4 class="font-bold text-white text-sm">Pelanggaran Resik (Seiso)</h4>
+                                                </div>
+                                                <p class="text-xs text-white/60 leading-relaxed">Kondisi kantin kampus yang kotor dengan sisa makanan yang dibiarkan di meja berjam-jam karena kurangnya tempat sampah dan budaya bersih.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="w-full flex-shrink-0 px-2">
+                                        <div class="h-full rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-sm">
+                                            <img src="images/5r/case-4.jpg" alt="Kasus 5R" class="w-full h-[375px] object-cover">
+                                            <div class="p-5">
+                                                <div class="flex items-center gap-2 mb-2">
+                                                    <span class="w-2 h-2 rounded-full bg-red-400"></span>
+                                                    <h4 class="font-bold text-white text-sm">Pelanggaran Rawat (Seiketsu)</h4>
+                                                </div>
+                                                <p class="text-xs text-white/60 leading-relaxed">Papan tulis (whiteboard) di ruang kelas yang sudah kusam dan sulit dihapus, namun tidak pernah diganti, sehingga mengganggu visualisasi materi kuliah.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="w-full flex-shrink-0 px-2">
+                                        <div class="h-full rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-sm">
+                                            <img src="images/5r/case-5.jpg" alt="Kasus 5R" class="w-full h-[375px] object-cover">
+                                            <div class="p-5">
+                                                <div class="flex items-center gap-2 mb-2">
+                                                    <span class="w-2 h-2 rounded-full bg-red-400"></span>
+                                                    <h4 class="font-bold text-white text-sm">Pelanggaran Rajin (Shitsuke)</h4>
+                                                </div>
+                                                <p class="text-xs text-white/60 leading-relaxed">Setelah kelas berakhir, kursi-kursi dibiarkan berantakan tidak dirapatkan kembali ke meja. Di laboratorium, alat-alat praktikum dibiarkan di atas meja kerja dan tidak dikembalikan ke lemari penyimpanan semula.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{-- Tambahkan item lainnya di sini... --}}
+                                    
                                 </div>
-                                <div class="h3-case-card p-5 rounded-2xl" style="background-color: rgba(255,255,255,0.05); border: 1px solid rgba(248,113,113,0.2);">
-                                    <div class="flex items-start gap-3">
-                                        <span class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color: #f87171;"></span>
-                                        <div>
-                                            <p class="font-semibold text-sm mb-1" style="color: #FFFFFF;">Visual Management Buruk</p>
-                                            <p class="text-sm" style="color: rgba(255,255,255,0.6);">Marka lantai aus, papan informasi kosong, atau rambu peringatan yang tidak terbaca di area produksi.</p>
-                                        </div>
-                                    </div>
+
+                                {{-- Slider Navigation --}}
+                                <div class="absolute inset-y-0 left-0 flex items-center">
+                                    <button class="h3-case-prev -translate-x-full group-hover:translate-x-2 transition-all p-2 rounded-full bg-black/50 text-white hover:bg-black/80">
+                                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+                                    </button>
                                 </div>
-                                <div class="h3-case-card p-5 rounded-2xl" style="background-color: rgba(255,255,255,0.05); border: 1px solid rgba(248,113,113,0.2);">
-                                    <div class="flex items-start gap-3">
-                                        <span class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color: #f87171;"></span>
-                                        <div>
-                                            <p class="font-semibold text-sm mb-1" style="color: #FFFFFF;">Audit 7S Terlewat</p>
-                                            <p class="text-sm" style="color: rgba(255,255,255,0.6);">Jadwal audit rutin tidak terlaksana atau hasil audit tidak ditindaklanjuti dalam waktu yang ditetapkan.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="h3-case-card p-5 rounded-2xl" style="background-color: rgba(255,255,255,0.05); border: 1px solid rgba(248,113,113,0.2);">
-                                    <div class="flex items-start gap-3">
-                                        <span class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color: #f87171;"></span>
-                                        <div>
-                                            <p class="font-semibold text-sm mb-1" style="color: #FFFFFF;">Lingkungan Kerja Tidak Kondusif</p>
-                                            <p class="text-sm" style="color: rgba(255,255,255,0.6);">Pencahayaan tidak memadai, ventilasi buruk, atau kondisi yang menurunkan semangat dan fokus kerja.</p>
-                                        </div>
-                                    </div>
+                                <div class="absolute inset-y-0 right-0 flex items-center">
+                                    <button class="h3-case-next translate-x-full group-hover:-translate-x-2 transition-all p-2 rounded-full bg-black/50 text-white hover:bg-black/80">
+                                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l6 6-6 6"/></svg>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -352,11 +437,11 @@ use Illuminate\Support\Str;
                             <p class="text-base leading-relaxed" style="color: rgba(255,255,255,0.8);">
                                 7S adalah Seven Waste yaitu 7 pemborosan yang sering terjadi di lingkungan kerja Polman, dan dapat memengaruhi efisiensi, produktivitas, dan kepuasan kerja.
                             </p>
-                            <div class="grid grid-cols-1 gap-2 pt-2">
+                            <div class="grid grid-cols-2 gap-2 pt-2">
                                 @foreach([['1','Transportasi','Memindahkan barang dari satu tempat ke tempat lain.'],
-                                ['2','Persediaan','Menyimpan barang yang tidak diperlukan.'],
+                                ['2','Inventaris','Menyimpan barang yang tidak diperlukan.'],
                                 ['3','Gerakan','Gerakan yang tidak perlu dalam melakukan pekerjaan.'],
-                                ['4','Penantian','Waktu yang terbuang karena menunggu proses lain.'],
+                                ['4','Menunggu','Waktu yang terbuang karena menunggu proses lain.'],
                                 ['5','Produksi Berlebih','Memproduksi barang lebih banyak dari yang diperlukan.'],
                                 ['6','Proses Berlebih','Melakukan proses yang tidak perlu.'],
                                 ['7','Cacat','Kerusakan pada produk.']] as $i => $r)
@@ -372,42 +457,75 @@ use Illuminate\Support\Str;
                         </div>
                         <div class="lg:col-span-7">
                             <p class="text-xs uppercase tracking-widest mb-6" style="color: rgba(255,255,255,0.45);">Contoh Kasus yang perlu Improvement</p>
-                            <div class="grid sm:grid-cols-2 gap-4">
-                                <div class="h3-case-card p-5 rounded-2xl" style="background-color: rgba(255,255,255,0.05); border: 1px solid rgba(0,191,255,0.25);">
-                                    <div class="flex items-start gap-3">
-                                        <span class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color: #00BFFF;"></span>
-                                        <div>
-                                            <p class="font-semibold text-sm mb-1" style="color: #FFFFFF;">Penumpukan Bahan Baku Besi dan Logam di Lab Pengecoran</p>
-                                            <p class="text-sm" style="color: rgba(255,255,255,0.6);">Di laboratorium atau bengkel pengecoran logam, terdapat tumpukan balok besi cor dan pasir cetak yang tidak teratur, sehingga memakan tempat dan menyulitkan mobilitas.</p>
+                            
+                            {{-- Case Slider Container --}}
+                            <div class="relative overflow-hidden group h3-case-slider" data-panel="5r">
+                                <div class="flex transition-transform duration-500 ease-out h3-slider-track">
+                                    
+                                    {{-- Contoh Item Slider (Ulangi untuk setiap kasus) --}}
+                                    <div class="w-full flex-shrink-0 px-2">
+                                        <div class="h-full rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-sm">
+                                            <img src="images/7s/case-1.jpg" alt="Kasus 7S" class="w-full h-[375px] object-cover">
+                                            <div class="p-5">
+                                                <div class="flex items-center gap-2 mb-2">
+                                                    <span class="w-2 h-2 rounded-full bg-blue-400"></span>
+                                                    <h4 class="font-bold text-white text-sm">Waste of Waiting (Menunggu):</h4>
+                                                </div>
+                                                <p class="text-xs text-white/60 leading-relaxed">Keluhan mahasiswa terkait ketidakpastian jadwal dosen pembimbing yang menyebabkan mahasiswa menunggu berjam-jam di depan ruang dosen tanpa hasil.</p>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="w-full flex-shrink-0 px-2">
+                                        <div class="h-full rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-sm">
+                                            <img src="images/7s/case-2.jpg" alt="Kasus 7S" class="w-full h-[375px] object-cover">
+                                            <div class="p-5">
+                                                <div class="flex items-center gap-2 mb-2">
+                                                    <span class="w-2 h-2 rounded-full bg-blue-400"></span>
+                                                    <h4 class="font-bold text-white text-sm">Waste of Overprocessing</h4>
+                                                </div>
+                                                <p class="text-xs text-white/60 leading-relaxed">Printer 3D memproduksi barang yang tidak sesuai dengan pesanan.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="w-full flex-shrink-0 px-2">
+                                        <div class="h-full rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-sm">
+                                            <img src="images/7s/case-3.jpg" alt="Kasus 7S" class="w-full h-[375px] object-cover">
+                                            <div class="p-5">
+                                                <div class="flex items-center gap-2 mb-2">
+                                                    <span class="w-2 h-2 rounded-full bg-blue-400"></span>
+                                                    <h4 class="font-bold text-white text-sm">Waste of Motion</h4>
+                                                </div>
+                                                <p class="text-xs text-white/60 leading-relaxed">Penempatan printer utama administrasi yang jauh dari meja staf, sehingga staf harus berjalan bolak-balik setiap kali mencetak dokumen, yang mengurangi produktivitas.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="w-full flex-shrink-0 px-2">
+                                        <div class="h-full rounded-2xl overflow-hidden border border-white/10 bg-white/5 backdrop-blur-sm">
+                                            <img src="images/7s/case-4.jpg" alt="Kasus 7S" class="w-full h-[375px] object-cover">
+                                            <div class="p-5">
+                                                <div class="flex items-center gap-2 mb-2">
+                                                    <span class="w-2 h-2 rounded-full bg-blue-400"></span>
+                                                    <h4 class="font-bold text-white text-sm">Waste of Defect</h4>
+                                                </div>
+                                                <p class="text-xs text-white/60 leading-relaxed">Nama mahasiswa atau gelar yang tercetak di ijazah salah ketik (typo) karena tidak adanya verifikasi data final yang akurat.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{-- Tambahkan item lainnya di sini... --}}
+                                    
                                 </div>
-                                <div class="h3-case-card p-5 rounded-2xl" style="background-color: rgba(255,255,255,0.05); border: 1px solid rgba(0,191,255,0.25);">
-                                    <div class="flex items-start gap-3">
-                                        <span class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color: #00BFFF;"></span>
-                                        <div>
-                                            <p class="font-semibold text-sm mb-1" style="color: #FFFFFF;">Antrean Penggunaan Mesin CNC di Bengkel Kampus</p>
-                                            <p class="text-sm" style="color: rgba(255,255,255,0.6);">Mahasiswa sering mengantre sangat lama untuk menggunakan mesin CNC (Computer Numerical Control) saat mengerjakan tugas praktik pemesinan. Akibatnya, jam praktik selesai tidak tepat waktu.</p>
-                                        </div>
-                                    </div>
+
+                                {{-- Slider Navigation --}}
+                                <div class="absolute inset-y-0 left-0 flex items-center">
+                                    <button class="h3-case-prev -translate-x-full group-hover:translate-x-2 transition-all p-2 rounded-full bg-black/50 text-white hover:bg-black/80">
+                                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+                                    </button>
                                 </div>
-                                <div class="h3-case-card p-5 rounded-2xl" style="background-color: rgba(255,255,255,0.05); border: 1px solid rgba(0,191,255,0.25);">
-                                    <div class="flex items-start gap-3">
-                                        <span class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color: #00BFFF;"></span>
-                                        <div>
-                                            <p class="font-semibold text-sm mb-1" style="color: #FFFFFF;"> Tingginya Kerusakan Pahat Potong pada Praktik Bubut</p>
-                                            <p class="text-sm" style="color: rgba(255,255,255,0.6);">Banyak mahasiswa baru yang mematahkan pahat potong atau merusak benda kerja saat melakukan praktik bubut manual karena kesalahan parameter kecepatan atau kedalaman potong.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="h3-case-card p-5 rounded-2xl" style="background-color: rgba(255,255,255,0.05); border: 1px solid rgba(0,191,255,0.25);">
-                                    <div class="flex items-start gap-3">
-                                        <span class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color: #00BFFF;"></span>
-                                        <div>
-                                            <p class="font-semibold text-sm mb-1" style="color: #FFFFFF;">Jarak Pemindahan Cetakan yang Jauh di Lab Perancangan</p>
-                                            <p class="text-sm" style="color: rgba(255,255,255,0.6);">Dalam proses pembuatan mould (cetakan plastik) atau dies (cetakan logam), mahasiswa harus bolak-balik berjalan jauh membawa material dari gudang penyimpanan menuju mesin ukur koordinat (CMM), lalu ke mesin pengerjaan.</p>
-                                        </div>
-                                    </div>
+                                <div class="absolute inset-y-0 right-0 flex items-center">
+                                    <button class="h3-case-next translate-x-full group-hover:-translate-x-2 transition-all p-2 rounded-full bg-black/50 text-white hover:bg-black/80">
+                                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l6 6-6 6"/></svg>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -760,40 +878,101 @@ use Illuminate\Support\Str;
         const totalSlides = slides.length;
         let slideInterval;
 
+        const landingNav = document.getElementById('landingNav');
+        let lastScrollTop = 0;
+        let scrollTimeout;
+
+        window.addEventListener('scroll', function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+            // Sembunyikan jika scroll ke bawah, munculkan jika scroll ke atas
+            if (scrollTop > lastScrollTop && scrollTop > 100) {
+                // SCROLL KE BAWAH
+                landingNav.style.transform = 'translateY(-100%)';
+            } else {
+                // SCROLL KE ATAS
+                landingNav.style.transform = 'translateY(0)';
+            }
+            
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+
+            // Fitur Auto-hide saat IDLE (diam selama 2 detik)
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                if (scrollTop > 100) {
+                    landingNav.style.transform = 'translateY(-100%)';
+                }
+            }, 2000); 
+        });
+
         function updateSlider(index) {
-            // Reset all
+            // 1. Reset Slides & Teks
             slides.forEach((slide, i) => {
                 slide.style.opacity = '0';
                 slide.style.zIndex = '0';
                 slide.style.transform = i < index ? 'translateX(-100%)' : 'translateX(100%)';
                 slide.classList.remove('active');
             });
-            textItems.forEach(item => {
-                item.classList.remove('active');
-                item.classList.add('hidden');
-                item.style.opacity = '0';
+
+            textItems.forEach((item, i) => {
+                if (i === index) {
+                    // Tampilkan Slide Aktif
+                    item.classList.remove('hidden');
+                    // Gunakan requestAnimationFrame atau timeout agar transisi CSS berjalan
+                    setTimeout(() => {
+                        item.style.opacity = '1';
+                        item.style.transform = 'translateY(0)';
+                        item.style.position = (i === 0) ? 'relative' : 'absolute'; 
+                        // Slide 0 biarkan relative agar memberi tinggi pada container, sisanya absolute
+                    }, 50);
+                } else {
+                    // Sembunyikan Slide Non-Aktif
+                    item.style.opacity = '0';
+                    item.style.transform = 'translateY(10px)';
+                    setTimeout(() => {
+                        if (currentSlide !== i) item.classList.add('hidden');
+                    }, 500);
+                }
             });
-            indicators.forEach(ind => ind.classList.remove('active', 'bg-[#f59e0b]'));
 
-            // Set active
+            // 2. Animasi Garis Indikator (Halus)
+            indicators.forEach((ind, i) => {
+                ind.classList.remove('active');
+                // Reset ke warna default dan ukuran kecil
+                ind.style.backgroundColor = 'rgba(255, 255, 255, 0.3)'; // bg-white/30
+                ind.style.width = '1rem'; // Ukuran default (w-4)
+                ind.style.transition = 'all 0.5s ease-in-out'; // Transisi halus
+            });
+
+            // 3. Set Active Slide
             const activeSlide = slides[index];
-            activeSlide.style.opacity = '1';
-            activeSlide.style.zIndex = '10';
-            activeSlide.style.transform = 'translateX(0)';
-            activeSlide.classList.add('active');
+            if (activeSlide) {
+                activeSlide.style.opacity = '1';
+                activeSlide.style.zIndex = '10';
+                activeSlide.style.transform = 'translateX(0)';
+                activeSlide.classList.add('active');
+            }
 
+            // 4. Set Active Text
             const activeText = textItems[index];
-            activeText.classList.remove('hidden');
-            setTimeout(() => {
-                activeText.classList.add('active');
-                activeText.style.opacity = '1';
-            }, 50);
+            if (activeText) {
+                activeText.classList.remove('hidden');
+                setTimeout(() => {
+                    activeText.style.opacity = '1';
+                }, 50);
+            }
 
-            indicators[index].classList.add('active');
-            indicators[index].classList.replace('bg-white', 'bg-[#f59e0b]');
-            indicators[index].classList.replace('bg-white/30', 'bg-[#f59e0b]');
+            // 5. Set Active Indikator (Membesar)
+            if (indicators[index]) {
+                indicators[index].classList.add('active');
+                indicators[index].style.backgroundColor = '#f59e0b'; // Warna amber
+                indicators[index].style.width = '2.5rem'; // Membesar (w-10 atau lebih)
+            }
 
-            currentSlideEl.innerText = index + 1;
+            // Update Counter (Pengecekan agar tidak error)
+            if (currentSlideEl) {
+                currentSlideEl.innerText = index + 1;
+            }
         }
 
         function nextSlide() {
@@ -806,20 +985,22 @@ use Illuminate\Support\Str;
             updateSlider(currentSlide);
         }
 
-        btnNext.addEventListener('click', () => { nextSlide(); resetInterval(); });
-        btnPrev.addEventListener('click', () => { prevSlide(); resetInterval(); });
-
         function resetInterval() {
-            clearInterval(slideInterval);
-            slideInterval = setInterval(nextSlide, 6000); // 6 seconds
+            if (slideInterval) clearInterval(slideInterval);
+            if (totalSlides > 1) {
+                slideInterval = setInterval(nextSlide, 6000);
+            }
         }
-        
-        // Initialize first slide
-        updateSlider(0);
-        
-        if (totalSlides > 1) {
+
+        // Event Listeners
+        if (btnNext) btnNext.addEventListener('click', () => { nextSlide(); resetInterval(); });
+        if (btnPrev) btnPrev.addEventListener('click', () => { prevSlide(); resetInterval(); });
+
+        // Inisialisasi awal
+        document.addEventListener('DOMContentLoaded', () => {
+            updateSlider(0);
             resetInterval();
-        }
+        });
 
         // --- Hero 3 Tabs Logic ---
         function initHero3Tabs() {
@@ -872,6 +1053,56 @@ use Illuminate\Support\Str;
         initHero3Tabs();
         document.addEventListener('livewire:load', initHero3Tabs);
         document.addEventListener('livewire:update', initHero3Tabs);
+
+       // --- Hero 3 Case Slider Logic (Optimized) ---
+        function initCaseSliders() {
+            const sliders = document.querySelectorAll('.h3-case-slider');
+            
+            sliders.forEach(slider => {
+                const track = slider.querySelector('.h3-slider-track');
+                const nextBtn = slider.querySelector('.h3-case-next');
+                const prevBtn = slider.querySelector('.h3-case-prev');
+                const slides = track.querySelectorAll('.flex-shrink-0');
+                
+                // Hapus event listener lama (jika ada) untuk mencegah penumpukan
+                const newNextBtn = nextBtn.cloneNode(true);
+                const newPrevBtn = prevBtn.cloneNode(true);
+                nextBtn.parentNode.replaceChild(newNextBtn, nextBtn);
+                prevBtn.parentNode.replaceChild(newPrevBtn, prevBtn);
+
+                let index = 0;
+
+                function updateCaseSlider() {
+                    // Pastikan kita mengambil lebar terbaru saat ini
+                    const width = slider.offsetWidth;
+                    track.style.transform = `translateX(-${index * width}px)`;
+                }
+
+                newNextBtn.addEventListener('click', (e) => {
+                    e.preventDefault(); // Mencegah bubbling
+                    index = (index + 1) % slides.length;
+                    updateCaseSlider();
+                });
+
+                newPrevBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    index = (index - 1 + slides.length) % slides.length;
+                    updateCaseSlider();
+                });
+
+                // Pastikan posisi reset ke 0 setiap kali inisialisasi ulang (pindah tab)
+                updateCaseSlider();
+            });
+        }
+
+        // Update pemanggilan di bagian bawah script Anda:
+        // Hapus DOMContentLoaded di dalam blok script (karena sudah dibungkus di paling atas)
+        // Cukup panggil fungsinya langsung:
+        initCaseSliders();
+
+        // Tambahkan ini agar saat pindah TAB, slider diinisialisasi ulang
+        document.addEventListener('livewire:load', initCaseSliders);
+        document.addEventListener('livewire:update', initCaseSliders);
 
         // --- Scroll Animations (Intersection Observer) ---
         const scrollObserver = new IntersectionObserver((entries) => {

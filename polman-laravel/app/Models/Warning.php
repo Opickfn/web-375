@@ -16,6 +16,7 @@ class Warning extends Model
         'is_public',
         'expires_at',
         'image_path',
+        'image_source',
         'is_default',
     ];
 
@@ -78,16 +79,22 @@ class Warning extends Model
 
     public function getImageUrlAttribute(): string
     {
-        $url = asset('images/polman.png'); // Verified fallback
-
-        if ($this->report_id && $this->report && $this->report->bukti) {
-            $url = asset('storage/uploads/' . $this->report->bukti);
-        } elseif ($this->image_path) {
-            $url = asset('storage/warnings/' . $this->image_path);
+        // Jika sumbernya report, pastikan report_id dan file bukti ada[cite: 3]
+        if ($this->image_source === 'report' && $this->report_id && $this->report && $this->report->bukti) {
+            return asset('storage/uploads/' . $this->report->bukti);
+        } 
+        
+        // Jika manual, pastikan image_path tidak kosong[cite: 3]
+        if ($this->image_source === 'manual' && $this->image_path) {
+            return asset('storage/' . $this->image_path);
         }
 
-        // Handle spaces and ensure it's an absolute URL with correct port
-        return str_replace(' ', '%20', $url);
+        // Fallback: Jika data lama tidak punya 'image_source', coba deteksi otomatis
+        if ($this->report_id && $this->report?->bukti) {
+            return asset('storage/uploads/' . $this->report->bukti);
+        }
+
+        return asset('images/polman.png');
     }
 }
 
