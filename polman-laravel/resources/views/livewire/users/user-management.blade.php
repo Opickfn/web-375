@@ -294,21 +294,31 @@
                             {{ $user->isMahasiswa() ? $user->nim : ($user->isDosen() ? $user->nomor_dosen : '—') }}
                         </td>
                         <td>
-                            @if(in_array($user->role, ['pj_area','pimpinan','spmi']))
+                            @if(in_array($user->role, ['pj_area', 'pimpinan', 'spmi']))
                                 @php $locs = $user->assignedLocations; @endphp
+                                
                                 @if($locs->isEmpty())
                                     <span style="font-size:0.75rem;color:var(--pm-text-d);">Semua Area</span>
                                 @else
-                                    <div style="display:flex;flex-wrap:wrap;gap:0.3rem;max-width:220px;">
+                                    {{-- Tambahkan max-width dan overflow control agar tidak menabrak Role --}}
+                                    <div style="display:flex;flex-wrap:wrap;gap:0.3rem;max-width:200px;">
                                         @foreach($locs->take(3) as $loc)
-                                        <span class="pm-badge pm-badge-neutral" style="font-size:0.62rem;padding:1px 6px;">
-                                            {{ $loc->name }}
-                                        </span>
+                                            <span class="pm-badge pm-badge-neutral" 
+                                                title="{{ $loc->name }}"
+                                                style="font-size:0.62rem;padding:1px 6px; 
+                                                        max-width: 140px; 
+                                                        white-space: nowrap; 
+                                                        overflow: hidden; 
+                                                        text-overflow: ellipsis; 
+                                                        display: inline-block;">
+                                                {{ $loc->name }}
+                                            </span>
                                         @endforeach
+                                        
                                         @if($locs->count() > 3)
-                                        <span class="pm-badge pm-badge-accent" style="font-size:0.62rem;padding:1px 6px;">
-                                            +{{ $locs->count() - 3 }} lagi
-                                        </span>
+                                            <span class="pm-badge pm-badge-accent" style="font-size:0.62rem;padding:1px 6px; flex-shrink: 0;">
+                                                +{{ $locs->count() - 3 }} lagi
+                                            </span>
                                         @endif
                                     </div>
                                 @endif

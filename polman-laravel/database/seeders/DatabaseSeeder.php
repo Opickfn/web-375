@@ -356,81 +356,286 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $pimpinan = User::create([
-            'full_name' => 'Ir. Siti Hasnah, M.Eng.',
-            'email' => 'pimpinan@polman.ac.id',
+            'full_name' => 'Darma Firmansyah Undayat., S.ST., M.T.',
+            'email' => 'direktur@polman.ac.id',
             'password' => Hash::make('password'),
             'role' => 'pimpinan',
             'user_type' => 'dosen',
-            'nomor_dosen' => '0012093405',
-            'jabatan' => 'Wakil Direktur Bidang Kemahasiswaan',
+            'nomor_dosen' => null,
+            'jabatan' => 'Direktur Politeknik Manufaktur Negeri Bandung',
         ]);
-        $pimpinan->assignedLocations()->sync([$gedung1->id, $gedungTechnopole1->id]);
+        $pimpinan->assignedLocations()->sync([$kampus->id]);
+
+        $pimpinan = User::create([
+            'full_name' => 'Dr. Aris Budiyarto, S.T., M.T.',
+            'email' => 'wadir1@polman.ac.id',
+            'password' => Hash::make('password'),
+            'role' => 'pimpinan',
+            'user_type' => 'dosen',
+            'nomor_dosen' => null,
+            'jabatan' => 'Wakil Direktur Bidang Akademik dan Sistem Informasi',
+        ]);
+        $pimpinan->assignedLocations()->sync([$kampus->id]);
+
+        $pimpinan = User::create([
+            'full_name' => 'Ery Hidayat, S.T., M.T.',
+            'email' => 'wadir2@polman.ac.id',
+            'password' => Hash::make('password'),
+            'role' => 'pimpinan',
+            'user_type' => 'dosen',
+            'nomor_dosen' => null,
+            'jabatan' => 'Wakil Direktur Bidang Keuangan & Umum',
+        ]);
+        $pimpinan->assignedLocations()->sync([$kampus->id]);
+
+        $pimpinan = User::create([
+            'full_name' => 'Jata Budiman, S.ST., M.T',
+            'email' => 'wadir3@polman.ac.id',
+            'password' => Hash::make('password'),
+            'role' => 'pimpinan',
+            'user_type' => 'dosen',
+            'nomor_dosen' => null,
+            'jabatan' => 'Wakil Direktur Bidang Perencanaan, Kemahasiswaan dan Alumni',
+        ]);
+        $pimpinan->assignedLocations()->sync([$kampus->id]);
+
+        $pimpinan = User::create([
+            'full_name' => 'Deasy Damayanti',
+            'email' => 'kabagAkademikMahasiswa@polman.ac.id',
+            'password' => Hash::make('password'),
+            'role' => 'pimpinan',
+            'user_type' => 'dosen',
+            'nomor_dosen' => null,
+            'jabatan' => 'Kepala Bagian Akademik dan kemahasiswaan',
+        ]);
+        $pimpinan->assignedLocations()->sync([$kampus->id]);
+
+        $pimpinan = User::create([
+            'full_name' => 'Hilman Indrayanto',
+            'email' => 'kabagUmum@polman.ac.id',
+            'password' => Hash::make('password'),
+            'role' => 'pimpinan',
+            'user_type' => 'dosen',
+            'nomor_dosen' => null,
+            'jabatan' => 'Kepala Bagian Perencanaan, Keuangan dan Umum',
+        ]);
+        $pimpinan->assignedLocations()->sync([$kampus->id]);
+
+        $pimpinan = User::create([
+            'full_name' => 'Roni Kusnowo',
+            'email' => 'kadivBisnis@polman.ac.id',
+            'password' => Hash::make('password'),
+            'role' => 'pimpinan',
+            'user_type' => 'dosen',
+            'nomor_dosen' => null,
+            'jabatan' => 'Kepala Divisi Pengembangan Bisnis (d/h BPU)',
+        ]);
+        $pimpinan->assignedLocations()->sync([$kampus->id]);
+        
+        $pimpinan = User::create([
+            'full_name' => 'Yogi Muldani Hendrawan',
+            'email' => 'kampus2@polman.ac.id',
+            'password' => Hash::make('password'),
+            'role' => 'pimpinan',
+            'user_type' => 'dosen',
+            'nomor_dosen' => null,
+            'jabatan' => 'Kepala Kantor Pengembang dan pengelola Kampus 2',
+        ]);
+        $pimpinan->assignedLocations()->sync([$kampus->id]);
+
+        $pimpinan = User::create([
+            'full_name' => 'Dr. Herman Budi Harja, S.T., M.T.',
+            'email' => 'kajurTM@polman.ac.id',
+            'password' => Hash::make('password'),
+            'role' => 'pimpinan',
+            'user_type' => 'dosen',
+            'nomor_dosen' => null,
+            'jabatan' => 'Ketua Jurusan Teknik Manufaktur',
+        ]);
+        $pimpinan->assignedLocations()->sync([$kampus->id]);
+
+        $pimpinan = User::create([
+            'full_name' => 'Bustami Ibrahim, S.S.T., M.T',
+            'email' => 'kajurTP@polman.ac.id',
+            'password' => Hash::make('password'),
+            'role' => 'pimpinan',
+            'user_type' => 'dosen',
+            'nomor_dosen' => null,
+            'jabatan' => 'Ketua Jurusan Teknik Perancangan',
+        ]);
+        $pimpinan->assignedLocations()->sync([$kampus->id]);
+
+        $pimpinan = User::create([
+            'full_name' => 'Cecep Ruskandi, S.T., M.T.',
+            'email' => 'kajurTPL@polman.ac.id',
+            'password' => Hash::make('password'),
+            'role' => 'pimpinan',
+            'user_type' => 'dosen',
+            'nomor_dosen' => null,
+            'jabatan' => 'Ketua Jurusan Teknik Pengecoran Logam',
+        ]);
+        $pimpinan->assignedLocations()->sync([$kampus->id]);
+
+        $pimpinan = User::create([
+            'full_name' => 'Ridwan, S.S.T., M.Eng.',
+            'email' => 'kajurTMO@polman.ac.id',
+            'password' => Hash::make('password'),
+            'role' => 'pimpinan',
+            'user_type' => 'dosen',
+            'nomor_dosen' => null,
+            'jabatan' => 'Ketua Jurusan Teknik Otomasi Manufaktur dan Mekatronika',
+        ]);
+        $pimpinan->assignedLocations()->sync([$kampus->id]);
+
+        $pimpinan = User::create([
+            'full_name' => 'Noval Lilansa',
+            'email' => 'kasatPengabdian@polman.ac.id',
+            'password' => Hash::make('password'),
+            'role' => 'pimpinan',
+            'user_type' => 'dosen',
+            'nomor_dosen' => null,
+            'jabatan' => 'Kepala Pusat Penelitian, dan Pengabdian Kepada Masyarakat',
+        ]);
+        $pimpinan->assignedLocations()->sync([$kampus->id]);
+
+        $pimpinan = User::create([
+            'full_name' => 'Dicky Rahman Hanafiah',
+            'email' => 'UPAPerpus@polman.ac.id',
+            'password' => Hash::make('password'),
+            'role' => 'pimpinan',
+            'user_type' => 'dosen',
+            'nomor_dosen' => null,
+            'jabatan' => 'Kepala UPA Perpustakaan',
+        ]);
+        $pimpinan->assignedLocations()->sync([$kampus->id]);
+
+        $pimpinan = User::create([
+            'full_name' => 'Susetyo Bagas Bhaskoro',
+            'email' => 'UPATIK@polman.ac.id',
+            'password' => Hash::make('password'),
+            'role' => 'pimpinan',
+            'user_type' => 'dosen',
+            'nomor_dosen' => null,
+            'jabatan' => 'Kepala UPA Teknologi Informasi dan Komunikasi',
+        ]);
+        $pimpinan->assignedLocations()->sync([$kampus->id]);
+
+        $pimpinan = User::create([
+            'full_name' => 'M. Fauzi',
+            'email' => 'UPALayanan@polman.ac.id',
+            'password' => Hash::make('password'),
+            'role' => 'pimpinan',
+            'user_type' => 'dosen',
+            'nomor_dosen' => null,
+            'jabatan' => 'Kepala UPA Layanan Uji Kompetensi',
+        ]);
+        $pimpinan->assignedLocations()->sync([$kampus->id]);
+
+        $pimpinan = User::create([
+            'full_name' => 'Agus Kustiman',
+            'email' => 'UPAMaintenance@polman.ac.id',
+            'password' => Hash::make('password'),
+            'role' => 'pimpinan',
+            'user_type' => 'dosen',
+            'nomor_dosen' => null,
+            'jabatan' => 'Kepala UPA Perawatan dan Perbaikan',
+        ]);
+        $pimpinan->assignedLocations()->sync([$kampus->id]);
+
+        $pimpinan = User::create([
+            'full_name' => 'M. Dody Priyambudi',
+            'email' => 'UPAPerlengkapan@polman.ac.id',
+            'password' => Hash::make('password'),
+            'role' => 'pimpinan',
+            'user_type' => 'dosen',
+            'nomor_dosen' => null,
+            'jabatan' => 'Kepala UPA Perlengkapan',
+        ]);
+        $pimpinan->assignedLocations()->sync([$kampus->id]);
+
+        $pimpinan = User::create([
+            'full_name' => 'Ruswandi',
+            'email' => 'UPAKarier@polman.ac.id',
+            'password' => Hash::make('password'),
+            'role' => 'pimpinan',
+            'user_type' => 'dosen',
+            'nomor_dosen' => null,
+            'jabatan' => 'Kepala UPA Pengembangan Karier dan Kewirausahaan',
+        ]);
+        $pimpinan->assignedLocations()->sync([$kampus->id]);
 
         $spmi = User::create([
-            'full_name' => 'Dr. Rendra Fadhil, S.T.',
-            'email' => 'spmi@polman.ac.id',
+            'full_name' => 'Achmad Muhammad',
+            'email' => 'kaspi@polman.ac.id',
             'password' => Hash::make('password'),
             'role' => 'spmi',
             'user_type' => 'dosen',
-            'nomor_dosen' => '0011072207',
-            'jabatan' => 'Auditor Internal SPMI',
+            'nomor_dosen' => null,
+            'jabatan' => 'Ketua SPI',
         ]);
-        $spmi->assignedLocations()->sync([$gedung1->id, $jalanUtama->id, $tamanTechno->id]);
+        $spmi->assignedLocations()->sync([$kampus->id]);
+
+        $spmi = User::create([
+            'full_name' => 'Hadi Supriyanto',
+            'email' => 'kaspmi@polman.ac.id',
+            'password' => Hash::make('password'),
+            'role' => 'spmi',
+            'user_type' => 'dosen',
+            'nomor_dosen' => null,
+            'jabatan' => 'Kepala Pusat Penjaminan Mutu dan Pengembangan Pembelajaran',
+        ]);
+        $spmi->assignedLocations()->sync([$kampus->id]);
 
         $pjArea = User::create([
-            'full_name' => 'Ir. Yanto Susanto',
+            'full_name' => 'Nurjamiluddin',
             'email' => 'pjarea@polman.ac.id',
             'password' => Hash::make('password'),
             'role' => 'pj_area',
             'user_type' => 'dosen',
-            'nomor_dosen' => '0016045603',
+            'nomor_dosen' => null,
             'jabatan' => 'Penanggung Jawab Area',
         ]);
         $pjArea->assignedLocations()->sync([$gedungTechnopole1->id, $jalanUtama->id, $tamanTechno->id]);
 
         User::create([
-            'full_name' => 'Andi Pratama',
-            'email' => 'andi@polman.ac.id',
+            'full_name' => 'Fadhlurrofiq Nurrohmat',
+            'email' => 'Fadhlurrofiq@polman.ac.id',
             'password' => Hash::make('password'),
             'role' => 'reporter',
             'user_type' => 'mahasiswa',
-            'nim' => '221511001',
-            'kelas' => '2A',
-            'gedung' => 'Gedung Utama',
-            'ruangan' => 'Ruang Kelas A',
-            'tahun_angkatan' => '2022',
+            'nim' => '223443054',
+            'kelas' => '3AEC3',
+            'gedung' => 'AE',
+            'ruangan' => 'TRIN',
+            'tahun_angkatan' => '2023',
         ]);
 
         User::create([
-            'full_name' => 'Sari Dewi',
-            'email' => 'sari@polman.ac.id',
+            'full_name' => 'Diaz Ardiansyah',
+            'email' => 'diaz@polman.ac.id',
             'password' => Hash::make('password'),
             'role' => 'reporter',
             'user_type' => 'mahasiswa',
-            'nim' => '221512015',
-            'kelas' => '2B',
-            'gedung' => 'Gedung Technopole1',
-            'ruangan' => 'Technopole1 Mesin',
-            'tahun_angkatan' => '2022',
+            'nim' => '223443075',
+            'kelas' => '3AEC4',
+            'gedung' => 'AE',
+            'ruangan' => 'TRIN',
+            'tahun_angkatan' => '2023',
         ]);
 
         User::create([
-            'full_name' => 'Ir. Cahya Nugraha, M.Eng.',
-            'email' => 'cahya@polman.ac.id',
+            'full_name' => 'Luthfiyyah Khansa',
+            'email' => 'upi@polman.ac.id',
             'password' => Hash::make('password'),
             'role' => 'reporter',
-            'user_type' => 'dosen',
-            'nomor_dosen' => '0015098802',
-            'jabatan' => 'Lektor',
+            'user_type' => 'mahasiswa',
+            'nim' => '223443083',
+            'kelas' => '3AEC4',
+            'gedung' => 'AE',
+            'ruangan' => 'TRIN',
+            'tahun_angkatan' => '2023',
         ]);
 
-        User::create([
-            'full_name' => 'Rini Kurniawati',
-            'email' => 'rini@polman.ac.id',
-            'password' => Hash::make('password'),
-            'role' => 'reporter',
-            'user_type' => 'umum',
-            'phone' => '081234567890',
-        ]);
+        
     }
 }

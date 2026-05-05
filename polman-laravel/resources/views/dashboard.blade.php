@@ -210,7 +210,7 @@
                             default       => 'pm-badge-neutral',
                         } }}">{{ $report->status_label }}</span>
                     </td>
-                    <td style="color:rgba(232,232,232,0.5);font-size:0.8rem;">{{ $report->created_at->format('d M Y') }}</td>
+                    <td style="color:black;font-size:0.8rem;">{{ $report->created_at->format('d M Y') }}</td>
                 </tr>
                 @empty
                 <tr><td colspan="6">
