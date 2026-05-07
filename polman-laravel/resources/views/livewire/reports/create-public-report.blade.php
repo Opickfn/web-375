@@ -5,8 +5,8 @@
             <div class="mb-8 p-4 rounded-2xl bg-[#f59e0b]/10 border border-[#f59e0b]/30 flex items-start gap-4 animate-in">
                 <i data-lucide="alert-circle" class="text-[#f59e0b] w-6 h-6 flex-shrink-0 mt-0.5"></i>
                 <div>
-                    <h3 class="text-sm font-bold text-[#f59e0b] uppercase tracking-wider">Laporan Publik</h3>
-                    <p class="text-xs text-white/70 leading-relaxed mt-1">Laporan ini bersifat publik dan tidak memerlukan akun. Mohon berikan informasi yang akurat dan sopan untuk membantu perbaikan fasilitas kampus.</p>
+                    <h3 class="text-sm font-bold text-[#f59e0b] uppercase tracking-wider">Temuan Publik</h3>
+                    <p class="text-xs text-white/70 leading-relaxed mt-1">Temuan ini bersifat publik dan tidak memerlukan akun. Mohon berikan informasi yang akurat dan sopan untuk membantu perbaikan fasilitas kampus.</p>
                 </div>
             </div>
 
@@ -26,12 +26,12 @@
                         <div class="w-20 h-20 bg-green-500/20 border border-green-500/30 rounded-full flex items-center justify-center mx-auto mb-6">
                             <i data-lucide="check-circle-2" class="w-10 h-10 text-green-500"></i>
                         </div>
-                        <h2 class="text-2xl font-bold text-white mb-2">Laporan Publik Terkirim!</h2>
+                        <h2 class="text-2xl font-bold text-white mb-2">Temuan Publik Terkirim!</h2>
                         <p class="text-slate-400 mb-8">Terima kasih atas partisipasi Anda dalam menjaga kualitas lingkungan kampus.</p>
                         
                         <div class="grid sm:grid-cols-2 gap-4 mb-8 text-left">
                             <div class="p-4 rounded-xl bg-[#00263a] border border-white/5">
-                                <span class="text-[10px] uppercase tracking-widest text-slate-500 block mb-1">Kode Laporan</span>
+                                <span class="text-[10px] uppercase tracking-widest text-slate-500 block mb-1">Kode Temuan</span>
                                 <span class="text-lg font-bold text-[#f59e0b]">{{ $successReport->code }}</span>
                             </div>
                             <div class="p-4 rounded-xl bg-[#00263a] border border-white/5">
@@ -42,7 +42,7 @@
 
                         <div class="flex flex-col sm:flex-row gap-4 justify-center">
                             <button wire:click="resetForm" class="btn-auth-primary" style="margin-top:0;">
-                                <span>Buat Laporan Lagi</span>
+                                <span>Buat Temuan Lagi</span>
                                 <i data-lucide="refresh-cw"></i>
                             </button>
                             <a href="{{ route('home') }}" class="btn-secondary">
@@ -200,7 +200,7 @@
                         <div class="flex flex-col sm:flex-row gap-4 pt-4 border-t border-white/5">
                             <a href="{{ route('home') }}" class="btn-secondary flex-1">Kembali</a>
                             <button type="submit" class="btn-auth-primary flex-[2] glow-orange" style="margin-top:0;">
-                                <span>Kirim Laporan Publik</span>
+                                <span>Kirim Temuan Publik</span>
                                 <i data-lucide="send"></i>
                             </button>
                         </div>

@@ -599,7 +599,7 @@ class DatabaseSeeder extends Seeder
 
         User::create([
             'full_name' => 'Fadhlurrofiq Nurrohmat',
-            'email' => 'Fadhlurrofiq@polman.ac.id',
+            'email' => 'fadhlurrofiq@polman.ac.id',
             'password' => Hash::make('password'),
             'role' => 'reporter',
             'user_type' => 'mahasiswa',

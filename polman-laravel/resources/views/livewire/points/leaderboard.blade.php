@@ -91,7 +91,7 @@ $dn = (($limit ?? 0) && $u->role==='reporter' && !$u->show_name_on_landing) ? 'A
                         <th style="width:60px;">Rank</th>
                         <th>Nama</th>
                         <th>Tipe</th>
-                        <th>Gedung / Jabatan</th>
+                        <th>Jabatan/Jurusan</th>
                         <th class="pm-th-sort" wire:click="sort('total_reports')">
                             Temuan @include('components.sort-icon',['col'=>'total_reports','sortBy'=>$sortBy,'sortDir'=>$sortDir])
                         </th>
@@ -122,8 +122,8 @@ $dn   = (($limit ?? 0) && $user->role==='reporter' && !$user->show_name_on_landi
                                 @elseif($rank===3)<i data-lucide="award" style="color: #b45309; width: 16px; height: 16px;"></i>@endif
                             </div>
                         </td>
-                        <td><span class="pm-badge {{ $user->user_type==='mahasiswa'?'pm-badge-info':($user->user_type==='dosen'?'pm-badge-warning':'pm-badge-neutral') }}">{{ ucfirst($user->user_type) }}</span></td>
-                        <td class="pm-td-loc">{{ $user->gedung ?? $user->jabatan ?? '—' }}</td>
+                        <td style="text-align:center;"><span class="pm-badge {{ $user->user_type==='mahasiswa'?'pm-badge-info':($user->user_type==='dosen'?'pm-badge-warning':'pm-badge-neutral') }}">{{ ucfirst($user->user_type) }}</span></td>
+                        <td class="pm-td-loc" style="text-align:center;">{{ $user->gedung ?? $user->jabatan ?? '—' }}</td>
                         <td style="text-align:center;font-weight:600;">{{ $user->total_reports }}</td>
                         <td style="text-align:right;">
                             <span class="pm-pts {{ $rank===1?'pm-pts-gold':($rank===2?'pm-pts-silver':($rank===3?'pm-pts-bronze':'')) }}">

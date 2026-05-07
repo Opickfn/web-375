@@ -121,7 +121,7 @@
                         <td colspan="7" class="text-center">
                             <div class="p-8">
                                 <i data-lucide="inbox" style="width:40px;height:40px;color:#cbd5e1;margin:0 auto 1rem;"></i>
-                                <p class="text-slate-500">Tidak ada laporan di area tugas Anda.</p>
+                                <p class="text-slate-500">Tidak ada temuan di area tugas Anda.</p>
                                 <p class="text-xs text-slate-400">Hubungi Admin jika area tugas belum di-set.</p>
                             </div>
                         </td>
@@ -155,7 +155,7 @@
                 {{-- Header --}}
                 <div class="pm-modal-header" style="padding: 1rem 1.25rem; border-bottom: 1px solid #f1f5f9; background: #fff;">
                     <div>
-                        <h2 class="pm-h2" style="font-size: 1rem; margin-bottom: 0;">Detail Laporan</h2>
+                        <h2 class="pm-h2" style="font-size: 1rem; margin-bottom: 0;">Detail Temuan</h2>
                         <p style="font-size: 0.7rem; color: #94a3b8;">{{ $selectedReport->code }}</p>
                     </div>
                     <button wire:click="$set('showModal', false)" class="pm-btn-close" style="font-size: 1.2rem; color: #94a3b8; line-height: 1;">&times;</button>

@@ -14,10 +14,10 @@
   <!-- Right Section -->
   <div class="navbar-right">
     <!-- Notification -->
-    <button class="notification-btn" title="Notifikasi">
+    <!-- <button class="notification-btn" title="Notifikasi">
       <i data-lucide="bell" class="w-5 h-5"></i>
       <span class="notification-badge" style="display: {{ $newK3Reports ?? 0 > 0 ? 'block' : 'none' }};"></span>
-    </button>
+    </button> -->
 
     <!-- Desktop Collapse -->
     <button class="sidebar-toggle collapse-toggle" id="pm-collapse-btn" title="Collapse Sidebar">

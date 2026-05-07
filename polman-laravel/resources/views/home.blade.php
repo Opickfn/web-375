@@ -15,6 +15,7 @@ use Illuminate\Support\Str;
             </div>
             <div class="hidden md:flex items-center gap-8">
                 <a href="#hero1" class="text-sm transition-colors nav-link" style="color: rgba(255,255,255,0.8);">HOME</a>
+                <a href="#hero2" class="text-sm transition-colors nav-link" style="color: rgba(255,255,255,0.8);">PANDUAN</a>
                 <a href="#hero3" class="text-sm transition-colors nav-link" style="color: rgba(255,255,255,0.8);">STANDAR</a>
                 <a href="#hero4" class="text-sm transition-colors nav-link" style="color: rgba(255,255,255,0.8);">ALUR & REWARD</a>
                 <a href="#leaderboard" class="text-sm transition-colors nav-link" style="color: rgba(255,255,255,0.8);">LEADERBOARD</a>
@@ -38,20 +39,20 @@ use Illuminate\Support\Str;
                     <div class="space-y-4">
                         <p class="text-sm md:text-base uppercase tracking-[0.35em] font-semibold text-[#10b981]">Platform Improvement Terintegrasi</p>
                         <h1 class="text-5xl md:text-6xl font-black leading-tight text-white">
-                            Sistem Pelaporan <br>
+                            Sistem Improvement <br>
                             <span class="text-[#f59e0b]">K3, 7S, & 5R</span>
                         </h1>
                         <p class="max-w-md text-lg leading-relaxed text-slate-300">
-                            Wadah aspirasi civitas POLMAN Bandung untuk menciptakan lingkungan kampus yang aman, rapi, dan produktif melalui pelaporan real-time.
+                            Wadah aspirasi civitas POLMAN Bandung untuk menciptakan lingkungan kampus yang aman, rapi, dan produktif secara real-time.
                         </p>
                     </div>
 
                     <div class="flex flex-wrap gap-4 pt-4">
                         <a href="{{ route('register') }}" class="rounded-[12px] px-8 py-4 text-sm font-black uppercase tracking-widest transition-all bg-[#f59e0b] text-white hover:bg-[#d97706] shadow-lg shadow-amber-500/20">
-                            Mulai Lapor
+                            Mulai Sekarang
                         </a>
                         <a href="/create/publik/reports" class="rounded-[12px] px-8 py-4 text-sm font-semibold uppercase tracking-widest transition-all border border-white/20 text-white hover:bg-white/10 backdrop-blur-sm">
-                            Publik Report
+                            Kontribusi sebagai Publik
                         </a>
                     </div>
                 </div>

@@ -17,12 +17,12 @@
                         <div class="w-20 h-20 bg-green-500/20 border border-green-500/30 rounded-full flex items-center justify-center mx-auto mb-6">
                             <i data-lucide="check-circle-2" class="w-10 h-10 text-green-500"></i>
                         </div>
-                        <h2 class="text-2xl font-bold text-white mb-2">Laporan Berhasil Terkirim!</h2>
+                        <h2 class="text-2xl font-bold text-white mb-2">Temuan Berhasil Terkirim!</h2>
                         <p class="text-slate-400 mb-8">Terima kasih atas kontribusi Anda. Tim manajemen akan segera meninjau temuan ini.</p>
                         
                         <div class="grid sm:grid-cols-2 gap-4 mb-8 text-left">
                             <div class="p-4 rounded-xl bg-[#00263a] border border-white/5">
-                                <span class="text-[10px] uppercase tracking-widest text-slate-500 block mb-1">Kode Laporan</span>
+                                <span class="text-[10px] uppercase tracking-widest text-slate-500 block mb-1">Kode Temuan</span>
                                 <span class="text-lg font-bold text-[#f59e0b]">{{ $successReport->code }}</span>
                             </div>
                             <div class="p-4 rounded-xl bg-[#00263a] border border-white/5">
@@ -33,7 +33,7 @@
 
                         <div class="flex flex-col sm:flex-row gap-4 justify-center">
                             <button wire:click="resetForm" class="btn-auth-primary" style="margin-top:0;">
-                                <span>Buat Laporan Lagi</span>
+                                <span>Buat Temuan Lagi</span>
                                 <i data-lucide="refresh-cw"></i>
                             </button>
                             <a href="{{ route('dashboard') }}" class="btn-secondary">
