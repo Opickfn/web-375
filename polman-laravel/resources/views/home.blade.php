@@ -54,6 +54,9 @@ use Illuminate\Support\Str;
                         <a href="/create/publik/reports" class="rounded-[12px] px-8 py-4 text-sm font-semibold uppercase tracking-widest transition-all border border-white/20 text-white hover:bg-white/10 backdrop-blur-sm">
                             Kontribusi sebagai Publik
                         </a>
+                        <a href="/public/POLMAN375.pdf" class="rounded-[12px] px-8 py-4 text-sm font-semibold uppercase tracking-widest transition-all border border-white/20 text-white hover:bg-white/10 backdrop-blur-sm">
+                            Lihat Materi
+                        </a>
                     </div>
                 </div>
 
