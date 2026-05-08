@@ -47,14 +47,19 @@ use Illuminate\Support\Str;
                         </p>
                     </div>
 
-                    <div class="flex flex-wrap gap-4 pt-4">
-                        <a href="{{ route('register') }}" class="rounded-[12px] px-8 py-4 text-sm font-black uppercase tracking-widest transition-all bg-[#f59e0b] text-white hover:bg-[#d97706] shadow-lg shadow-amber-500/20">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-6 w-full">
+                        <a href="{{ route('register') }}" 
+                        class="flex items-center justify-center rounded-[12px] px-6 py-4 text-sm font-black uppercase tracking-widest transition-all bg-[#f59e0b] text-white hover:bg-[#d97706] shadow-lg shadow-amber-500/20 active:scale-[0.98]">
                             Mulai Sekarang
                         </a>
-                        <a href="/create/publik/reports" class="rounded-[12px] px-8 py-4 text-sm font-semibold uppercase tracking-widest transition-all border border-white/20 text-white hover:bg-white/10 backdrop-blur-sm">
-                            Kontribusi sebagai Publik
+
+                        <a href="/create/publik/reports" 
+                        class="flex items-center justify-center rounded-[12px] px-6 py-4 text-sm font-semibold uppercase tracking-widest transition-all border border-white/20 text-white hover:bg-white/10 backdrop-blur-sm active:scale-[0.98]">
+                            Kontribusi Publik
                         </a>
-                        <a href="/public/POLMAN375.pdf" class="rounded-[12px] px-8 py-4 text-sm font-semibold uppercase tracking-widest transition-all border border-white/20 text-white hover:bg-white/10 backdrop-blur-sm">
+
+                        <a href="{{ asset('POLMAN375.pdf') }}" target="_blank"
+                        class="flex items-center justify-center rounded-[12px] px-6 py-4 text-sm font-semibold uppercase tracking-widest transition-all border border-white/20 text-white hover:bg-white/10 backdrop-blur-sm active:scale-[0.98]">
                             Lihat Materi
                         </a>
                     </div>
@@ -645,7 +650,7 @@ use Illuminate\Support\Str;
                     </div>
                     
                     {{-- Professional Leaderboard Table --}}
-                    <div class="overflow-hidden rounded-3xl border border-white/10 shadow-2xl bg-white/5 backdrop-blur-md">
+                    <div class="overflow-hidden rounded-3xl border border-white/10 shadow-2xl bg-white/5 backdrop-blur-md min-h-[400px] flex flex-col">
                         <livewire:points.leaderboard :limit="5" />
                     </div>
                 </div>
