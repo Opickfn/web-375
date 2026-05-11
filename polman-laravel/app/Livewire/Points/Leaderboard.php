@@ -69,14 +69,14 @@ class Leaderboard extends Component
     {
         $hasCol = Schema::hasColumn('users', 'show_name_on_landing');
 
-        // $q = DB::table('points')
-        //     ->join('reports', 'reports.id', '=', 'points.report_id')
-        //     ->join('users', 'users.id', '=', 'points.user_id');
-        //     //->where('reports.status', 'approved');
-
         $q = DB::table('points')
+            ->join('reports', 'reports.id', '=', 'points.report_id')
             ->join('users', 'users.id', '=', 'points.user_id')
-            ->leftJoin('reports', 'reports.id', '=', 'points.report_id');
+            ->where('reports.status', 'approved');
+
+        // $q = DB::table('points')
+        //     ->join('users', 'users.id', '=', 'points.user_id')
+        //     ->leftJoin('reports', 'reports.id', '=', 'points.report_id');
             // Hapus where status di sini agar poin submit masuk
             
         if ($this->selectedPeriod) {
@@ -97,6 +97,8 @@ class Leaderboard extends Component
             $hasCol ? 'users.show_name_on_landing' : DB::raw('true'),
             'users.user_type', 'users.gedung', 'users.jabatan'
         );
+
+        $q->having(DB::raw('SUM(points.amount)'), '>', 0);
 
         if ($this->search) {
             $q->where('users.full_name', 'ILIKE', "%{$this->search}%");

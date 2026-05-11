@@ -101,11 +101,11 @@ $dn = (($limit ?? 0) && $u->role==='reporter' && !$u->show_name_on_landing) ? 'A
                     </tr>
                 </thead>
                 <tbody>
-@forelse($leaderboard as $idx => $user)
-    @php
-$dn   = (($limit ?? 0) && $user->role==='reporter' && !$user->show_name_on_landing) ? 'Anonim' : $user->full_name;
-        $rank = ($leaderboard instanceof \Illuminate\Pagination\LengthAwarePaginator) ? $leaderboard->firstItem() + $idx : ($idx + 1);
-    @endphp
+                @forelse($leaderboard as $idx => $user)
+                    @php
+                        $dn = (($limit ?? 0) && $user->role==='reporter' && !$user->show_name_on_landing) ? 'Anonim' : $user->full_name;
+                        $rank = ($leaderboard instanceof \Illuminate\Pagination\LengthAwarePaginator) ? $leaderboard->firstItem() + $idx : ($idx + 1);
+                    @endphp
                     <tr class="pm-row {{ $rank<=3?'pm-row-top':'' }}" wire:key="lb-{{ $user->id }}">
                         <td>
                             @if($rank===1)<span class="pm-rank-num" style="color: #f59e0b; font-weight: 800; font-size: 1.1rem; text-shadow: 0 0 10px rgba(245,158,11,0.3);">#1</span>
@@ -132,8 +132,17 @@ $dn   = (($limit ?? 0) && $user->role==='reporter' && !$user->show_name_on_landi
                         </td>
                     </tr>
                     @empty
-                    <tr><td colspan="6"><div class="pm-empty"><div class="pm-empty-icon"><i data-lucide="trophy" style="width:32px;height:32px;"></i></div><p>Belum ada data poin.</p></div></td></tr>
-                    @endforelse
+                    <tr>
+                        <td colspan="6">
+                            <div class="flex flex-col items-center justify-center py-12 opacity-50">
+                                <div class="mb-4">
+                                    <i data-lucide="database-zap" class="w-12 h-12 text-black/20"></i>
+                                </div>
+                                <p class="text-black/60 font-medium tracking-wide">Belum ada data kontribusi untuk periode ini</p>
+                            </div>
+                        </td>
+                    </tr>
+                    @endforelse 
                 </tbody>
             </table>
         </div>
@@ -142,7 +151,7 @@ $dn   = (($limit ?? 0) && $user->role==='reporter' && !$user->show_name_on_landi
         <div class="pm-table-footer">
             <span class="pm-count">
                 @if($leaderboard->total() > 0)
-                    {{ $leaderboard->firstItem() }}–{{ $leaderboard->lastItem() }} dari <strong>{{ $leaderboard->total() }}</strong> peringkat
+                    {{ $leaderboard->firstItem() }}-{{ $leaderboard->lastItem() }} dari <strong>{{ $leaderboard->total() }}</strong> peringkat
                 @else Tidak ada hasil @endif
             </span>
             @if($leaderboard->hasPages()){{ $leaderboard->links() }}@endif
@@ -181,6 +190,17 @@ function lbAnim() {
                     targets: Array.from(podiumItems).sort((a,b)=>(parseInt(a.dataset.rank)-parseInt(b.dataset.rank))),
                     opacity:[0,1], translateY:['40px','0px'], scale:[0.8,1],
                     duration:600, delay:anime.stagger(120,{start:200}), easing:'easeOutElastic(1,0.6)'
+                });
+            }
+
+            const emptyState = document.querySelector('.pm-empty');
+            if (emptyState) {
+                anime({
+                    targets: emptyState,
+                    opacity: [0, 1],
+                    translateY: [20, 0],
+                    duration: 500,
+                    easing: 'easeOutCubic'
                 });
             }
 
