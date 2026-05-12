@@ -194,7 +194,10 @@
                 @if($editingId && $image_source === 'report' && $formReportId)
                 <div class="pm-alert pm-alert-info">
                     <i data-lucide="image" style="width:16px;height:16px;color:#38bdf8;"></i>
-                    <span>Gambar akan diambil dari temuan yang dipilih. Preview: <strong>{{ Report::find($formReportId)?->bukti ? 'Tersedia' : 'Tidak ada gambar' }}</strong></span>
+                    <span>
+                        Gambar akan diambil dari temuan yang dipilih. Preview: 
+                        <strong>{{ \App\Models\Report::find($formReportId)?->bukti ? 'Tersedia' : 'Tidak ada gambar' }}</strong>
+                    </span>
                 </div>
                 @endif
 

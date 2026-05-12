@@ -81,7 +81,12 @@
                 <tbody>
                     @forelse($followUps as $fu)
                     <tr>
-                        <td>{{ $fu->report->code }}</td>
+                        <td>
+                            <button wire:click="openReportDetail({{ $fu->report->id }})" 
+                                    style="color: #3b82f6; font-weight: 600; background: none; border: none; cursor: pointer; text-decoration: underline;">
+                                {{ $fu->report->code }}
+                            </button>
+                        </td>
                         <td>{{ $fu->assigned_to_name }}</td>
                         <td>{{ Str::limit($fu->action_plan, 50) }}</td>
                         <td>{{ $fu->target_date->format('d M Y') }}</td>
@@ -124,6 +129,121 @@
             </table>
             {{ $followUps->links() }}
         </div>
+    </div>
+    {{-- Container Utama Alpine untuk menampung state Lightbox --}}
+    <div x-data="{ lightboxOpen: false, lightboxImage: '' }">
+
+        {{-- MODAL DETAIL --}}
+        @if($showModal && $selectedReport)
+        <div class="pm-modal-backdrop" 
+            style="display: flex; align-items: flex-start; justify-content: center; background: rgba(0, 51, 78, 0.6); backdrop-filter: blur(6px); z-index: 9999; padding-top: 80px; overflow-y: auto;"
+            x-data 
+            @click.self="$wire.set('showModal', false)">
+            
+            <div class="pm-modal-card" style="max-width: 400px; width: 90%; border-radius: 16px; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0,51,78,0.25); margin-bottom: 40px; background: #fff;">
+                
+                {{-- Header --}}
+                <div class="pm-modal-header" style="padding: 1rem 1.25rem; border-bottom: 1px solid #f1f5f9; background: #fff;">
+                    <div>
+                        <h2 class="pm-h2" style="font-size: 1rem; margin-bottom: 0;">Detail Temuan</h2>
+                        <p style="font-size: 0.7rem; color: #94a3b8;">{{ $selectedReport->code }}</p>
+                    </div>
+                    <button wire:click="$set('showModal', false)" class="pm-btn-close" style="font-size: 1.2rem; color: #94a3b8; line-height: 1;">&times;</button>
+                </div>
+                
+                <div class="pm-modal-body" style="padding: 1.25rem;">
+                    
+                    {{-- Info Row: Pengusul & Prioritas --}}
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; font-size: 0.75rem; color: #64748b; padding-bottom: 0.75rem; border-bottom: 1px solid #f8fafc;">
+                        <span>Oleh: <strong>{{ $selectedReport->user->full_name ?? 'Publik' }}</strong></span>
+                        <span style="text-transform: uppercase; font-weight: 700; color: #3b82f6;">{{ $selectedReport->prioritas }}</span>
+                    </div>
+
+                    {{-- LOKASI (Tambahan Baru agar tidak terpotong) --}}
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display: flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 700; color: #475569; text-transform: uppercase; margin-bottom: 4px;">
+                            <i data-lucide="map-pin" style="width: 10px; height: 10px;"></i> Lokasi Temuan
+                        </label>
+                        <div style="padding: 0.75rem; background: #f1f5f9; border-radius: 8px; font-size: 0.8rem; color: #1e293b; line-height: 1.5;">
+                            {{-- Panggil fungsi location_breadcrumb yang sama dengan di tabel --}}
+                            <div style="font-weight: 600;">
+                                {{ $selectedReport->location_breadcrumb ?? 'Lokasi tidak ditemukan' }}
+                            </div>
+                            
+                            {{-- Jika ada detail tambahan seperti nomor meja atau pojok ruangan --}}
+                            @if($selectedReport->detail_lokasi)
+                                <div style="margin-top: 4px; padding-top: 4px; border-top: 1px solid #e2e8f0; font-style: italic; font-size: 0.75rem; color: #64748b;">
+                                    Catatan: {{ $selectedReport->detail_lokasi }}
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                    
+                    {{-- Deskripsi --}}
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display: block; font-size: 10px; font-weight: 700; color: #475569; text-transform: uppercase; margin-bottom: 4px;">Deskripsi</label>
+                        <div style="padding: 0.75rem; background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 8px; font-size: 0.8rem; color: #334155; line-height: 1.4;">
+                            {{ $selectedReport->deskripsi }}
+                        </div>
+                    </div>
+
+                    {{-- Solusi --}}
+                    @if($selectedReport->solusi)
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display: flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 700; color: #10b981; text-transform: uppercase; margin-bottom: 4px;">
+                            <i data-lucide="lightbulb" style="width: 10px; height: 10px;"></i> Solusi Disarankan
+                        </label>
+                        <div style="padding: 0.75rem; background: #f0fdf4; border: 1px solid #dcfce7; border-radius: 8px; font-size: 0.8rem; font-style: italic; color: #166534;">
+                            "{{ $selectedReport->solusi }}"
+                        </div>
+                    </div>
+                    @endif
+
+                    {{-- Bukti Foto (Klik untuk Zoom) --}}
+                    @if($selectedReport->bukti)
+                    <div>
+                        <label style="display: block; font-size: 10px; font-weight: 700; color: #475569; text-transform: uppercase; margin-bottom: 6px;">Bukti Foto (Klik gambar)</label>
+                        <div style="border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; cursor: pointer;" 
+                            @click="lightboxImage = '{{ asset('storage/uploads/' . $selectedReport->bukti) }}'; lightboxOpen = true">
+                            <img src="{{ asset('storage/uploads/' . $selectedReport->bukti) }}" 
+                                style="width: 100%; max-height: 160px; object-fit: cover; display: block; transition: 0.3s;"
+                                onmouseover="this.style.transform='scale(1.05)'" 
+                                onmouseout="this.style.transform='scale(1)'">
+                        </div>
+                    </div>
+                    @endif
+                </div>
+
+                <div class="pm-modal-footer" style="padding: 0.85rem 1.25rem; background: #f8fafc; border-top: 1px solid #f1f5f9;">
+                    <button wire:click="$set('showModal', false)" 
+                            class="pm-btn pm-btn-primary" 
+                            style="width: 100%; padding: 0.5rem; border-radius: 8px; font-size: 0.85rem;">
+                        Tutup
+                    </button>
+                </div>
+            </div>
+        </div>
+        @endif
+
+        {{-- MODAL LIGHTBOX (Zoom Foto) --}}
+        <template x-if="lightboxOpen">
+            <div style="position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 11000; display: flex; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(8px);"
+                @click.self="lightboxOpen = false"
+                x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0 scale-95"
+                x-transition:enter-end="opacity-100 scale-100">
+                
+                <div style="position: relative; max-width: 95%; max-height: 90vh;">
+                    <button @click="lightboxOpen = false" 
+                            style="position: absolute; top: -45px; right: 0; color: white; font-size: 2.5rem; background: none; border: none; cursor: pointer;">
+                        &times;
+                    </button>
+                    <img :src="lightboxImage" 
+                        style="max-width: 100%; max-height: 85vh; border-radius: 4px; box-shadow: 0 0 30px rgba(0,0,0,0.5); border: 3px solid white;">
+                </div>
+            </div>
+        </template>
+
     </div>
 </div>
 

@@ -30,6 +30,16 @@ class ManageFollowUps extends Component
     public function openForm(): void { $this->showForm = true; }
     public function closeForm(): void { $this->showForm = false; $this->reset(['reportId','assignedTo','actionPlan','targetDate']); }
 
+    public $showModal = false;
+    public $selectedReport;
+
+    public function openReportDetail($reportId)
+    {
+        // Ambil data report berdasarkan ID
+        $this->selectedReport = \App\Models\Report::with(['user', 'location'])->find($reportId);
+        $this->showModal = true;
+    }
+    
     public function save()
     {
         // Hanya Admin dan PJ Area yang boleh membuat tindak lanjut
@@ -170,6 +180,8 @@ class ManageFollowUps extends Component
         $q->orderBy($col, $this->sortDir);
 
         return $q;
+
+        
     }
     // In render() replace: $followUps = FollowUp::with(['report','creator'])->latest()->paginate(10);
     // with: $followUps = $this->buildFUQuery()->paginate($this->perPage);

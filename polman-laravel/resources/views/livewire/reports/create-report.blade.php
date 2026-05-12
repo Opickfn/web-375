@@ -196,6 +196,10 @@
                         {{-- Footer Buttons --}}
                         <div class="flex flex-col sm:flex-row gap-4 pt-4 border-t border-white/5">
                             <button type="button" wire:click="resetForm" class="btn-secondary flex-1">Batal</button>
+                            <a href="{{ asset('POLMAN375.pdf') }}" target="_blank"
+                            class="flex items-center justify-center rounded-[12px] px-6 py-4 text-sm font-semibold uppercase tracking-widest transition-all border border-white/20 text-white hover:bg-white/10 backdrop-blur-sm active:scale-[0.98]">
+                                Lihat Materi
+                            </a>
                             <button type="submit" class="btn-auth-primary flex-[2]" style="margin-top:0;">
                                 <span>Kirim Temuan Internal</span>
                                 <i data-lucide="send"></i>
