@@ -30,3 +30,5 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 *.sublime-project
 /tests/tests/
 /tests/results/
+polman-laravel/public/images/tawon.png
+polman-laravel/DOCUMENTATION.md
