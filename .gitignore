@@ -32,3 +32,5 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 /tests/results/
 polman-laravel/public/images/tawon.png
 polman-laravel/DOCUMENTATION.md
+polman-laravel/TODO-integrate-leaderboard-reward-periods.md
+/polman-laravel
