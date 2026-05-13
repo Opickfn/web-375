@@ -113,7 +113,7 @@ class ReviewReports extends Component
 
     private function buildQuery()
     {
-        $q = Report::with(['reporter', 'location'])->where('status', 'pending');
+        $q = Report::with(['reporter', 'location']);
 
         /** @var \App\Models\User $user */
         $user = Auth::user();

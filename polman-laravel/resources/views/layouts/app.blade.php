@@ -37,6 +37,123 @@
             color: var(--pm-text-main);
         }
 
+       .pm-sidebar {
+            background-color: var(--pm-primary) !important;
+            color: #ffffff !important;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            
+            position: fixed;
+            top: 0 !important; 
+            left: 0;
+            width: var(--pm-sidebar-w, 260px);
+            height: 100vh !important;
+            
+            /* TETAP gunakan padding-top agar menu tidak tertutup */
+            padding-top: var(--pm-navbar-h, 70px); 
+            
+            /* SOLUSI: Turunkan z-index agar navbar menang */
+            z-index: 1020 !important; 
+            
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .pm-navbar {
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0; /* Navbar memanjang penuh */
+            height: var(--pm-navbar-h, 70px);
+            
+            /* Hierarki harus lebih tinggi dari sidebar (1000) */
+            z-index: 1050 !important; 
+            
+            background-color: var(--pm-primary); /* Pastikan warnanya solid, bukan transparan */
+            display: flex;
+            align-items: center;
+        }
+
+        /* Menghilangkan jarak di atas section pertama sidebar */
+        .sidebar-section {
+            margin-top: 0 !important;
+            padding-top: 5px; /* Opsional: beri sedikit ruang agar tidak terlalu mepet garis navbar */
+        }
+
+        /* Memastikan label menu pertama tidak punya margin berlebih */
+        .sidebar-section:first-child .sidebar-label {
+            padding-top: 10px; /* Sesuaikan agar sejajar secara visual */
+        }
+
+        /* 2. Warna Label Section (Menu Utama, Poin & Reward, dll) */
+        .sidebar-label {
+            padding: 20px 16px 10px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--pm-text-muted);
+            letter-spacing: 0.05em;
+        }
+
+        /* 3. Pengaturan Link dan Teks Putih */
+        .pm-sidebar .sidebar-link {
+            color: #ffffff !important;
+            opacity: 1 !important;
+        }
+
+        .pm-sidebar .sidebar-link span, 
+        .pm-sidebar .sidebar-link i {
+            color: #ffffff !important;
+            opacity: 0.9;
+        }
+
+        /* 4. Hover Effect */
+        .pm-sidebar .sidebar-link:hover {
+            background-color: rgba(255, 255, 255, 0.1) !important;
+            color: #ffffff !important;
+        }
+
+        /* 5. Status Aktif (Ganti warna orange muda di gambar jadi lebih solid/kontras) */
+        .pm-sidebar .sidebar-link.active {
+            background-color: rgba(255, 255, 255, 0.15) !important;
+            border-left: 4px solid var(--pm-accent) !important; /* Aksen kuning/orange di pinggir */
+            color: #ffffff !important;
+        }
+
+        .pm-sidebar .sidebar-link.active i,
+        .pm-sidebar .sidebar-link.active span {
+            opacity: 1 !important;
+            font-weight: 600;
+        }
+        
+        /* Warna saat aktif */
+        .pm-sidebar-link.active {
+            background-color: #f1f5f9;
+            color: var(--pm-primary);
+            font-weight: 600;
+            border-right: 4px solid var(--pm-primary);
+        }
+
+        .sidebar-label {
+            
+        }
+
+        /* Tambahkan ini di bagian style */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(2px);
+            z-index: 1030; /* Di bawah sidebar (1040) */
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
         /* Table Design */
         .pm-table { border-collapse: collapse; width: 100%; border-radius: 8px; overflow: hidden; }
         .pm-table th { 
@@ -106,7 +223,7 @@
 
 <div class="pm-wrapper" style="display: flex; min-height: 100vh;">
         @include('components.sidebar')
-
+        <div id="sidebarOverlay" class="sidebar-overlay"></div>
         <main class="pm-main">
             {{-- Flash Messages --}}
             @if(session()->has('success'))
@@ -129,40 +246,25 @@
 
 @livewireScripts
 
-    <script>
+   <script>
 function initAppInteractions() {
-    // Lucide Icons
     if (window.lucide) lucide.createIcons();
-
     console.log('[PM-NAV] Initializing app interactions...');
     
-    // 1. Profile Dropdown
-    const trigger = document.getElementById('pm-user-trigger');
-    const dropdown = document.getElementById('pm-user-dropdown');
-    if (trigger && dropdown) {
-        dropdown.classList.remove('show'); // Initial state
-        trigger.onclick = (e) => {
-            e.stopPropagation();
-            dropdown.classList.toggle('show');
-        };
-        // Close on outside click (window level)
-        window.onclick = (e) => {
-            if (dropdown && dropdown.classList.contains('show') && !trigger.contains(e.target)) {
-                dropdown.classList.remove('show');
-            }
-        };
-    }
-
-    // 2. Sidebar Toggle
-    const sidebarToggle = document.getElementById('pm-sidebar-toggle');
     const sidebar = document.querySelector('.pm-sidebar');
+    const overlay = document.getElementById('sidebarOverlay'); // Pastikan ID ini ada di HTML
+
+    // 1. Sidebar Toggle (Mobile)
+    const sidebarToggle = document.getElementById('pm-sidebar-toggle');
     if (sidebarToggle && sidebar) {
-        sidebarToggle.onclick = () => {
+        sidebarToggle.onclick = (e) => {
+            e.stopPropagation();
             sidebar.classList.toggle('open');
+            if (overlay) overlay.classList.toggle('active'); // Sesuaikan class CSS overlay kamu
         };
     }
 
-    // Desktop Collapse
+    // 2. Desktop Collapse
     const colBtn = document.getElementById('pm-collapse-btn');
     if (colBtn && sidebar) {
         colBtn.style.display = window.innerWidth > 1024 ? 'flex' : 'none';
@@ -171,20 +273,31 @@ function initAppInteractions() {
         };
     }
 
-    // Overlay
-    const overlay = document.getElementById('pm-sidebar-overlay');
-    if (overlay && sidebar) {
-        overlay.onclick = () => {
-            sidebar.classList.remove('open');
-            overlay.classList.remove('show');
+    // 3. Profile Dropdown
+    const trigger = document.getElementById('pm-user-trigger');
+    const dropdown = document.getElementById('pm-user-dropdown');
+    if (trigger && dropdown) {
+        trigger.onclick = (e) => {
+            e.stopPropagation();
+            dropdown.classList.toggle('show');
         };
     }
+
+    // 4. Global Click Listener (Close everything when clicking outside)
+    window.addEventListener('click', (e) => {
+        // Close Dropdown
+        if (dropdown && dropdown.classList.contains('show') && !trigger.contains(e.target)) {
+            dropdown.classList.remove('show');
+        }
+        // Close Sidebar & Overlay (Mobile)
+        if (sidebar && sidebar.classList.contains('open') && !sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
+            sidebar.classList.remove('open');
+            if (overlay) overlay.classList.remove('active');
+        }
+    });
 }
 
-// Initial load
 document.addEventListener('DOMContentLoaded', initAppInteractions);
-
-// Re-run after Livewire navigation
 document.addEventListener('livewire:navigated', initAppInteractions);
 </script>
 

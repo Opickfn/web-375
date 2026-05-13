@@ -1,4 +1,4 @@
-<aside class="sidebar" id="sidebar">
+<aside class="pm-sidebar" id="sidebar">
   <!-- Menu Utama -->
   <div class="sidebar-section">
     <div class="sidebar-label">Menu Utama</div>

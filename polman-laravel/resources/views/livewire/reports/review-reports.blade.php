@@ -96,22 +96,36 @@
                                     <span>Detail</span>
                                 </button>
 
-                                {{-- Tombol Aksi: Hanya untuk selain Pimpinan --}}
+                               {{-- Tombol Aksi: Hanya untuk selain Pimpinan --}}
                                 @if(Auth::user()->role !== 'pimpinan')
-                                    <button wire:click="approve({{ $report->id }})"
-                                        onclick="return confirm('Setujui temuan {{ $report->code }}?')"
-                                        class="pm-btn pm-btn-success pm-btn-sm pm-action-btn"
-                                        title="Setujui">
-                                        <i data-lucide="check" style="width:13px;height:13px;"></i>
-                                        <span>Setujui</span>
-                                    </button>
-                                    <button wire:click="reject({{ $report->id }})"
-                                        onclick="return confirm('Tolak temuan {{ $report->code }}?')"
-                                        class="pm-btn pm-btn-danger pm-btn-sm pm-action-btn"
-                                        title="Tolak">
-                                        <i data-lucide="x" style="width:13px;height:13px;"></i>
-                                        <span>Tolak</span>
-                                    </button>
+                                    @if($report->status === 'pending')
+                                        {{-- Jika status pending, tampilkan tombol --}}
+                                        <button wire:click="approve({{ $report->id }})"
+                                            onclick="return confirm('Setujui temuan {{ $report->code }}?')"
+                                            class="pm-btn pm-btn-success pm-btn-sm pm-action-btn"
+                                            title="Setujui">
+                                            <i data-lucide="check" style="width:13px;height:13px;"></i>
+                                            <span>Setujui</span>
+                                        </button>
+                                        <button wire:click="reject({{ $report->id }})"
+                                            onclick="return confirm('Tolak temuan {{ $report->code }}?')"
+                                            class="pm-btn pm-btn-danger pm-btn-sm pm-action-btn"
+                                            title="Tolak">
+                                            <i data-lucide="x" style="width:13px;height:13px;"></i>
+                                            <span>Tolak</span>
+                                        </button>
+                                    @else
+                                        {{-- Jika sudah diproses, tampilkan label status --}}
+                                        @if($report->status === 'approved')
+                                            <span class="pm-badge pm-badge-success" style="background: #ecfdf5; color: #059669; border: 1px solid #10b981;">
+                                                <i data-lucide="check-circle" style="width:12px;height:12px;margin-right:4px;"></i> Disetujui
+                                            </span>
+                                        @else
+                                            <span class="pm-badge pm-badge-danger" style="background: #fef2f2; color: #dc2626; border: 1px solid #ef4444;">
+                                                <i data-lucide="x-circle" style="width:12px;height:12px;margin-right:4px;"></i> Ditolak
+                                            </span>
+                                        @endif
+                                    @endif
                                 @endif
                             </div>
                         </td>

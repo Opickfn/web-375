@@ -1,4 +1,4 @@
-<nav class="navbar">
+<nav class="pm-navbar">
   <!-- Left Section -->
   <div class="navbar-left">
     <button class="sidebar-toggle" id="pm-sidebar-toggle">
